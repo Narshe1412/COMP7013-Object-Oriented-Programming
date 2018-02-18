@@ -34,7 +34,14 @@ public class Main extends Application {
 			Scene scene = new Scene(root, 500, 400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setTitle("Primary Window");
+			primaryStage.setX(150);
+			primaryStage.setY(100);
 			primaryStage.show();
+			
+			SecondWindow secondaryStage = new SecondWindow(300, 500);
+			secondaryStage.showWindow(new Stage());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

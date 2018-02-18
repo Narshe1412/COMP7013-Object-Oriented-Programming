@@ -1,6 +1,9 @@
 package model;
 
 import javax.crypto.spec.SecretKeySpec;
+
+import exception.PassException;
+
 import javax.crypto.Cipher;
 
 public class PasswordHandler {
@@ -16,7 +19,7 @@ public class PasswordHandler {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e);
+			throw new PassException("Fatal: Encryption problem during password handling.");
 		}
 		return strData;
 	}
@@ -33,7 +36,7 @@ public class PasswordHandler {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e);
+			throw new PassException("There was a problem checking your password.");
 		}
 		return strData;
 	}

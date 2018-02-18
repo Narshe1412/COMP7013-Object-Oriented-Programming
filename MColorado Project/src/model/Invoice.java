@@ -4,7 +4,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public class Invoice {
 
@@ -13,8 +15,8 @@ public class Invoice {
 	private double invoiceAmt;
 	private Date invoiceDate;
 	private boolean isPaid;
-	private ArrayList<Procedure> in_procList;
-	private ArrayList<Payment> in_paymentList;
+	private List<Procedure> in_procList;
+	private List<Payment> in_paymentList;
 	
 	public Invoice(Date date) {
 		setInvoiceDate(date);
@@ -28,10 +30,10 @@ public class Invoice {
 	
 	private void objectSetup() {
 		setInvoiceID();
-		this.in_paymentList = new ArrayList<Payment>();
-		this.in_procList = new ArrayList<Procedure>();
+		in_paymentList = new ArrayList<Payment>();
+		in_procList = new ArrayList<Procedure>();
 		setPaid(false);
-		setInvoiceAmt(0);
+		invoiceAmt = 0;
 	}
 	
 	public void setInvoiceDate(Date date) {
@@ -62,16 +64,30 @@ public class Invoice {
 	}
 
 	public double getInvoiceAmt() {
+		calculateInvoiceAmt();
 		return invoiceAmt;
-	}
-
-	public void setInvoiceAmt(double invoiceAmt) {
-		this.invoiceAmt = invoiceAmt;
 	}
 	
 	public double calculateInvoiceAmt() {
-		//TODO
-		return 0;
+		// Calculates total spent and total paid
+		// Assigns total spent to invoiceAmt property
+		// Returns remaining to pay
+		double total = 0;
+		for (Procedure proc: in_procList) {
+			total += proc.getProcCost();
+		}
+		invoiceAmt = total;
+		
+		double paid = 0;
+		for (Payment payment: in_paymentList) {
+			paid += payment.getPaymentAmt();
+		}
+		if (total - paid > 0) {
+			return total - paid;
+		} else {
+			setPaid(true);
+			return 0;
+		}
 	}
 
 	public boolean isPaid() {
@@ -82,14 +98,11 @@ public class Invoice {
 		this.isPaid = isPaid;
 	}
 
-	//TODO add a single procedure and payment
-	
-	public ArrayList<Procedure> getIn_procList() {
+	public Collection<Procedure> getIn_procList() {
 		return in_procList;
 	}
 
-	public ArrayList<Payment> getIn_paymentList() {
+	public Collection<Payment> getIn_paymentList() {
 		return in_paymentList;
 	}
-
 }

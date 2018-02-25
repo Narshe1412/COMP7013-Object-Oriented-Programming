@@ -1,15 +1,12 @@
-package controller;
+package persistence;
 
-public interface IDBOperations {
+public interface IDBOperationRepository<T> {
 	
-	public void createDB();
-	public Object loadDB();
-	public boolean saveDB(Object database);
-
-	public int add(String table, Object contents);
-	public Object get(String table, int id);
-	public Object getAll(String table);
-	public Object update(String table, int id, Object contents);
-	public int remove(String table, int id);
+	// Implements CRUD operations
+	boolean add(T contents);
+	Iterable<T> getByID(int id);
+	Iterable<T> getAll();
+	boolean update(T contents);
+	boolean remove(T contents);
 
 }

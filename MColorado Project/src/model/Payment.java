@@ -11,13 +11,13 @@ public class Payment {
 	private double paymentAmt;
 	private Date paymentDate;
 	
-	public Payment (double amount, Date date) {
+	public Payment (final double amount, final Date date) {
 		setPaymentAmt(amount);
 		setPaymentDate(date);
 		setPaymentID();
 	}
 	
-	public Payment (double amount, String date) {
+	public Payment (final double amount, final String date) {
 		setPaymentAmt(amount);
 		setPaymentDate("");
 		setPaymentID();
@@ -27,7 +27,7 @@ public class Payment {
 		return paymentAmt;
 	}
 
-	public void setPaymentAmt(double paymentAmt) {
+	public void setPaymentAmt(final double paymentAmt) {
 		this.paymentAmt = paymentAmt;
 	}
 
@@ -35,11 +35,11 @@ public class Payment {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(final Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 	
-	public void setPaymentDate(String date) {
+	public void setPaymentDate(final String date) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			Date parsedDate = df.parse(date);

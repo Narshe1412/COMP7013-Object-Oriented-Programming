@@ -5,17 +5,17 @@ public class Dentist extends Person{
 	private String password;
 	private final String sk = "h4xx0rPRIVVYk3yl33t";
 	
-	public Dentist(String name, String address, String phone) {
+	public Dentist(final String name, final String address, final String phone) {
 		super(name, address, phone);
 	}
 	
-	public Dentist(String username, String password) throws Exception {
+	public Dentist(final String username, final String password) throws Exception {
 		super(username, "xxx", "xxx");
 		setUsername(username);
 		setPassword(password);
 	}
 	
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 	
@@ -23,7 +23,7 @@ public class Dentist extends Person{
 		return username;
 	}
 	
-	public void setPassword(String password) throws Exception {
+	public void setPassword(final String password) throws Exception {
 		this.password = PasswordHandler.encrypt(password, sk) ;
 	}
 	

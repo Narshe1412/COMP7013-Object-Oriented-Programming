@@ -1,17 +1,17 @@
 package model;
 
-public class Person {
+class Person {
 	private String name;
 	private String address;
 	private String phone;
 	
-	public Person(String name, String address, String phone) {
+	public Person(final String name, final String address, final String phone) {
 		setName(name);
 		setAddress(address);
 		setPhone(phone);
 	}
 	
-	public Person(String name, String address) {
+	public Person(final String name, final String address) {
 		setName(name);
 		setName(address);
 		setPhone("");
@@ -21,7 +21,7 @@ public class Person {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -29,7 +29,7 @@ public class Person {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(final String address) {
 		this.address = address;
 	}
 
@@ -37,7 +37,7 @@ public class Person {
 		return phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(final String phone) {
 		this.phone = phone;
 	}
 	

@@ -8,39 +8,37 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class Invoice {
+class Invoice {
 
 	private static int id = 0;
 	private int invoiceID;
 	private double invoiceAmt;
 	private Date invoiceDate;
 	private boolean isPaid;
-	private List<Procedure> in_procList;
-	private List<Payment> in_paymentList;
+	private final List<Procedure> in_procList = new ArrayList<Procedure>();;
+	private final List<Payment> in_paymentList = new ArrayList<Payment>();;
 	
-	public Invoice(Date date) {
+	public Invoice(final Date date) {
 		setInvoiceDate(date);
 		objectSetup();
 	}
 	
-	public Invoice(String date) {
+	public Invoice(final String date) {
 		setInvoiceDate(date);
 		objectSetup();
 	}
 	
 	private void objectSetup() {
 		setInvoiceID();
-		in_paymentList = new ArrayList<Payment>();
-		in_procList = new ArrayList<Procedure>();
 		setPaid(false);
 		invoiceAmt = 0;
 	}
 	
-	public void setInvoiceDate(Date date) {
+	public void setInvoiceDate(final Date date) {
 		this.invoiceDate = date;
 	}
 	
-	public void setInvoiceDate(String date) {
+	public void setInvoiceDate(final String date) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			Date parsedDate = df.parse(date);
@@ -94,7 +92,7 @@ public class Invoice {
 		return isPaid;
 	}
 
-	public void setPaid(boolean isPaid) {
+	public void setPaid(final boolean isPaid) {
 		this.isPaid = isPaid;
 	}
 
@@ -104,5 +102,21 @@ public class Invoice {
 
 	public Collection<Payment> getIn_paymentList() {
 		return in_paymentList;
+	}
+	
+	public boolean addProcedure(final Procedure proc) {
+		return getIn_procList().add(proc);
+	}
+	
+	public boolean removeProcedure(final Procedure proc) {
+		return getIn_procList().remove(proc);
+	}
+	
+	public boolean addPayment(final Payment pay) {
+		return getIn_paymentList().add(pay);
+	}
+	
+	public boolean removePayment(final Payment pay) {
+		return getIn_paymentList().remove(pay);
 	}
 }

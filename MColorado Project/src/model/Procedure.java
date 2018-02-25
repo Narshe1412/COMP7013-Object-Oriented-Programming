@@ -6,7 +6,7 @@ public class Procedure {
 	private String procName;
 	private double procCost;
 
-	public Procedure (String name, double cost) {
+	public Procedure (final String name, final double cost) {
 		setProcName(name);
 		setProcCost(cost);
 		this.procID = id;
@@ -17,7 +17,7 @@ public class Procedure {
 		return procName;
 	}
 
-	public void setProcName(String procName) {
+	public void setProcName(final String procName) {
 		this.procName = procName;
 	}
 
@@ -25,7 +25,7 @@ public class Procedure {
 		return procCost;
 	}
 
-	public void setProcCost(double procCost) {
+	public void setProcCost(final double procCost) {
 		this.procCost = procCost;
 	}
 

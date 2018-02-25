@@ -7,9 +7,9 @@ import java.util.List;
 public class Patient extends Person {
 	private static int id = 0;
 	private int patientNo;
-	private List<Invoice> p_invoiceList;
+	private final List<Invoice> p_invoiceList;
 	
-	public Patient(String name, String address) {
+	public Patient(final String name, final String address) {
 		super(name, address);
 		setPatientNo();
 		p_invoiceList = new ArrayList<Invoice>();
@@ -24,7 +24,15 @@ public class Patient extends Person {
 		id++;
 	}
 
-	public Collection getP_invoiceList() {
+	public Collection<Invoice> getP_invoiceList() {
 		return p_invoiceList;
+	}
+	
+	public boolean addInvoice(final Invoice inv) {
+		return getP_invoiceList().add(inv);
+	}
+	
+	public boolean removeInvoice(final Invoice inv) {
+		return getP_invoiceList().remove(inv);
 	}
 }

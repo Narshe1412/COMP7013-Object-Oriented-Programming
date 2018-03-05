@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,7 +9,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-class Invoice {
+@SuppressWarnings("serial")
+public class Invoice implements Serializable{
 
 	private static int id = 0;
 	private int invoiceID;

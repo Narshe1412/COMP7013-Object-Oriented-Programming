@@ -1,6 +1,9 @@
 package model;
 
-public class Procedure {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Procedure implements Serializable{
 	private static int id = 0;
 	private int procID;
 	private String procName;

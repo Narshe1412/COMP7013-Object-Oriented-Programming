@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Payment {
+@SuppressWarnings("serial")
+public class Payment implements Serializable{
 	private static int id = 0;
 	private int paymentID;
 	private double paymentAmt;

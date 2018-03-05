@@ -1,5 +1,6 @@
 package model;
 
+@SuppressWarnings("serial")
 public class Dentist extends Person{
 	private String username;
 	private String password;

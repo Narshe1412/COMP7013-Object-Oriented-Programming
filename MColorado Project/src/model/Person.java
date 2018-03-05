@@ -1,6 +1,10 @@
 package model;
 
-class Person {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+class Person implements Serializable{
+	//Package access level. No need to make it public
 	private String name;
 	private String address;
 	private String phone;
@@ -13,7 +17,7 @@ class Person {
 	
 	public Person(final String name, final String address) {
 		setName(name);
-		setName(address);
+		setAddress(address);
 		setPhone("");
 	}
 	

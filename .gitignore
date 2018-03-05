@@ -24,3 +24,5 @@ hs_err_pid*
 # Eclipse
 .metadata/
 .recommenders/
+/Lecture05_Examples/
+/Lecture04_Examples/

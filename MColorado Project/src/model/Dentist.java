@@ -9,7 +9,7 @@ package model;
 public class Dentist extends Person {
 	private String username;
 	private String password;
-	private final String sk = "h4xx0rPRIVVYk3yl33t";
+	private final transient String sk = "h4xx0rPRIVVYk3yl33t";
 
 	/**
 	 * Creates a new dentist in the system using their personal details

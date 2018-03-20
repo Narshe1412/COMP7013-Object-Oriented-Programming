@@ -1,6 +1,6 @@
 package ui;
 
-import controller.AppData;
+import controller.AppState;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
 import model.Patient;
@@ -13,7 +13,7 @@ class TabMain extends Tab {
 	
 	private void createContent() {
 		setText("Patient Details");
-		Patient tabPatient = AppData.INSTANCE.getCurrentPatient();
+		Patient tabPatient = AppState.INSTANCE.getCurrentPatient();
 		setContent(new Text("This is the main tab"));
 	}
 	

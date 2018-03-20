@@ -12,7 +12,6 @@ public class Patient extends Person {
 
 	public Patient(final String name, final String address) {
 		super(name, address);
-		setPatientNo();
 		p_invoiceList = new ArrayList<Invoice>();
 	}
 

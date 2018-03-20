@@ -1,5 +1,7 @@
+/application/
+/controller/
+/exception/
 /model/
 /persistence/
-/ui/
-/application/
 /test/
+/ui/

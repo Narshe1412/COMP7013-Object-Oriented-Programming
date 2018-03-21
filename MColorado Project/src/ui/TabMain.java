@@ -14,7 +14,8 @@ class TabMain extends Tab {
 	private void createContent() {
 		setText("Patient Details");
 		Patient tabPatient = AppState.INSTANCE.getCurrentPatient();
-		setContent(new Text("This is the main tab"));
+		//setContent(new Text("This is the main tab"));
+		setContent(new PatientDetailsPane());
 	}
 	
 }

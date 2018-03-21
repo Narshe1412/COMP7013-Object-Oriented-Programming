@@ -29,7 +29,7 @@ public class HomeWindow {
 	    menuBar.prefWidthProperty().bind(Controller.getInstance().getStage().widthProperty());
 	    root.setTop(menuBar);
 */
-		
+		//TODO temp
 	    root.setBottom(new Label("Welcome user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
 		Stage homeWindow = new Stage();
 		Scene scene = new Scene(root, 400, 400);

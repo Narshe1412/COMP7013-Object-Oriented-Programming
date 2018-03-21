@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppState;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,6 +30,7 @@ public class HomeWindow {
 	    root.setTop(menuBar);
 */
 		
+	    root.setBottom(new Label("Welcome user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
 		Stage homeWindow = new Stage();
 		Scene scene = new Scene(root, 400, 400);
 		homeWindow.setScene(scene);

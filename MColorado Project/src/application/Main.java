@@ -1,16 +1,10 @@
 package application;
 
-import java.util.Optional;
-
+import controller.AppData;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import ui.AppMenu;
-import ui.HomeWindow;
-import ui.LoginDialog;
+import model.Defaults;
 import ui.LoginWindow;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
 	@Override
@@ -22,20 +16,12 @@ public class Main extends Application {
 		primaryStage.show();*/
 		
 		//TODO REMOVE AFTER TESTING
-		LoginWindow.showWindow();
-		HomeWindow.showWindow();
-		
-/*		LoginDialog login = new LoginDialog();
-		Optional<Pair<String, String>> result = login.showAndWait();
+		AppData.INSTANCE.setUserList(Defaults.createDentists());
+		LoginWindow loginWindow = new LoginWindow();
+		loginWindow.show();
 
-		result.ifPresent(usernamePassword -> {
-		    if(usernamePassword.getKey().equalsIgnoreCase("test") && usernamePassword.getValue().equalsIgnoreCase("test")) {
-		    	
-				
-		    } else {
-				System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
-			}
-		});*/
+		
+
 		
 	}
 
@@ -43,3 +29,17 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+
+
+
+/*		LoginDialog login = new LoginDialog();
+Optional<Pair<String, String>> result = login.showAndWait();
+
+result.ifPresent(usernamePassword -> {
+    if(usernamePassword.getKey().equalsIgnoreCase("test") && usernamePassword.getValue().equalsIgnoreCase("test")) {
+    	
+		
+    } else {
+		System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+	}
+});*/

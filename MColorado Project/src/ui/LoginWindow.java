@@ -1,46 +1,149 @@
 package ui;
 
+import controller.AppData;
+import controller.AppState;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import model.Dentist;
+/**
+ * 
+ * @author Manuel Colorado
+ *
+ */
+public class LoginWindow extends Stage {
 
-public class LoginWindow {
-	
-	private LoginWindow() {};
-	
-	public static void showWindow() {
-		BorderPane root = new BorderPane();
-		root.setPadding(new Insets(20));
-		GridPane group = new GridPane();
-		group.setHgap(5);
-		group.setVgap(5);
-		group.add(new Label("Username:"), 0, 0);
-		group.add(new TextField(), 1, 0);
-		group.add(new Label("Password:"), 0,1);
-		group.add(new PasswordField(), 1, 1);
+	/**
+	 * Creates a Login Window for the system
+	 */
+	public LoginWindow() {
+		/**
+		 * Sets up the root pane for the UI
+		 */
+		GridPane root = new GridPane();
+		root.setAlignment(Pos.CENTER);
+		root.setHgap(10);
+		root.setVgap(10);
+		root.setPadding(new Insets(25, 25, 25, 25));
 
-		Button loginBtn = new Button("Login");
-		StackPane center = new StackPane();
-		center.getChildren().add(loginBtn);
-		
-		root.setTop(group);
-		root.setBottom(center);
-		
-		Stage loginWindow = new Stage();
-		Scene scene = new Scene(root, 240, 130);
-		loginWindow.setScene(scene);
-		loginWindow.setTitle("Login");
-		loginWindow.setResizable(false);
-		loginWindow.show();
-	}
-	
+		/**
+		 * Title
+		 */
+		Text scenetitle = new Text("Welcome");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		root.add(scenetitle, 0, 0, 2, 1);
+
+		/**
+		 * Username fields
+		 */
+		Label lblUser = new Label("User Name:");
+		root.add(lblUser, 0, 1);
+		TextField txtUsername = new TextField();
+		root.add(txtUsername, 1, 1);
+
+		/**
+		 * Password fields
+		 */
+		Label lblPassword = new Label("Password:");
+		root.add(lblPassword, 0, 2);
+		PasswordField txtPassword = new PasswordField();
+		root.add(txtPassword, 1, 2);
+
+		/**
+		 * Login button
+		 */
+		Button btnLogin = new Button("   Login   ");
+		// Sets as default button for the pane
+		btnLogin.setDefaultButton(true);
+		HBox hbBtn = new HBox(10);
+		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+		hbBtn.getChildren().add(btnLogin);
+		root.add(hbBtn, 1, 4);
+
+		/**
+		 * Check box for remembering the username for the system
+		 */
+		CheckBox cbRememberMe = new CheckBox("Remember Me");
+		HBox hbRemember = new HBox(10);
+		hbRemember.setAlignment(Pos.BOTTOM_RIGHT);
+		hbRemember.getChildren().add(cbRememberMe);
+		root.add(hbRemember, 1, 5);
+
+		/**
+		 * Text box to show errors during login
+		 */
+		final Text errorMessage = new Text();
+		root.add(errorMessage, 1, 7);
+		errorMessage.setFill(Color.FIREBRICK);
+
+		/**
+		 * Event handler for clicking the button
+		 */
+		btnLogin.setOnAction((event) -> {
+			// Checks if username or password fields are empty
+			if (txtUsername.getText().trim().equals("") || txtPassword.getText().trim().equals("")) {
+				errorMessage.setText("Please enter username and password.");
+				txtPassword.setText("");
+				txtUsername.requestFocus();
+			} else {
+				// If they're not empty, attempt to find the user in the list of users from the system
+				try {
+					Dentist user = AppData.INSTANCE.getUserList().find(txtUsername.getText().trim());
+					// If the user is not found
+					if (user != null) {
+						// If the user is found, but password does not match
+						if (user.verifyPassword(txtPassword.getText().trim())) {
+							if (cbRememberMe.isSelected()) {
+								AppData.INSTANCE.setSavedUser(user);
+							}
+							AppState.INSTANCE.setCurrentUser(user);
+							HomeWindow.showWindow();
+							close();
+						} else {
+							errorMessage.setText("Wrong username or password.");
+							txtPassword.setText("");
+							txtPassword.requestFocus();
+						}
+					} else {
+						errorMessage.setText("Wrong username.");
+						txtPassword.setText("");
+						txtPassword.requestFocus();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		// Clears the text from empty spaces
+		txtUsername.textProperty().addListener((event) -> {
+			if (errorMessage.getText().trim().equals("")) {
+				errorMessage.setText("");
+			}
+		});
+		// Clears the password from empty spaces
+		txtUsername.textProperty().addListener((event) -> {
+			if (errorMessage.getText().trim().equals("")) {
+				errorMessage.setText("");
+			}
+		});
+
+		// Creates the window and sets up the scene
+		Scene scene = new Scene(root, 300, 250);
+		setScene(scene);
+		setTitle("Login");
+		setResizable(false);
+	};
 }

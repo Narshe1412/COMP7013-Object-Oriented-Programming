@@ -1,5 +1,7 @@
 package ui;
 
+import controller.AppData;
+import controller.AppState;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import model.Patient;
 
 public class PatientDetailsPane extends Pane {
 	
@@ -25,6 +28,7 @@ public class PatientDetailsPane extends Pane {
 	private Button btnSave;
 	private Button btnNew;
 	private Button btnEdit;
+	private Button btnCancel;
 	
 	public PatientDetailsPane() {
 		GridPane root = new GridPane();
@@ -41,7 +45,7 @@ public class PatientDetailsPane extends Pane {
 		
 		lblName = new Label("Name:");
 		txtName = new TextField();
-		
+				
 		lblAddress = new Label("Address:");
 		txtAddress = new TextField();
 		
@@ -56,7 +60,29 @@ public class PatientDetailsPane extends Pane {
 		btnEdit = new Button("Edit");
 		btnEdit.setOnAction(e -> enableAll());
 		btnSave = new Button("Save");
+		btnSave.setOnAction(event -> {
+			if (AppState.INSTANCE.getCurrentPatient() == null) {
+				Patient p = AppData.INSTANCE.getPatientList().add(getTxtName(), getTxtAddress(), getTxtPhone());
+				AppState.INSTANCE.setCurrentPatient(p);
+			} else {
+				AppData.INSTANCE.getPatientList().updateById(getTxtId(), getTxtName(), getTxtAddress(), getTxtPhone());
+			}
+			refresh();
+		});
 		btnNew = new Button("New");
+		btnNew.setOnAction(e -> {
+			enableAll();
+			clearPatientDetails();
+			AppState.INSTANCE.setPreviousPatient(AppState.INSTANCE.getCurrentPatient());
+			AppState.INSTANCE.setCurrentPatient(null); 
+			//TODO show btnCancel instead of btnNew
+			txtName.textProperty().addListener((observable, oldValue, newValue) -> {
+				if (!oldValue.equals(newValue) && !getTxtName().equalsIgnoreCase(""))
+			    btnSave.setDisable(false);
+			}); 
+
+		});
+		btnCancel = new Button("Cancel"); // Hidden by default
 		
 		root.add(scenetitle, 0, 0, 2, 1);
 		root.add(lblId, 2, 0);
@@ -76,10 +102,15 @@ public class PatientDetailsPane extends Pane {
 		root.add(btnNew, 3, 6);		
 		GridPane.setHalignment(btnNew, HPos.RIGHT);
 		
-		disableAll();
+		refresh();
 		this.getChildren().add(root);
 	}
 	
+	private void refresh() {
+		disableAll();		
+		loadPatientDetails(AppState.INSTANCE.getCurrentPatient());
+	}
+
 	private void enableAll() {
 		txtName.setDisable(false);
 		txtAddress.setDisable(false);
@@ -93,5 +124,55 @@ public class PatientDetailsPane extends Pane {
 		txtPhone.setDisable(true);
 		btnSave.setDisable(true);
 		btnEdit.setDisable(false);
+	}
+	
+	public void loadPatientDetails(Patient p) {
+		setTxtId(p.getPatientNo());
+		setTxtName(p.getName());
+		setTxtAddress(p.getAddress());
+		setTxtPhone(p.getPhone());
+	}
+	
+	public void clearPatientDetails() {
+		setTxtId(-1);
+		setTxtName("");
+		setTxtAddress("");
+		setTxtPhone("");
+	}
+	
+	public void setTxtName(String pName) {
+		txtName.setText(pName);
+	}
+	
+	public String getTxtName() {
+		return txtName.getText();
+	}
+	
+	public void setTxtAddress(String pAddress) {
+		txtAddress.setText(pAddress);
+	}
+	
+	public String getTxtAddress() {
+		return txtAddress.getText();
+	}
+	
+	public void setTxtPhone(String pPhone) {
+		txtPhone.setText(pPhone);
+	}
+	
+	public String getTxtPhone() {
+		return txtPhone.getText();
+	}
+	
+	public void setTxtId(int id) {
+		if(id < 0) {
+			txtId.setText("");
+		} else {
+			txtId.setText(id + "");
+		}
+	}
+	
+	public int getTxtId() {
+		return Integer.parseInt(txtId.getText());
 	}
 }

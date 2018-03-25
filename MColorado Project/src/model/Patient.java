@@ -17,7 +17,7 @@ public class Patient extends Person {
 
 	public Patient(String name, String address, String phone) {
 		super(name, address, phone);
-		setPatientNo();
+		//setPatientNo();
 		p_invoiceList = new ArrayList<Invoice>();
 	}
 
@@ -25,10 +25,11 @@ public class Patient extends Person {
 		return patientNo;
 	}
 
-	private void setPatientNo() {
+	public void setPatientNo(int id) {
+		patientNo = id;
 		// Only used for the constructor. Won't give public access.
-		this.patientNo = id;
-		id++;
+		//this.patientNo = id;
+		//id++;
 	}
 
 	public Collection<Invoice> getP_invoiceList() {
@@ -41,5 +42,9 @@ public class Patient extends Person {
 
 	public boolean removeInvoice(final Invoice inv) {
 		return getP_invoiceList().remove(inv);
+	}
+	
+	public String toString() {
+		return getName() + " Address: " + getAddress() + " Phone: " + getPhone();
 	}
 }

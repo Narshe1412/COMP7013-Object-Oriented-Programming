@@ -13,6 +13,9 @@ public enum AppState {
 	INSTANCE;
 
 	private boolean modified;
+	private Dentist currentUser;
+	private Patient currentPatient;
+	private Patient previousPatient;
 
 	/**
 	 * Checks if any of the models have been modified and the app requires saving
@@ -34,7 +37,6 @@ public enum AppState {
 		modified = state;
 	};
 
-	private Dentist currentUser;
 
 	/**
 	 * Establishes the current user of the application
@@ -54,7 +56,6 @@ public enum AppState {
 		this.currentUser = user;
 	}
 
-	private Patient currentPatient;
 
 	/**
 	 * Returns the current patient selected for the system
@@ -73,6 +74,14 @@ public enum AppState {
 	 */
 	public void setCurrentPatient(final Patient p) {
 		currentPatient = p;
+	}
+
+	public void setPreviousPatient(final Patient p) {
+		previousPatient = p;
 	};
+	
+	public Patient getPreviousPatient() {
+		return previousPatient;
+	}
 
 }

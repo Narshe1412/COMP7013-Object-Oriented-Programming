@@ -5,6 +5,7 @@ import java.util.List;
 import model.Dentist;
 import model.DentistList;
 import model.Patient;
+import model.PatientList;
 
 /**
  * Stores the data for the application
@@ -50,12 +51,21 @@ public enum AppData {
 	};
 
 	/**
-	 * Sets a list passed by paramenter as the list of users for this system
+	 * Sets a list passed by parameter as the list of users for this system
 	 * 
 	 * @param userList
 	 */
 	public void setUserList(final List<Dentist> userList) {
 		this.userList = (DentistList) userList;
+	}
+
+	private PatientList patientList;
+	public PatientList getPatientList() {
+		return patientList;
+	}
+	public void setPatientList(List<Patient> patientList) {
+		this.patientList = (PatientList) patientList;
+		
 	};
 
 }

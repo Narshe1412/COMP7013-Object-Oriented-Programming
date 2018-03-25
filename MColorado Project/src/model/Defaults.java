@@ -10,6 +10,7 @@ import java.util.List;
 public class Defaults {
 	private ArrayList<Procedure> procedures;
 	private static List<Dentist> dentists;
+	private static List<Patient> patients;
 
 	public List<Procedure> createProcedures() {
 
@@ -32,5 +33,11 @@ public class Defaults {
 		dentists.add(new Dentist("admin", "admin"));
 		dentists.add(new Dentist("jdoe", "doe"));
 		return dentists;
+	}
+	
+	public static List<Patient> createPatient() {
+		patients = new PatientList();
+		patients.add(new Patient("John Doe", "23 My Street", "555-2323"));
+		return patients;
 	}
 }

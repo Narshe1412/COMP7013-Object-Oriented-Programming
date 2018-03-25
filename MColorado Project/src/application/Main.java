@@ -1,6 +1,7 @@
 package application;
 
 import controller.AppData;
+import controller.AppState;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Defaults;
@@ -17,6 +18,8 @@ public class Main extends Application {
 		
 		//TODO REMOVE AFTER TESTING
 		AppData.INSTANCE.setUserList(Defaults.createDentists());
+		AppData.INSTANCE.setPatientList(Defaults.createPatient());
+		AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));
 		LoginWindow loginWindow = new LoginWindow();
 		loginWindow.show();
 

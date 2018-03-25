@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * Handles the serializable list of users in the system
  * @author Manuel Colorado
- * @param <T>
- *
+
  */
 public class DentistList extends ArrayList<Dentist> implements Serializable{
 

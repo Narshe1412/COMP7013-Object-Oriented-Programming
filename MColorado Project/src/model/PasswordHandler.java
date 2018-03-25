@@ -48,7 +48,7 @@ public class PasswordHandler {
 	 * Decrypts a string of text using the javax crypto library, using Blowfish
 	 * algorithm
 	 * 
-	 * @param strClearText
+	 * @param strEncrypted
 	 *            String of text that will be decrypted
 	 * @param strKey
 	 *            String of text that will be used by the hashing algorithm to

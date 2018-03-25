@@ -37,7 +37,6 @@ public enum AppState {
 		modified = state;
 	};
 
-
 	/**
 	 * Establishes the current user of the application
 	 * 
@@ -50,12 +49,11 @@ public enum AppState {
 	/**
 	 * Sets up the current user for the system, to establish permissions and options
 	 * 
-	 * @param user
+	 * @param user a Dentist object that establishes the current user
 	 */
 	public void setCurrentUser(final Dentist user) {
 		this.currentUser = user;
 	}
-
 
 	/**
 	 * Returns the current patient selected for the system
@@ -76,10 +74,22 @@ public enum AppState {
 		currentPatient = p;
 	}
 
+	/**
+	 * Establishes the previous patient for backup purposes
+	 * 
+	 * @param p
+	 *            a Patient object
+	 */
 	public void setPreviousPatient(final Patient p) {
 		previousPatient = p;
 	};
-	
+
+	/**
+	 * Gets the previous patient as stored in the system
+	 * 
+	 * @return a Patient object that was previously saved by the setPreviousPatient
+	 *         method
+	 */
 	public Patient getPreviousPatient() {
 		return previousPatient;
 	}

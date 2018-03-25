@@ -32,7 +32,7 @@ public class HomeWindow {
 		//TODO temp
 	    root.setBottom(new Label("Welcome user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
 		Stage homeWindow = new Stage();
-		Scene scene = new Scene(root, 400, 400);
+		Scene scene = new Scene(root, 640, 480);
 		homeWindow.setScene(scene);
 		homeWindow.setTitle("Main");
 		homeWindow.setResizable(false);

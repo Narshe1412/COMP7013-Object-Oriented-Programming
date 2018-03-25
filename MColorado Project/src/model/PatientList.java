@@ -79,8 +79,6 @@ public class PatientList extends ArrayList<Patient> implements Serializable {
 	 * 
 	 * @param id
 	 *            Id of the patient object in the list
-	 * @param p
-	 *            Patient object reference to the patient in the list
 	 * @param name
 	 *            String that represents the name of the patient
 	 * @param address

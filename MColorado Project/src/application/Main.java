@@ -5,6 +5,7 @@ import controller.AppState;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Defaults;
+import ui.HomeWindow;
 import ui.LoginWindow;
 
 public class Main extends Application {
@@ -20,12 +21,15 @@ public class Main extends Application {
 		AppData.INSTANCE.setUserList(Defaults.createDentists());
 		AppData.INSTANCE.setPatientList(Defaults.createPatient());
 		AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));
-		LoginWindow loginWindow = new LoginWindow();
-		loginWindow.show();
 
 		
-
+		//TESTING HOME WINDOW
+		AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getUserList().get(0));
+		HomeWindow.showWindow();
 		
+
+		//LoginWindow loginWindow = new LoginWindow();
+		//loginWindow.show();
 	}
 
 	public static void main(String[] args) {

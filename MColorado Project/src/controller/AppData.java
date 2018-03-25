@@ -53,19 +53,32 @@ public enum AppData {
 	/**
 	 * Sets a list passed by parameter as the list of users for this system
 	 * 
-	 * @param userList
+	 * @param userList an object containing the list of users for the system 
 	 */
 	public void setUserList(final List<Dentist> userList) {
 		this.userList = (DentistList) userList;
 	}
 
 	private PatientList patientList;
+
+	/**
+	 * Gets the complete list of patients as used by the system
+	 * 
+	 * @return A PatientList object containing all the patients
+	 */
 	public PatientList getPatientList() {
 		return patientList;
 	}
+
+	/**
+	 * Sets up the list of patients that will be used by the system
+	 * 
+	 * @param patientList
+	 *            An object containing the List of patients
+	 */
 	public void setPatientList(List<Patient> patientList) {
 		this.patientList = (PatientList) patientList;
-		
+
 	};
 
 }

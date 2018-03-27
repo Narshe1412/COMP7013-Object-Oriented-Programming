@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -34,7 +35,8 @@ public class HomeWindow {
 		Stage homeWindow = new Stage();
 		Scene scene = new Scene(root, 640, 480);
 		homeWindow.setScene(scene);
-		homeWindow.setTitle("Main");
+		homeWindow.setTitle("Boca bites™");
+		homeWindow.getIcons().add(new Image("/assets/smile.png"));
 		homeWindow.setResizable(false);
 		homeWindow.show();
 	} 

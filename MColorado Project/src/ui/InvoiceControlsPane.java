@@ -2,10 +2,15 @@ package ui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class InvoiceControlsPane extends Pane {
@@ -19,26 +24,50 @@ public class InvoiceControlsPane extends Pane {
 	private Button btnPay;
 
 	public InvoiceControlsPane() {
-
-		GridPane root = new GridPane();
-		root.setAlignment(Pos.CENTER);
-		root.setHgap(10);
-		root.setVgap(10);
-		root.setPadding(new Insets(25, 25, 25, 25));
-		btnNew = new Button("New\nInvoice");
-		root.add(btnNew, 0,1);
-		btnOpen = new Button("Open\nInvoice");
-		root.add(btnOpen, 2, 1);
+		
+		BorderPane root = new BorderPane();
+		
+		GridPane expenses = new GridPane();
+		expenses.setPadding(new Insets(25, 25, 25, 0));
+		expenses.setAlignment(Pos.CENTER);
+		expenses.setHgap(10);
+		expenses.setVgap(10);
+		
+		
+		/**
+		 * Title
+		 */
+		Text scenetitle = new Text("Expenses Detail");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		expenses.add(scenetitle, 0, 0, 3, 1);
+		expenses.add(new Label(), 0, 1, 4, 1);
 		lblAmountTotal = new Label("Total amount:");
-		root.add(lblAmountTotal, 0, 2, 2, 1);
+		expenses.add(lblAmountTotal, 0, 3, 2, 1);
 		txtAmountTotal = new Text("0.00€");
-		root.add(txtAmountTotal, 2, 2);
+		expenses.add(txtAmountTotal, 2, 3);
 		lblAmountDue = new Label("Amount due:");
-		root.add(lblAmountDue, 0, 3, 2, 1);
+		expenses.add(lblAmountDue, 0, 4, 2, 1);
 		txtAmountDue = new Text("0.00€");
-		root.add(txtAmountDue, 2, 3);
-		btnPay = new Button("PAY");
-		root.add(btnPay, 1, 5, 1, 1);
+		expenses.add(txtAmountDue, 2, 4);
+		btnPay = new Button("\nPAY\n ");
+		GridPane.setValignment(btnPay, VPos.TOP);
+		expenses.add(btnPay, 3, 3, 1, 2);
+		
+		root.setCenter(expenses);
+		
+		HBox btnGroup = new HBox(20);
+		btnGroup.setPadding(new Insets(25, 25, 25, 0));
+		btnGroup.setAlignment(Pos.CENTER);
+
+		btnNew = new Button("New Invoice");
+		btnOpen = new Button("Open Invoice");
+		btnGroup.getChildren().add(btnNew);
+		btnGroup.getChildren().add(btnOpen);
+		
+		GroupBox invoiceButtons = new GroupBox();
+		invoiceButtons.setText("Invoices");
+		invoiceButtons.setContent(btnGroup);
+		root.setBottom(btnGroup);
 		
 		getChildren().add(root);
 	}

@@ -20,7 +20,9 @@ public class Main extends Application {
 		//TODO REMOVE AFTER TESTING
 		AppData.INSTANCE.setUserList(Defaults.createDentists());
 		AppData.INSTANCE.setPatientList(Defaults.createPatient());
+		AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
 		AppData.INSTANCE.setInvoiceList(Defaults.createInvoice());
+		
 		AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));
 
 		

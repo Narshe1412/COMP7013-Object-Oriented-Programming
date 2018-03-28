@@ -87,5 +87,15 @@ public enum AppData {
 	public void setInvoiceList(List<Invoice> invoiceList) {
 		this.invoiceList = (InvoiceList) invoiceList;
 	}
+	
+	
+	private ProcedureList procList;
+	public ProcedureList getProcedureList() {
+		return procList;
+	}
+	
+	public void setProcedureList(List<Procedure> procedureList) {
+		this.procList = (ProcedureList) procedureList;
+	}
 
 }

@@ -47,6 +47,7 @@ public class Invoice implements Serializable{
 	
 	public void setInvoiceDate(final String date) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		System.out.println("date-" + date);
 		try {
 			Date parsedDate = df.parse(date);
 			setInvoiceDate(parsedDate);
@@ -82,13 +83,14 @@ public class Invoice implements Serializable{
 		return invoiceAmt;
 	}
 	
+	
 	public double calculateInvoiceAmt() {
 		// Calculates total spent and total paid
 		// Assigns total spent to invoiceAmt property
 		// Returns remaining to pay
 		double total = 0;
 		for (Procedure proc: in_procList) {
-			total += proc.getProcCost();
+			total += proc.getProcCost().get();
 		}
 		invoiceAmt = total;
 		
@@ -104,7 +106,7 @@ public class Invoice implements Serializable{
 	public double calculateInvoicePaid() {
 		double paid = 0;
 		for (Payment payment: in_paymentList) {
-			paid += payment.getPaymentAmt();
+			paid += payment.getPaymentAmt().get();
 		}
 		return paid;
 	}

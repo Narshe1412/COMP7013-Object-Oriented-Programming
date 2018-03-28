@@ -6,12 +6,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 @SuppressWarnings("serial")
 public class Payment implements Serializable{
 	private static int id = 0;
 	private int paymentID;
-	private double paymentAmt;
+	private DoubleProperty paymentAmt;
 	private Date paymentDate;
+	
+	public Payment (final double amount) {
+		setPaymentAmt(amount);
+		setPaymentDate(new Date());
+		setPaymentID();
+	}
 	
 	public Payment (final double amount, final Date date) {
 		setPaymentAmt(amount);
@@ -21,16 +32,16 @@ public class Payment implements Serializable{
 	
 	public Payment (final double amount, final String date) {
 		setPaymentAmt(amount);
-		setPaymentDate("");
+		setPaymentDate(date);
 		setPaymentID();
 	}
 
-	public double getPaymentAmt() {
+	public DoubleProperty getPaymentAmt() {
 		return paymentAmt;
 	}
 
 	public void setPaymentAmt(final double paymentAmt) {
-		this.paymentAmt = paymentAmt;
+		this.paymentAmt = new SimpleDoubleProperty(paymentAmt);
 	}
 
 	public Date getPaymentDate() {
@@ -66,5 +77,11 @@ public class Payment implements Serializable{
 	
 	public void print() {
 		System.out.println(toString());
+	}
+
+	public StringProperty getPaymentStringDate() {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		return new SimpleStringProperty(df.format(getPaymentDate()));
+		
 	}
 }

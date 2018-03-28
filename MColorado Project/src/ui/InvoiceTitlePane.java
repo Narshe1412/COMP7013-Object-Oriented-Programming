@@ -26,7 +26,7 @@ public class InvoiceTitlePane extends StackPane {
 		
 		GridPane root = new GridPane();
 		root.setHgap(10);
-		root.setPadding(new Insets(10, 10, 0, 10));
+		root.setPadding(new Insets(10, 10, 10, 10));
 		ColumnConstraints column = new ColumnConstraints();
 		column.setPercentWidth(25);
 		root.getColumnConstraints().add(column);
@@ -37,18 +37,22 @@ public class InvoiceTitlePane extends StackPane {
 		lblDate = new Label("Invoice Date: ");
 		txtDate = new TextField();
 		txtDate.setDisable(true);
+		txtDate.setStyle("-fx-opacity: 1.0;");
 		lblTotalInvoice = new Label("Total: ");
 		txtTotalInvoice = new TextField();
+		txtTotalInvoice.setStyle("-fx-opacity: 1.0;");
 		txtTotalInvoice.setDisable(true);
 		txtTotalInvoice.setAlignment(Pos.CENTER_RIGHT);
 		lblPaidInvoice = new Label("Amount paid: ");
 		txtPaidInvoice = new TextField();
 		txtPaidInvoice.setAlignment(Pos.CENTER_RIGHT);
 		txtPaidInvoice.setDisable(true);
+		txtPaidInvoice.setStyle("-fx-opacity: 1.0;");
 		lblRemainInvoice = new Label("Amount remaining: ");
 		txtRemainInvoice = new TextField();
 		txtRemainInvoice.setAlignment(Pos.CENTER_RIGHT);
 		txtRemainInvoice.setDisable(true);
+		txtRemainInvoice.setStyle("-fx-opacity: 1.0;");
 
 		root.add(lblDate, 0, 0);
 		root.add(txtDate, 0, 1);

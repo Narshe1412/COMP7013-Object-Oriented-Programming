@@ -1,5 +1,9 @@
 package application;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -97,14 +101,16 @@ public class Main extends Application {
 
 		// Create a clock and a label based in the current time
 		clock = new ClockPane();
+
+		String dateString = getDateString();
 		String timeString = clock.getTimeString();
-		lblCurrentTime = new Label(timeString);
+		lblCurrentTime = new Label(dateString + " " + timeString);
 
 		// Creates a timer that executes every 500ms to set up the current time in the
 		// clock
 		timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
 			clock.setCurrentTime();
-			lblCurrentTime.setText(clock.getTimeString());
+			lblCurrentTime.setText(getDateString() + " " + clock.getTimeString());
 		}));
 		/** Starts the timer and runs indefinitely */
 		timeline.setCycleCount(Animation.INDEFINITE);
@@ -123,6 +129,16 @@ public class Main extends Application {
 		primaryStage.setTitle("Stopwatch"); // Set the stage title
 		primaryStage.setScene(scene); // Place the scene in the stage
 		primaryStage.show(); // Display the stage
+	}
+
+	/**
+	 * Obtains current date formatted as dd/mm/yyyy
+	 * @return A string containing the current date
+	 */
+	private String getDateString() {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar cal = Calendar.getInstance();
+		return dateFormat.format(cal.getTime());
 	}
 
 	/**

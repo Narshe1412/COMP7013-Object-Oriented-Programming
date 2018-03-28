@@ -1,6 +1,7 @@
 package ui;
 
 import controller.AppData;
+import controller.AppNavigation;
 import controller.AppState;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -85,7 +86,7 @@ public class PatientDetailsPane extends Pane {
 		btnSave.setOnAction(event -> {
 			if (AppState.INSTANCE.getCurrentPatient() == null) {
 				Patient p = AppData.INSTANCE.getPatientList().add(getTxtName(), getTxtAddress(), getTxtPhone());
-				AppState.INSTANCE.setCurrentPatient(p);
+				AppNavigation.updatePatient(p);
 			} else {
 				AppData.INSTANCE.getPatientList().updateById(getTxtId(), getTxtName(), getTxtAddress(), getTxtPhone());
 			}
@@ -104,8 +105,7 @@ public class PatientDetailsPane extends Pane {
 		btnNew.setOnAction(e -> {
 			enableAll();
 			clearPatientDetails();
-			AppState.INSTANCE.setPreviousPatient(AppState.INSTANCE.getCurrentPatient());
-			AppState.INSTANCE.setCurrentPatient(null);
+			AppNavigation.updatePatient(null);
 			btnNew.setVisible(false);
 			btnCancel.setVisible(true);
 
@@ -123,7 +123,7 @@ public class PatientDetailsPane extends Pane {
 		btnCancel.setVisible(false);
 		btnCancel.setOnAction(e -> {
 			if (AppState.INSTANCE.getCurrentPatient() == null) {
-				AppState.INSTANCE.setCurrentPatient(AppState.INSTANCE.getPreviousPatient());
+				AppNavigation.updatePatient(AppState.INSTANCE.getPreviousPatient());
 				AppState.INSTANCE.setPreviousPatient(null);
 			}
 			btnCancel.setVisible(false);
@@ -162,7 +162,7 @@ public class PatientDetailsPane extends Pane {
 	/**
 	 * Refreshes the UI with the details from the app state
 	 */
-	private void refresh() {
+	public void refresh() {
 		disableAll();
 		loadPatientDetails(AppState.INSTANCE.getCurrentPatient());
 	}

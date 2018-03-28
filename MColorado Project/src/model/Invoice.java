@@ -17,8 +17,13 @@ public class Invoice implements Serializable{
 	private double invoiceAmt;
 	private Date invoiceDate;
 	private boolean isPaid;
-	private final List<Procedure> in_procList = new ArrayList<Procedure>();;
-	private final List<Payment> in_paymentList = new ArrayList<Payment>();;
+	private final List<Procedure> in_procList = new ArrayList<Procedure>();
+	private final List<Payment> in_paymentList = new ArrayList<Payment>();
+	
+	public Invoice() {
+		setInvoiceDate(new Date());
+		objectSetup();
+	}
 	
 	public Invoice(final Date date) {
 		setInvoiceDate(date);
@@ -31,7 +36,7 @@ public class Invoice implements Serializable{
 	}
 	
 	private void objectSetup() {
-		setInvoiceID();
+		//setInvoiceID();
 		setPaid(false);
 		invoiceAmt = 0;
 	}
@@ -54,13 +59,22 @@ public class Invoice implements Serializable{
 		return invoiceDate;
 	}
 	
+	public String getStringDate() {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		return df.format(getInvoiceDate());
+	}
+	
 	public int getInvoiceID() {
 		return invoiceID;
 	}
 
-	public void setInvoiceID() {
+	/*public void setInvoiceID() {
 		this.invoiceID = id;
 		id++;
+	}*/
+	
+	public void setInvoiceID(final int i) {
+		this.invoiceID = i;
 	}
 
 	public double getInvoiceAmt() {

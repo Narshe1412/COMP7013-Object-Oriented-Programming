@@ -20,7 +20,9 @@ public class HomeWindow {
 		BorderPane root = new BorderPane();
 		
 		TabPane tabs = new TabPane();
-		tabs.getTabs().add(new TabMain());//TODO
+		//TODO fix the app workflow as soon as all tabs have been done
+		//tabs.getTabs().add(new TabMain());
+		tabs.getTabs().add(new TabInvoice(0));
 		root.setCenter(tabs);
 		
 		AppMenu menuBar = new AppMenu();
@@ -32,6 +34,7 @@ public class HomeWindow {
 */
 		//TODO temp
 	    root.setBottom(new Label("Welcome user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
+	    
 		Stage homeWindow = new Stage();
 		Scene scene = new Scene(root, 640, 480);
 		homeWindow.setScene(scene);

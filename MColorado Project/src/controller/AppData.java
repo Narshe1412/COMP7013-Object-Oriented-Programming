@@ -2,10 +2,7 @@ package controller;
 
 import java.util.List;
 
-import model.Dentist;
-import model.DentistList;
-import model.Patient;
-import model.PatientList;
+import model.*;
 
 /**
  * Stores the data for the application
@@ -80,5 +77,15 @@ public enum AppData {
 		this.patientList = (PatientList) patientList;
 
 	};
+	
+	private InvoiceList invoiceList;
+	
+	public InvoiceList getInvoiceList() {
+		return invoiceList;
+	}
+	
+	public void setInvoiceList(List<Invoice> invoiceList) {
+		this.invoiceList = (InvoiceList) invoiceList;
+	}
 
 }

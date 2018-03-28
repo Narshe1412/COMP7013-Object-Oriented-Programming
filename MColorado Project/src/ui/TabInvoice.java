@@ -2,7 +2,6 @@ package ui;
 
 import controller.AppData;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Invoice;
 

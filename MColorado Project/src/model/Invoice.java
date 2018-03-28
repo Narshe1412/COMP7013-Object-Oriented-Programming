@@ -92,16 +92,21 @@ public class Invoice implements Serializable{
 		}
 		invoiceAmt = total;
 		
-		double paid = 0;
-		for (Payment payment: in_paymentList) {
-			paid += payment.getPaymentAmt();
-		}
+		double paid = calculateInvoicePaid();
 		if (total - paid > 0) {
 			return total - paid;
 		} else {
 			setPaid(true);
 			return 0;
 		}
+	}
+	
+	public double calculateInvoicePaid() {
+		double paid = 0;
+		for (Payment payment: in_paymentList) {
+			paid += payment.getPaymentAmt();
+		}
+		return paid;
 	}
 
 	public boolean isPaid() {

@@ -92,11 +92,11 @@ public class Invoice implements Serializable{
 		for (Procedure proc: in_procList) {
 			total += proc.getProcCost().get();
 		}
-		invoiceAmt = total;
+		invoiceAmt = Math.round((total) * 100) / 100;
 		
 		double paid = calculateInvoicePaid();
 		if (total - paid > 0) {
-			return total - paid;
+			return Math.round((total - paid) * 100) / 100;
 		} else {
 			setPaid(true);
 			return 0;

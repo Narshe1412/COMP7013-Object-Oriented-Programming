@@ -41,6 +41,15 @@ public class ProcedureList extends ArrayList<Procedure> implements Serializable{
 		super.remove(id);
 	}
 	
+	public Procedure find(String name) {
+		for (Procedure proc : this) {
+			if (name.equalsIgnoreCase(proc.getProcName().get())) {
+				return proc;
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public String toString() {
 		String result = "";

@@ -1,12 +1,19 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import controller.AppData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -21,8 +28,12 @@ public class InvoiceProceduresPane extends Pane {
 	private Button btnRemoveTreatment;
 	private TableView<Procedure> table;
 	private ObservableList<Procedure> procList;
+	private Invoice invoice;
+	private InvoiceTitlePane title;
 
-	public InvoiceProceduresPane(Invoice inv) {
+	public InvoiceProceduresPane(Invoice inv, InvoiceTitlePane title) {
+		this.title = title;
+		this.invoice = inv;
 		HBox root = new HBox(10);
 		root.setPadding(new Insets(10, 10, 10, 10));
 		
@@ -48,8 +59,28 @@ public class InvoiceProceduresPane extends Pane {
 		VBox buttons = new VBox(10);
 		Button btnAddTreatment = new Button("Add Procedure");
 		btnAddTreatment.setMaxWidth(Double.MAX_VALUE);
+		btnAddTreatment.setOnAction(event -> {
+			List<String> choices = new ArrayList<>();
+			for (Procedure proc : AppData.INSTANCE.getProcedureList()) {
+				choices.add(proc.getProcName().get());
+			}
+			
+			ChoiceDialog<String> dialog = new ChoiceDialog<String>(choices.get(0), choices);
+			
+			dialog.setTitle("Add");
+			dialog.setHeaderText("Dental Procedures");
+			dialog.setContentText("Add a new treatment for this patient: ");
+			
+			// Traditional way to get the response value.
+			Optional<String> result = dialog.showAndWait();
+			result.ifPresent(proc -> {
+				addProcedure(AppData.INSTANCE.getProcedureList().find(proc));
+			});
+		});
+		
 		Button btnRemoveTreatment = new Button("Remove Procedure");
 		btnRemoveTreatment.setMaxWidth(Double.MAX_VALUE);
+		btnRemoveTreatment.setOnAction(event -> deleteProcedure());
 
 		buttons.getChildren().add(btnAddTreatment);
 		buttons.getChildren().add(btnRemoveTreatment);
@@ -63,6 +94,25 @@ public class InvoiceProceduresPane extends Pane {
 		
 		
 	}
-
+	
+	public void addProcedure(Procedure p) {
+		procList.add(p); // TODO review binding
+		invoice.addProcedure(p);
+		System.out.println(procList);
+		System.out.println(invoice.getIn_procList());
+		title.refresh();
+	}
+	
+	public void deleteProcedure() {
+		Procedure p = table.getSelectionModel().getSelectedItem();
+		if (p != null) {
+			int row = procList.indexOf(p);
+			procList.remove(p); // TODO review binding
+			invoice.removeProcedure(p);
+			System.out.println(procList);
+			System.out.println(invoice.getIn_procList());
+		}
+		title.refresh();
+	}
 }
 

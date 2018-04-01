@@ -16,7 +16,7 @@ public enum AppState {
 	private Dentist currentUser;
 	private Patient currentPatient;
 	private Patient previousPatient;
-
+	
 	/**
 	 * Checks if any of the models have been modified and the app requires saving
 	 * 

@@ -98,7 +98,11 @@ public class InvoiceControlsPane extends Pane {
 			result.ifPresent(invoiceSelected -> {
 				int id = Integer.parseInt(invoiceSelected.substring(0, invoiceSelected.indexOf("#")));
 				Invoice i = AppData.INSTANCE.getInvoiceList().get(id);
-				parent.addNewTab(new TabInvoice(i));
+				if (!parent.getActiveInvoices().contains(i)) {
+					parent.addNewTab(new TabInvoice(i));
+				} else {
+					parent.setActiveInvoiceTab(i);
+				}
 			});
 		});
 		btnGroup.getChildren().add(btnNew);

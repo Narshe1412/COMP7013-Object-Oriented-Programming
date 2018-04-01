@@ -1,5 +1,8 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import controller.AppState;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.Invoice;
 
 public class HomeWindow extends Stage implements ReloadableNode{
 	
@@ -64,5 +68,25 @@ public class HomeWindow extends Stage implements ReloadableNode{
 	
 	public void refreshUI() {
 		mainPatient.refreshUI();
+	}
+	
+	public List<Invoice> getActiveInvoices() {
+		ArrayList<Invoice> list = new ArrayList<>();
+		for (Tab t: tabs.getTabs()) {
+			if (t instanceof TabInvoice) {
+				list.add(((TabInvoice) t).getActiveInvoice());
+			}
+		}
+		return list;
+	}
+
+	public void setActiveInvoiceTab(Invoice i) {
+		for (Tab t: tabs.getTabs()) {
+			if (t instanceof TabInvoice) {
+				if (((TabInvoice) t).getActiveInvoice() == i) {
+					tabs.getSelectionModel().select(t);
+				}
+			}
+		}	
 	}
 }

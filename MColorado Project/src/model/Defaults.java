@@ -60,6 +60,7 @@ public class Defaults {
 		invoices.get(0).getIn_procList().add(procedures.get(0));
 		invoices.get(0).getIn_procList().add(procedures.get(6));
 		
+		patients.get(0).addInvoice(invoices.get(0));
 		return invoices;
 	}
 }

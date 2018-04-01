@@ -50,11 +50,11 @@ public class InvoiceControlsPane extends Pane {
 		expenses.add(new Label(), 0, 1, 4, 1);
 		lblAmountTotal = new Label("Total amount:");
 		expenses.add(lblAmountTotal, 0, 3, 2, 1);
-		txtAmountTotal = new Text("0.00€");
+		txtAmountTotal = new Text();
 		expenses.add(txtAmountTotal, 2, 3);
 		lblAmountDue = new Label("Amount due:");
 		expenses.add(lblAmountDue, 0, 4, 2, 1);
-		txtAmountDue = new Text("0.00€");
+		txtAmountDue = new Text();
 		expenses.add(txtAmountDue, 2, 4);
 		btnPay = new Button("\nPAY\n ");
 		GridPane.setValignment(btnPay, VPos.TOP);
@@ -82,6 +82,13 @@ public class InvoiceControlsPane extends Pane {
 		root.setBottom(btnGroup);
 		
 		getChildren().add(root);
+		
+		refresh();
+	}
+
+	public void refresh() {
+		txtAmountTotal.setText(AppState.INSTANCE.getCurrentPatient().getTotalInvoiceValue() + " $");
+		txtAmountDue.setText(AppState.INSTANCE.getCurrentPatient().getRemainingInvoiceValue() + " $");
 	}
 
 }

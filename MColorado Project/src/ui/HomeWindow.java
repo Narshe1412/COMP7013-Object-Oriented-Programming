@@ -17,14 +17,21 @@ import javafx.stage.Stage;
 public class HomeWindow extends Stage{
 	
 	private TabPane tabs;
+	private TabMain mainPatient;
 	
 	public HomeWindow() {
+		mainPatient = new TabMain(this);
+		
 		BorderPane root = new BorderPane();
 		
 		tabs = new TabPane();
-		//TODO fix the app workflow as soon as all tabs have been done
-		addNewTab(new TabMain(this));
+		addNewTab(mainPatient);
 		addNewTab(new TabInvoice(0));
+		tabs.getSelectionModel().selectedIndexProperty().addListener((ov, oldTab, newTab) -> {
+	        if (oldTab != null && newTab.intValue() == 0) {
+	        	mainPatient.refreshUI();
+	        }
+		});
 		root.setCenter(tabs);
 		
 		AppMenu menuBar = new AppMenu();

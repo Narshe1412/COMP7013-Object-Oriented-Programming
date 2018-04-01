@@ -35,6 +35,24 @@ public class Patient extends Person {
 	public Collection<Invoice> getP_invoiceList() {
 		return p_invoiceList;
 	}
+	
+	public double getTotalInvoiceValue() {
+		double total = 0;
+		for (Invoice inv: getP_invoiceList()) {
+			total += inv.getInvoiceAmt();
+		}
+		return total;
+	}
+	
+	public double getRemainingInvoiceValue() {
+		double total = 0;
+		for (Invoice inv: getP_invoiceList()) {
+			if(!inv.isPaid()) {
+				total += inv.calculateInvoiceAmt();
+			}
+		}
+		return total;
+	}
 
 	public boolean addInvoice(final Invoice inv) {
 		return getP_invoiceList().add(inv);
@@ -47,4 +65,6 @@ public class Patient extends Person {
 	public String toString() {
 		return getName() + " Address: " + getAddress() + " Phone: " + getPhone();
 	}
+
+
 }

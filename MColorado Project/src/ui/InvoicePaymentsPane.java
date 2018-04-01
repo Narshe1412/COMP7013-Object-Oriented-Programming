@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.Invoice;
 import model.Payment;
 
@@ -63,6 +65,8 @@ public class InvoicePaymentsPane extends Pane {
 				dialog.setTitle("Add");
 				dialog.setHeaderText("Payments");
 				dialog.setContentText("How much the customer has paid? ");
+				Stage icon = (Stage) dialog.getDialogPane().getScene().getWindow();
+				icon.getIcons().add(new Image(this.getClass().getResource("/assets/smile.png").toString()));
 
 				// Traditional way to get the response value.
 				Optional<String> result = dialog.showAndWait();

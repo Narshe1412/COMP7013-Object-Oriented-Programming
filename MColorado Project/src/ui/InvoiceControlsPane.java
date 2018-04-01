@@ -10,6 +10,8 @@ import controller.AppState;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
@@ -25,7 +27,7 @@ import model.Invoice;
 import model.Procedure;
 
 public class InvoiceControlsPane extends Pane {
-	private Stage parent;
+	private HomeWindow parent;
 
 	private Button btnNew;
 	private Button btnOpen;
@@ -67,6 +69,24 @@ public class InvoiceControlsPane extends Pane {
 
 		root.setCenter(expenses);
 
+		btnPay.setOnAction(event -> {
+			List<String> choices = new ArrayList<>();
+			for (Invoice inv : AppState.INSTANCE.getCurrentPatient().getP_invoiceList()) {
+				if(!inv.isPaid()) {
+					String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate()
+					+ "   Total pending: " + inv.getInvoiceAmt() + " $";
+					choices.add(invoiceDetails);
+				}
+			}
+			if(choices.isEmpty()) {
+				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Information", null, "This patient does not owe us any money");
+				alert.showAndWait();
+			} else {
+				loadInvoiceDialog(choices);
+			}
+			
+		});
+		
 		HBox btnGroup = new HBox(20);
 		btnGroup.setPadding(new Insets(25, 25, 25, 0));
 		btnGroup.setAlignment(Pos.CENTER);
@@ -86,24 +106,7 @@ public class InvoiceControlsPane extends Pane {
 						+ "   Total: " + inv.getInvoiceAmt() + " $";
 				choices.add(invoiceDetails);
 			}
-
-			ChoiceDialog<String> dialog = new ChoiceDialog<String>(choices.get(0), choices);
-
-			dialog.setTitle("Open");
-			dialog.setHeaderText("List of Invoices");
-			dialog.setContentText("Select the invoice you want to inspect: ");
-
-			// Traditional way to get the response value.
-			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(invoiceSelected -> {
-				int id = Integer.parseInt(invoiceSelected.substring(0, invoiceSelected.indexOf("#")));
-				Invoice i = AppData.INSTANCE.getInvoiceList().get(id);
-				if (!parent.getActiveInvoices().contains(i)) {
-					parent.addNewTab(new TabInvoice(i));
-				} else {
-					parent.setActiveInvoiceTab(i);
-				}
-			});
+			loadInvoiceDialog(choices);
 		});
 		btnGroup.getChildren().add(btnNew);
 		btnGroup.getChildren().add(btnOpen);
@@ -128,5 +131,27 @@ public class InvoiceControlsPane extends Pane {
 
 		}
 	}
+	
+	private void loadInvoiceDialog(List<String> choices) {
+		ChoiceDialog<String> dialog = new ChoiceDialog<String>(choices.get(0), choices);
 
+		dialog.setTitle("Open");
+		dialog.setHeaderText("List of Invoices");
+		dialog.setContentText("Select the invoice you want to inspect: ");
+		// Add a custom icon.
+		Stage icon = (Stage) dialog.getDialogPane().getScene().getWindow();
+		icon.getIcons().add(new Image(this.getClass().getResource("/assets/smile.png").toString()));
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(invoiceSelected -> {
+			int id = Integer.parseInt(invoiceSelected.substring(0, invoiceSelected.indexOf("#")));
+			Invoice i = AppData.INSTANCE.getInvoiceList().get(id);
+			if (!parent.getActiveInvoices().contains(i)) {
+				parent.addNewTab(new TabInvoice(i));
+			} else {
+				parent.setActiveInvoiceTab(i);
+			}
+		});
+	}
 }

@@ -14,10 +14,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.Invoice;
 import model.Payment;
 import model.Procedure;
@@ -70,6 +72,8 @@ public class InvoiceProceduresPane extends Pane {
 			dialog.setTitle("Add");
 			dialog.setHeaderText("Dental Procedures");
 			dialog.setContentText("Add a new treatment for this patient: ");
+			Stage icon = (Stage) dialog.getDialogPane().getScene().getWindow();
+			icon.getIcons().add(new Image(this.getClass().getResource("/assets/smile.png").toString()));
 			
 			// Traditional way to get the response value.
 			Optional<String> result = dialog.showAndWait();

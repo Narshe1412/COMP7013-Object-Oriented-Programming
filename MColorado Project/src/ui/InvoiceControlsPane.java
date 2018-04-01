@@ -1,5 +1,9 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
@@ -7,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -17,6 +22,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Invoice;
+import model.Procedure;
 
 public class InvoiceControlsPane extends Pane {
 	private Stage parent;
@@ -72,6 +78,29 @@ public class InvoiceControlsPane extends Pane {
 			parent.addNewTab(new TabInvoice(i));
 		});
 		btnOpen = new Button("Open Invoice");
+		btnOpen.setOnAction(event -> {
+			List<String> choices = new ArrayList<>();
+			for (Invoice inv : AppState.INSTANCE.getCurrentPatient().getP_invoiceList()) {
+				String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate()
+						+ (inv.isPaid() ? "   --PAID--" : "") 
+						+ "   Total: " + inv.getInvoiceAmt() + " $";
+				choices.add(invoiceDetails);
+			}
+
+			ChoiceDialog<String> dialog = new ChoiceDialog<String>(choices.get(0), choices);
+
+			dialog.setTitle("Open");
+			dialog.setHeaderText("List of Invoices");
+			dialog.setContentText("Select the invoice you want to inspect: ");
+
+			// Traditional way to get the response value.
+			Optional<String> result = dialog.showAndWait();
+			result.ifPresent(invoiceSelected -> {
+				int id = Integer.parseInt(invoiceSelected.substring(0, invoiceSelected.indexOf("#")));
+				Invoice i = AppData.INSTANCE.getInvoiceList().get(id);
+				parent.addNewTab(new TabInvoice(i));
+			});
+		});
 		btnGroup.getChildren().add(btnNew);
 		btnGroup.getChildren().add(btnOpen);
 

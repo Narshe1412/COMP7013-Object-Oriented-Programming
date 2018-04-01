@@ -31,16 +31,15 @@ public class InvoiceControlsPane extends Pane {
 
 	public InvoiceControlsPane(HomeWindow parent) {
 		this.parent = parent;
-		
+
 		BorderPane root = new BorderPane();
-		
+
 		GridPane expenses = new GridPane();
 		expenses.setPadding(new Insets(25, 25, 25, 0));
 		expenses.setAlignment(Pos.CENTER);
 		expenses.setHgap(10);
 		expenses.setVgap(10);
-		
-		
+
 		/**
 		 * Title
 		 */
@@ -59,9 +58,9 @@ public class InvoiceControlsPane extends Pane {
 		btnPay = new Button("\nPAY\n ");
 		GridPane.setValignment(btnPay, VPos.TOP);
 		expenses.add(btnPay, 3, 3, 1, 2);
-		
+
 		root.setCenter(expenses);
-		
+
 		HBox btnGroup = new HBox(20);
 		btnGroup.setPadding(new Insets(25, 25, 25, 0));
 		btnGroup.setAlignment(Pos.CENTER);
@@ -75,20 +74,26 @@ public class InvoiceControlsPane extends Pane {
 		btnOpen = new Button("Open Invoice");
 		btnGroup.getChildren().add(btnNew);
 		btnGroup.getChildren().add(btnOpen);
-		
+
 		GroupBox invoiceButtons = new GroupBox();
 		invoiceButtons.setText("Invoices");
 		invoiceButtons.setContent(btnGroup);
 		root.setBottom(btnGroup);
-		
+
 		getChildren().add(root);
-		
+
 		refresh();
 	}
 
 	public void refresh() {
-		txtAmountTotal.setText(AppState.INSTANCE.getCurrentPatient().getTotalInvoiceValue() + " $");
-		txtAmountDue.setText(AppState.INSTANCE.getCurrentPatient().getRemainingInvoiceValue() + " $");
+		if (AppState.INSTANCE.getCurrentPatient() == null) {
+			txtAmountTotal.setText("0.0 $");
+			txtAmountDue.setText("0.0 $");
+		} else {
+			txtAmountTotal.setText(AppState.INSTANCE.getCurrentPatient().getTotalInvoiceValue() + " $");
+			txtAmountDue.setText(AppState.INSTANCE.getCurrentPatient().getRemainingInvoiceValue() + " $");
+
+		}
 	}
 
 }

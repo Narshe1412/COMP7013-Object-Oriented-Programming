@@ -5,7 +5,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import model.Invoice;
 
-public class TabInvoice extends Tab{
+public class TabInvoice extends Tab implements ReloadableNode{
 	
 	private InvoiceTitlePane titlePane;
 	
@@ -26,6 +26,10 @@ public class TabInvoice extends Tab{
 		titlePane = new InvoiceTitlePane(i);
 		root.getChildren().addAll(titlePane, new InvoiceProceduresPane(i, titlePane), new InvoicePaymentsPane(i, titlePane));
 		setContent(root);
+	}
+
+	public void refreshUI() {
+		titlePane.refresh();
 	}
 
 }

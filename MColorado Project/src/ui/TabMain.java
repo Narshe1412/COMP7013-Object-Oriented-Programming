@@ -4,7 +4,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
-class TabMain extends Tab {
+class TabMain extends Tab implements ReloadableNode{
 	
 	private HomeWindow parent;
 	private PatientDetailsPane details;
@@ -15,7 +15,7 @@ class TabMain extends Tab {
 		setText("Patient Details");
 		SplitPane root = new SplitPane();
 
-		details = new PatientDetailsPane();
+		details = new PatientDetailsPane(parent);
 		invoices = new InvoiceControlsPane(parent);
 		
 		root.getItems().addAll(details, invoices);
@@ -24,7 +24,7 @@ class TabMain extends Tab {
 	}
 	
 	public void refreshUI() {
-		details.refresh();
+		details.refreshUI();
 		invoices.refresh();
 	}
 	

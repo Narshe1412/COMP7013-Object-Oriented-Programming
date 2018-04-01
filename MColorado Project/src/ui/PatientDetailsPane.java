@@ -30,8 +30,11 @@ public class PatientDetailsPane extends Pane {
 	private Button btnNew;
 	private Button btnEdit;
 	private Button btnCancel;
+	private HomeWindow parent;
 
-	public PatientDetailsPane() {
+	public PatientDetailsPane(HomeWindow parent) {
+		this.parent = parent;
+
 		GridPane root = new GridPane();
 		root.setAlignment(Pos.CENTER);
 		root.setHgap(10);
@@ -92,7 +95,9 @@ public class PatientDetailsPane extends Pane {
 			}
 			btnCancel.setVisible(false);
 			btnNew.setVisible(true);
-			refresh();
+			disableAll();
+			refreshUI();
+			parent.refreshUI();
 		});
 		/**
 		 * New button Workflow: Clicking the new button puts the UI in New mode 1.
@@ -108,7 +113,8 @@ public class PatientDetailsPane extends Pane {
 			AppNavigation.updatePatient(null);
 			btnNew.setVisible(false);
 			btnCancel.setVisible(true);
-
+			parent.clearTabs();
+			parent.refreshUI();
 		});
 		/**
 		 * Cancel button Workflow: Cancel button is hidden unless in New or Edit mode 1.
@@ -125,11 +131,12 @@ public class PatientDetailsPane extends Pane {
 			if (AppState.INSTANCE.getCurrentPatient() == null) {
 				AppNavigation.updatePatient(AppState.INSTANCE.getPreviousPatient());
 				AppState.INSTANCE.setPreviousPatient(null);
+				parent.refreshUI();
 			}
 			btnCancel.setVisible(false);
 			btnNew.setVisible(true);
 			btnSave.setDisable(true);
-			refresh();
+			refreshUI();
 		});
 
 		/**
@@ -154,16 +161,17 @@ public class PatientDetailsPane extends Pane {
 		root.add(btnCancel, 3, 6);
 		GridPane.setHalignment(btnNew, HPos.RIGHT);
 		GridPane.setHalignment(btnCancel, HPos.RIGHT);
-
-		refresh();
+		
+		disableAll();
+		refreshUI();
 		this.getChildren().add(root);
 	}
 
 	/**
 	 * Refreshes the UI with the details from the app state
 	 */
-	public void refresh() {
-		disableAll();
+	public void refreshUI() {
+
 		loadPatientDetails(AppState.INSTANCE.getCurrentPatient());
 	}
 
@@ -196,10 +204,13 @@ public class PatientDetailsPane extends Pane {
 	 *            A Patient object
 	 */
 	public void loadPatientDetails(Patient p) {
-		setTxtId(p.getPatientNo());
-		setTxtName(p.getName());
-		setTxtAddress(p.getAddress());
-		setTxtPhone(p.getPhone());
+		if (p != null) {
+			setTxtId(p.getPatientNo());
+			setTxtName(p.getName());
+			setTxtAddress(p.getAddress());
+			setTxtPhone(p.getPhone());
+
+		}
 	}
 
 	/**

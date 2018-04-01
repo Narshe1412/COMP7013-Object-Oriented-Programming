@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class HomeWindow extends Stage{
+public class HomeWindow extends Stage implements ReloadableNode{
 	
 	private TabPane tabs;
 	private TabMain mainPatient;
@@ -26,7 +26,6 @@ public class HomeWindow extends Stage{
 		
 		tabs = new TabPane();
 		addNewTab(mainPatient);
-		addNewTab(new TabInvoice(0));
 		tabs.getSelectionModel().selectedIndexProperty().addListener((ov, oldTab, newTab) -> {
 	        if (oldTab != null && newTab.intValue() == 0) {
 	        	mainPatient.refreshUI();
@@ -55,5 +54,15 @@ public class HomeWindow extends Stage{
 	public void addNewTab(Tab t) {
 		tabs.getTabs().add(t);
 		tabs.getSelectionModel().select(t);
+	}
+	
+	public void clearTabs() {
+		while (tabs.getTabs().size() > 1) {
+			tabs.getTabs().remove(1);
+		}
+	}
+	
+	public void refreshUI() {
+		mainPatient.refreshUI();
 	}
 }

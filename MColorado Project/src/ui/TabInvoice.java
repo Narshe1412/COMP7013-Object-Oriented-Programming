@@ -10,16 +10,21 @@ public class TabInvoice extends Tab{
 	private InvoiceTitlePane titlePane;
 	
 	public TabInvoice(int invoiceNo) {
-		createContent(invoiceNo);
+
+		createContent(AppData.INSTANCE.getInvoiceList().get(invoiceNo));
 	}
 	
-	private void createContent(int invoiceNo) {
+	public TabInvoice(Invoice i) {
+		createContent(i);
+	}
+
+	private void createContent(Invoice i) {
 		
-		Invoice inv = AppData.INSTANCE.getInvoiceList().get(invoiceNo);
-		setText("Invoice #" + invoiceNo + " - " + inv.getStringDate());
+
+		setText("Invoice #" + i.getInvoiceID() + " - " + i.getStringDate());
 		VBox root = new VBox();
-		titlePane = new InvoiceTitlePane(inv);
-		root.getChildren().addAll(titlePane, new InvoiceProceduresPane(inv, titlePane), new InvoicePaymentsPane(inv, titlePane));
+		titlePane = new InvoiceTitlePane(i);
+		root.getChildren().addAll(titlePane, new InvoiceProceduresPane(i, titlePane), new InvoicePaymentsPane(i, titlePane));
 		setContent(root);
 	}
 

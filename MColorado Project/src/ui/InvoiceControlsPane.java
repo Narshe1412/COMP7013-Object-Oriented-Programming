@@ -1,5 +1,8 @@
 package ui;
 
+import controller.AppData;
+import controller.AppNavigation;
+import controller.AppState;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -12,8 +15,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import model.Invoice;
 
 public class InvoiceControlsPane extends Pane {
+	private Stage parent;
 
 	private Button btnNew;
 	private Button btnOpen;
@@ -23,7 +29,8 @@ public class InvoiceControlsPane extends Pane {
 	private Text txtAmountTotal;
 	private Button btnPay;
 
-	public InvoiceControlsPane() {
+	public InvoiceControlsPane(HomeWindow parent) {
+		this.parent = parent;
 		
 		BorderPane root = new BorderPane();
 		
@@ -60,6 +67,11 @@ public class InvoiceControlsPane extends Pane {
 		btnGroup.setAlignment(Pos.CENTER);
 
 		btnNew = new Button("New Invoice");
+		btnNew.setOnAction(event -> {
+			Invoice i = AppData.INSTANCE.getInvoiceList().addNew();
+			AppState.INSTANCE.getCurrentPatient().addInvoice(i);
+			parent.addNewTab(new TabInvoice(i));
+		});
 		btnOpen = new Button("Open Invoice");
 		btnGroup.getChildren().add(btnNew);
 		btnGroup.getChildren().add(btnOpen);

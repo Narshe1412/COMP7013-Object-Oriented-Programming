@@ -1,6 +1,7 @@
 package ui;
 
 import controller.AppData;
+import controller.AppNavigation;
 import controller.AppState;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -109,7 +110,7 @@ public class LoginWindow extends Stage {
 								AppData.INSTANCE.setSavedUser(user);
 							}
 							AppState.INSTANCE.setCurrentUser(user);
-							HomeWindow.showWindow();
+							AppNavigation.setMainWindow(new HomeWindow());
 							close();
 						} else {
 							errorMessage.setText("Wrong username or password.");

@@ -92,11 +92,12 @@ public class Invoice implements Serializable{
 		for (Procedure proc: in_procList) {
 			total += proc.getProcCost().get();
 		}
-		invoiceAmt = Math.round((total) * 100) / 100;
+		invoiceAmt = total;
 		
 		double paid = calculateInvoicePaid();
-		if (total - paid > 0) {
-			return Math.round((total - paid) * 100) / 100;
+		if ((total - paid) > 0) {
+			setPaid(false);
+			return total - paid;
 		} else {
 			setPaid(true);
 			return 0;
@@ -128,18 +129,27 @@ public class Invoice implements Serializable{
 	}
 	
 	public boolean addProcedure(final Procedure proc) {
-		return getIn_procList().add(proc);
+		boolean result = getIn_procList().add(proc);
+		calculateInvoiceAmt();
+		System.out.println("ispaid " +  isPaid() + "total" );
+		return result;
 	}
 	
 	public boolean removeProcedure(final Procedure proc) {
-		return getIn_procList().remove(proc);
+		boolean result =  getIn_procList().remove(proc);
+		calculateInvoiceAmt();
+		return result;
 	}
 	
 	public boolean addPayment(final Payment pay) {
-		return getIn_paymentList().add(pay);
+		boolean result = getIn_paymentList().add(pay);
+		calculateInvoiceAmt();
+		return result;
 	}
 	
 	public boolean removePayment(final Payment pay) {
-		return getIn_paymentList().remove(pay);
+		boolean result =  getIn_paymentList().remove(pay);
+		calculateInvoiceAmt();
+		return result;
 	}
 }

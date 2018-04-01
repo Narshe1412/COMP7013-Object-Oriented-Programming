@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -13,16 +14,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class HomeWindow {
-	private HomeWindow() {};
+public class HomeWindow extends Stage{
 	
-	public static void showWindow() {
+	private TabPane tabs;
+	
+	public HomeWindow() {
 		BorderPane root = new BorderPane();
 		
-		TabPane tabs = new TabPane();
+		tabs = new TabPane();
 		//TODO fix the app workflow as soon as all tabs have been done
-		//tabs.getTabs().add(new TabMain());
-		tabs.getTabs().add(new TabInvoice(0));
+		addNewTab(new TabMain(this));
+		addNewTab(new TabInvoice(0));
 		root.setCenter(tabs);
 		
 		AppMenu menuBar = new AppMenu();
@@ -35,12 +37,16 @@ public class HomeWindow {
 		//TODO temp
 	    root.setBottom(new Label("Welcome user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
 	    
-		Stage homeWindow = new Stage();
+		
 		Scene scene = new Scene(root, 640, 480);
-		homeWindow.setScene(scene);
-		homeWindow.setTitle("Boca bites™");
-		homeWindow.getIcons().add(new Image("/assets/smile.png"));
-		homeWindow.setResizable(false);
-		homeWindow.show();
-	} 
+		setScene(scene);
+		setTitle("Boca bites™");
+		getIcons().add(new Image("/assets/smile.png"));
+		setResizable(false);
+	};
+	
+	public void addNewTab(Tab t) {
+		tabs.getTabs().add(t);
+		tabs.getSelectionModel().select(t);
+	}
 }

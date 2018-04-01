@@ -1,6 +1,7 @@
 package application;
 
 import controller.AppData;
+import controller.AppNavigation;
 import controller.AppState;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -28,8 +29,9 @@ public class Main extends Application {
 		
 		//TESTING HOME WINDOW
 		AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getUserList().get(0));
-		HomeWindow.showWindow();
-		
+		AppNavigation app = new AppNavigation(new HomeWindow());
+		app.showWindow();
+
 
 		//LoginWindow loginWindow = new LoginWindow();
 		//loginWindow.show();

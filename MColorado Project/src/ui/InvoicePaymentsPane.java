@@ -2,10 +2,11 @@ package ui;
 
 import java.util.Optional;
 
-import controller.AppData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,21 +54,38 @@ public class InvoicePaymentsPane extends Pane {
 		Button btnAddPayment = new Button("Pay");
 		btnAddPayment.setMaxWidth(Double.MAX_VALUE);
 		btnAddPayment.setOnAction(event -> {
-			TextInputDialog dialog = new TextInputDialog("0");
-			dialog.setTitle("Add");
-			dialog.setHeaderText("Payments");
-			dialog.setContentText("How much the customer has paid? ");
+			if (invoice.isPaid()) {
+				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Invoice paid", null, "This invoice has already been paid. You cannot add more payments against it.");
+				alert.showAndWait();
+			} else {
+				double remaining = invoice.calculateInvoiceAmt();
+				TextInputDialog dialog = new TextInputDialog(remaining + "");
+				dialog.setTitle("Add");
+				dialog.setHeaderText("Payments");
+				dialog.setContentText("How much the customer has paid? ");
 
-			// Traditional way to get the response value.
-			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(amount -> {
-				pay(new Payment(Double.parseDouble(result.get().trim())));
-			});
-
+				// Traditional way to get the response value.
+				Optional<String> result = dialog.showAndWait();
+				result.ifPresent(e -> {
+					double amount = Double.parseDouble(result.get().trim());
+					if (amount > 0) {
+						if(amount <= remaining) {
+							pay(new Payment(amount));
+						} else {
+							AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Amount too big", null, "The amount introduced surpasses the remaining amount to be paid for this invoice.");
+							alert.showAndWait();
+						}
+							
+					}
+				});
+			}
 		});
 		Button btnRemovePayment = new Button("Delete");
 		btnRemovePayment.setMaxWidth(Double.MAX_VALUE);
-		btnRemovePayment.setOnAction(event -> deletePayment());
+		btnRemovePayment.setOnAction(event -> {
+			deletePayment();	
+			//btnAddPayment.setDisable(invoice.isPaid());
+			});
 
 		buttons.getChildren().add(btnAddPayment);
 		buttons.getChildren().add(btnRemovePayment);
@@ -84,6 +102,8 @@ public class InvoicePaymentsPane extends Pane {
 		invoice.addPayment(p);
 		System.out.println(paymentList);
 		System.out.println(invoice.getIn_paymentList());
+		invoice.calculateInvoicePaid();
+		System.out.println(invoice.isPaid() + " "+ invoice.getInvoiceAmt());
 		title.refresh();
 	}
 
@@ -95,8 +115,8 @@ public class InvoicePaymentsPane extends Pane {
 			invoice.removePayment(p);
 			System.out.println(paymentList);
 			System.out.println(invoice.getIn_paymentList());
+			System.out.println(invoice.isPaid());
 		}
 		title.refresh();
 	}
-
 }

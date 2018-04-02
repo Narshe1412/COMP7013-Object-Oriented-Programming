@@ -18,6 +18,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import model.Patient;
+import model.Payment;
 import model.Procedure;
 
 public class ReportPatientsWindow extends Stage {
@@ -71,24 +72,22 @@ public class ReportPatientsWindow extends Stage {
 			procData += proc.toString() + "\n";
 		}
 		if (procData.trim().equalsIgnoreCase("")) {
-			procData += "There are no procedures registered onn the system. \n";
+			procData += "There are no procedures registered on the system. \n";
 		}
 		Text procDataTxt = new Text();
 		procDataTxt.setText(procData);
 
-		Text paymentTitle = new Text("\nList of Procedures: \n");
+		Text paymentTitle = new Text("\nList of Payments: \n");
 		paymentTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 20));
 
 		String paymentData = "";
-		List<Procedure> paymentList = AppData.INSTANCE.getProcedureList();
-		paymentList
-				.sort((Procedure a, Procedure b) -> a.getProcName().get().compareToIgnoreCase(b.getProcName().get()));
-
-		for (Procedure proc : paymentList) {
-			paymentData += proc.toString() + "\n";
+		List<Payment> paymentList = AppData.INSTANCE.getPaymentList();
+		
+		for (Payment payment : paymentList) {
+			paymentData += payment.toString() + "\n";
 		}
 		if (paymentData.trim().equalsIgnoreCase("")) {
-			paymentData += "There are no procedures registered onn the system. \n";
+			paymentData += "There are no payments registered onn the system. \n";
 		}
 		Text paymentDataTxt = new Text();
 		paymentDataTxt.setText(paymentData);

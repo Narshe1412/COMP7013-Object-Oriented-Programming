@@ -97,5 +97,14 @@ public enum AppData {
 	public void setProcedureList(List<Procedure> procedureList) {
 		this.procList = (ProcedureList) procedureList;
 	}
+	
+	private PaymentList paymentList;
+	public PaymentList getPaymentList() {
+		return paymentList;
+	}
+	
+	public void setPaymentList(List<Payment> paymentList) {
+		this.paymentList = (PaymentList) paymentList;
+	}
 
 }

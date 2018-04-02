@@ -21,19 +21,16 @@ public class Payment implements Serializable{
 	public Payment (final double amount) {
 		setPaymentAmt(amount);
 		setPaymentDate(new Date());
-		setPaymentID();
 	}
 	
 	public Payment (final double amount, final Date date) {
 		setPaymentAmt(amount);
 		setPaymentDate(date);
-		setPaymentID();
 	}
 	
 	public Payment (final double amount, final String date) {
 		setPaymentAmt(amount);
 		setPaymentDate(date);
-		setPaymentID();
 	}
 
 	public DoubleProperty getPaymentAmt() {
@@ -66,13 +63,14 @@ public class Payment implements Serializable{
 		return paymentID;
 	}
 
-	public void setPaymentID() {
-		this.paymentID = id;
-		id++;
+	public void setPaymentID(int id) {
+		/*this.paymentID = id;
+		id++;*/
+		this.paymentID =id;
 	}
 	
 	public String toString() {
-		return "Date: " +  getPaymentDate() + "\tTotal: " + getPaymentAmt().get() + " $";
+		return "Date: " +  getPaymentStringDate().get() + "\tTotal: " + getPaymentAmt().get() + " $";
 	}
 	
 	public void print() {

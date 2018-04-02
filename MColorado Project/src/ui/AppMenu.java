@@ -61,6 +61,10 @@ public class AppMenu extends MenuBar{
 			win.show();
 		});
 		MenuItem debtReportMenu = new MenuItem("Unpaid Invoices Report");
+		debtReportMenu.setOnAction(event -> {
+			ReportDebtWindow win = new ReportDebtWindow();
+			win.show();
+		});
 /*
  	    tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton instance of my tab pane?
 	    borderMenuItem.setOnAction(actionEvent -> new MySplitPane()); //or get a singleton instance of my tab pane?

@@ -40,11 +40,11 @@ public class Defaults {
 		payments.add(new Payment(11, new Date()));
 		payments.add(new Payment(23.7, "15/01/2017"));
 		
-		payments.add(new Payment(11));
+		payments.add(new Payment(11, "01/01/2016"));
 		payments.add(new Payment(11, "03/01/2017"));
 		payments.add(new Payment(23.7, "15/01/2017"));
 		
-		payments.add(new Payment(203));
+		payments.add(new Payment(203, "03/09/2017"));
 		payments.add(new Payment(11, "15/08/2017"));
 		payments.add(new Payment(23.7, "15/01/2017"));
 		

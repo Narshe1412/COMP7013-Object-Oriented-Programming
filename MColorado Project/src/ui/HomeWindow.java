@@ -39,10 +39,11 @@ public class HomeWindow extends Stage implements ReloadableNode{
 	    menuBar.prefWidthProperty().bind(Controller.getInstance().getStage().widthProperty());
 	    root.setTop(menuBar);
 */
-		//TODO temp
-	    root.setBottom(new Label("Welcome user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
+
 	    
-		
+	    
+	    root.setBottom(new Label("Logged as user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
+
 		Scene scene = new Scene(root, 640, 480);
 		setScene(scene);
 		setTitle("Boca bites™");

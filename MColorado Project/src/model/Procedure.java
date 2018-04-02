@@ -46,7 +46,7 @@ public class Procedure implements Serializable{
 	}
 	
 	public String toString() {
-		return "[" + getProcID() + "] " + getProcName() + " - " + getProcCost();
+		return getProcName().get() + "\tPrice: " + getProcCost().get() + " $";
 	}
 	
 	public void print() {

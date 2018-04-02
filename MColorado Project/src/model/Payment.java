@@ -72,7 +72,7 @@ public class Payment implements Serializable{
 	}
 	
 	public String toString() {
-		return "[" + getPaymentID() + "] Total: $" + getPaymentAmt() + " Date: " +  getPaymentDate();
+		return "Date: " +  getPaymentDate() + "\tTotal: " + getPaymentAmt().get() + " $";
 	}
 	
 	public void print() {

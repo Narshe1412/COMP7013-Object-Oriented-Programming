@@ -14,6 +14,7 @@ public class AppMenu extends MenuBar{
 		getMenus().addAll(
 				fileMenu(),
 				patientMenu(),
+				reportsMenu(),
 				adminMenu());
 	}
 	
@@ -42,16 +43,32 @@ public class AppMenu extends MenuBar{
 	private Menu patientMenu() {
 		Menu self = new Menu("Patient");
 		MenuItem findPatientMenu = new MenuItem("Find Patient...");
-		MenuItem editPatientMenu = new MenuItem("Edit Details...");
 /*
  	    tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton instance of my tab pane?
 	    borderMenuItem.setOnAction(actionEvent -> new MySplitPane()); //or get a singleton instance of my tab pane?
 	    exitMenuItem.setOnAction(actionEvent -> Platform.exit());
 */
 		self.getItems().addAll(
-				findPatientMenu,
-				new SeparatorMenuItem(),
-				editPatientMenu);
+				findPatientMenu);
+		return self;
+	}
+	
+	private Menu reportsMenu() {
+		Menu self = new Menu("Reports");
+		MenuItem patientsReportMenu = new MenuItem("Application Report");
+		patientsReportMenu.setOnAction(event -> {
+			ReportPatientsWindow win = new ReportPatientsWindow();
+			win.show();
+		});
+		MenuItem debtReportMenu = new MenuItem("Unpaid Invoices Report");
+/*
+ 	    tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton instance of my tab pane?
+	    borderMenuItem.setOnAction(actionEvent -> new MySplitPane()); //or get a singleton instance of my tab pane?
+	    exitMenuItem.setOnAction(actionEvent -> Platform.exit());
+*/
+		self.getItems().addAll(
+				patientsReportMenu,
+				debtReportMenu);
 		return self;
 	}
 	

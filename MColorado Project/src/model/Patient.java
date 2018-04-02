@@ -63,7 +63,7 @@ public class Patient extends Person {
 	}
 	
 	public String toString() {
-		return getName() + " Address: " + getAddress() + " Phone: " + getPhone();
+		return "Name: " + getName() + "\n\tAddress: " + getAddress() + "\tPhone: " + getPhone();
 	}
 
 

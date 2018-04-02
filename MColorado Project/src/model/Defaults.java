@@ -42,6 +42,8 @@ public class Defaults {
 	public static List<Patient> createPatient() {
 		patients = new PatientList();
 		patients.add(new Patient("John Doe", "23 My Street", "555-2323"));
+		patients.add(new Patient("Angela Doe", "Another Street", "111-333"));
+		patients.add(new Patient("Will Iam Shakesper", "Somewhere in London", "333-111-55"));
 		return patients;
 	}
 	

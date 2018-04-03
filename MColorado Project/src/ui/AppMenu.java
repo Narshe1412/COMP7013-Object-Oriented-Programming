@@ -8,8 +8,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 
 public class AppMenu extends MenuBar{
+	HomeWindow parent;
 	
-	public AppMenu() {
+	public AppMenu(HomeWindow homeWindow) {
+		this.parent = homeWindow;
 		//prefWidthProperty().bind(Controller.getInstance().getStage().widthProperty());
 	    //root.setTop(menuBar)
 		getMenus().addAll(

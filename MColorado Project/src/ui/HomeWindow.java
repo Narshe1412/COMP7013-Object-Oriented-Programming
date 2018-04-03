@@ -11,6 +11,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Invoice;
 
 public class HomeWindow extends Stage implements ReloadableNode{
@@ -32,7 +33,7 @@ public class HomeWindow extends Stage implements ReloadableNode{
 		});
 		root.setCenter(tabs);
 		
-		AppMenu menuBar = new AppMenu();
+		AppMenu menuBar = new AppMenu(this);
 		menuBar.prefWidthProperty().bind(root.widthProperty());
 	    root.setTop(menuBar);
 		/*MenuBar menuBar = new MenuBar();
@@ -49,8 +50,16 @@ public class HomeWindow extends Stage implements ReloadableNode{
 		setTitle("Boca bites™");
 		getIcons().add(new Image("/assets/smile.png"));
 		setResizable(false);
+		
+		setOnHiding(event -> onClose(event));
+		
 	};
 	
+	private Object onClose(WindowEvent event) {
+		System.out.println("closing down");
+		return null;
+	}
+
 	public void addNewTab(Tab t) {
 		tabs.getTabs().add(t);
 		tabs.getSelectionModel().select(t);

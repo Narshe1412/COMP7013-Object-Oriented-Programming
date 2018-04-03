@@ -1,25 +1,33 @@
 package persistence;
 
+import java.io.File;
+
 public class FileHandler extends FileController implements IDBManager {
 	private final String path;
 	
 	public FileHandler(final String path) {
 		this.path = path;
 	}
+	
+	@Override
+	public boolean exists() {
+		File file = new File(path);
+		return file.exists();
+	}
 
 	@Override
 	public void createDB() {
-		CreateFile(path);
+		createFile(path);
 	}
 
 	@Override
 	public Object loadDB() {
-		return LoadFile(path);
+		return loadFile(path);
 	}
 
 	@Override
 	public boolean saveDB(final Object database) {
-		return SaveFile(path, database);
+		return saveFile(path, database);
 	}
 
 }

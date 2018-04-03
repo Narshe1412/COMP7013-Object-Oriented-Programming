@@ -2,7 +2,8 @@ package persistence;
 
 public interface IDBManager {
 
-	void createDB();
-	Object loadDB();
-	boolean saveDB(Object database);
+	public void createDB();
+	public Object loadDB();
+	public boolean saveDB(Object database);
+	public boolean exists();
 }

@@ -1,15 +1,25 @@
 package application;
 
+import java.util.List;
+
 import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Defaults;
+import model.Dentist;
+import model.Invoice;
+import model.Patient;
+import model.Payment;
+import model.Procedure;
+import persistence.FileHandler;
+import persistence.IDBManager;
 import ui.HomeWindow;
-import ui.LoginWindow;
+import ui.InitialLoadWindow;
 
 public class Main extends Application {
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		/*BorderPane root = new BorderPane();
@@ -19,11 +29,8 @@ public class Main extends Application {
 		primaryStage.show();*/
 		
 		//TODO REMOVE AFTER TESTING
-		AppData.INSTANCE.setUserList(Defaults.createDentists());
-		AppData.INSTANCE.setPatientList(Defaults.createPatient());
-		AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
-		AppData.INSTANCE.setPaymentList(Defaults.createPayments());
-		AppData.INSTANCE.setInvoiceList(Defaults.createInvoice());
+		InitialLoadWindow loader = new InitialLoadWindow();
+		
 		
 		
 		AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));

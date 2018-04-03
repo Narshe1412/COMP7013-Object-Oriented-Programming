@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 
 public class FileController {
 
-	public void CreateFile(final String path) {
+	public final void createFile(final String path) {
 		File file = new File(path);
 
 		try {
@@ -25,7 +25,7 @@ public class FileController {
 		}
 	}
 
-	public Object LoadFile(final String path) {
+	public final Object loadFile(final String path) {
 		// Loads the file from path, and return the object that is stored
 		File file = new File(path);
 		Object loadedInfo = null;
@@ -52,7 +52,7 @@ public class FileController {
 		return loadedInfo;
 	}
 
-	public boolean SaveFile(final String path, final Object info) {
+	public final boolean saveFile(final String path, final Object info) {
 		// Saves the file to the path provided and returns true if successful
 		try {
 			File file = new File(path);

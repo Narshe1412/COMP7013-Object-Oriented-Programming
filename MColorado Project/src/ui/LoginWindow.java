@@ -111,6 +111,7 @@ public class LoginWindow extends Stage {
 							}
 							AppState.INSTANCE.setCurrentUser(user);
 							AppNavigation.setMainWindow(new HomeWindow());
+							AppNavigation.getMainWindow().show();
 							close();
 						} else {
 							errorMessage.setText("Wrong username or password.");

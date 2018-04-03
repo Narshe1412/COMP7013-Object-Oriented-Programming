@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javafx.stage.Stage;
@@ -100,4 +101,39 @@ public class AppNavigation {
 		IDBManager patientDB = new FileHandler("patient.dat");
 		patientDB.saveDB(AppData.INSTANCE.getPatientList());
 	}
+	
+	public static void saveConfig() {
+		Config toSave = new Config();
+		IDBManager configDB = new FileHandler("config.dat");
+		configDB.saveDB(toSave);
+	}
+	
+	public static void loadConfig() {
+		IDBManager configDB = new FileHandler("config.dat");
+		if (configDB.exists()) {
+			Config toLoad = (Config) configDB.loadDB();
+			toLoad.loadConfig();
+		} else {
+			new Config().loadConfig();
+		}
+	}
+	
+
+
 }
+
+class Config implements Serializable{
+	private static final long serialVersionUID = 1L;
+	Dentist defaultUser;
+
+	public Config() {
+		defaultUser = AppData.INSTANCE.getSavedUser();
+	}
+	
+	public void loadConfig() {
+		AppData.INSTANCE.setSavedUser(defaultUser);
+	}
+	
+}
+
+

@@ -30,7 +30,9 @@ public class InitialLoadWindow extends Stage{
 		setResizable(false);
 		setScene(scene);
 		show();
+		AppNavigation.loadConfig();
 		AppNavigation.loadState();
+		
 		
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2500), delay -> {
 			loadMain();
@@ -44,14 +46,13 @@ public class InitialLoadWindow extends Stage{
 	private void loadMain() {
 		AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));
 
-		
-		//TESTING HOME WINDOW
-		AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getUserList().get(0));
-		AppNavigation app = new AppNavigation(new HomeWindow());
-		app.showWindow();
-		
-		
-		//LoginWindow loginWindow = new LoginWindow();
-		//loginWindow.show();
+		if (AppData.INSTANCE.getSavedUser() == null) {
+			LoginWindow loginWindow = new LoginWindow();
+			loginWindow.show();
+		} else {
+			AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getSavedUser());
+			AppNavigation app = new AppNavigation(new HomeWindow());
+			app.showWindow();
+		}
 	}
 }

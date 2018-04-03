@@ -3,6 +3,7 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.AppNavigation;
 import controller.AppState;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -56,7 +57,7 @@ public class HomeWindow extends Stage implements ReloadableNode{
 	};
 	
 	private Object onClose(WindowEvent event) {
-		System.out.println("closing down");
+		AppNavigation.saveConfig();
 		return null;
 	}
 

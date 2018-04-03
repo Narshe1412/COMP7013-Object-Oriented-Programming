@@ -11,8 +11,8 @@ import javafx.beans.property.StringProperty;
 public class Procedure implements Serializable{
 	private static int id = 0;
 	private int procID;
-	private StringProperty procName;
-	private DoubleProperty procCost;
+	private String procName;
+	private double procCost;
 
 	public Procedure (final String name, final double cost) {
 		setProcName(name);
@@ -22,19 +22,19 @@ public class Procedure implements Serializable{
 	}
 	
 	public StringProperty getProcName() {
-		return procName;
+		return new SimpleStringProperty(procName);
 	}
 
 	public void setProcName(final String procName) {
-		this.procName = new SimpleStringProperty(procName);
+		this.procName = procName;
 	}
 
 	public DoubleProperty getProcCost() {
-		return procCost;
+		return new SimpleDoubleProperty(procCost);
 	}
 
 	public void setProcCost(final double procCost) {
-		this.procCost = new SimpleDoubleProperty(procCost);
+		this.procCost = procCost;
 	}
 
 	public int getProcID() {

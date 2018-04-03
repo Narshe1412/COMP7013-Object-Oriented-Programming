@@ -15,7 +15,7 @@ import javafx.beans.property.StringProperty;
 public class Payment implements Serializable{
 	private static int id = 0;
 	private int paymentID;
-	private DoubleProperty paymentAmt;
+	private double paymentAmt;
 	private Date paymentDate;
 	
 	public Payment (final double amount) {
@@ -34,11 +34,11 @@ public class Payment implements Serializable{
 	}
 
 	public DoubleProperty getPaymentAmt() {
-		return paymentAmt;
+		return new SimpleDoubleProperty(paymentAmt);
 	}
-
+	
 	public void setPaymentAmt(final double paymentAmt) {
-		this.paymentAmt = new SimpleDoubleProperty(paymentAmt);
+		this.paymentAmt = paymentAmt;
 	}
 
 	public Date getPaymentDate() {

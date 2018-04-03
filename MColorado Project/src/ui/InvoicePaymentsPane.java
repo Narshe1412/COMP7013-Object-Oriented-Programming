@@ -2,6 +2,7 @@ package ui;
 
 import java.util.Optional;
 
+import controller.AppData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -101,12 +102,11 @@ public class InvoicePaymentsPane extends Pane {
 	}
 
 	public void pay(Payment p) {
-		paymentList.add(p); // TODO review binding
+		// TODO review binding
+		AppData.INSTANCE.getPaymentList().add(p);
+		paymentList.add(p); 
 		invoice.addPayment(p);
-		System.out.println(paymentList);
-		System.out.println(invoice.getIn_paymentList());
 		invoice.calculateInvoicePaid();
-		System.out.println(invoice.isPaid() + " "+ invoice.getInvoiceAmt());
 		title.refresh();
 	}
 
@@ -114,11 +114,9 @@ public class InvoicePaymentsPane extends Pane {
 		Payment p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
 			int row = paymentList.indexOf(p);
+			AppData.INSTANCE.getPaymentList().remove(p);
 			paymentList.remove(p); // TODO review binding
 			invoice.removePayment(p);
-			System.out.println(paymentList);
-			System.out.println(invoice.getIn_paymentList());
-			System.out.println(invoice.isPaid());
 		}
 		title.refresh();
 	}

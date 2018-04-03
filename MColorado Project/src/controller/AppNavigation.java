@@ -43,9 +43,9 @@ public class AppNavigation {
 
 	}
 	
-
 	@SuppressWarnings("unchecked")
 	public static void loadState() throws Exception {
+		
 		IDBManager userDB = new FileHandler("user.dat");
 		if (userDB.exists()) {
 			AppData.INSTANCE.setUserList((List<Dentist>) userDB.loadDB());
@@ -53,12 +53,15 @@ public class AppNavigation {
 			AppData.INSTANCE.setUserList(Defaults.createDentists());
 		}
 		
+		
 		IDBManager patientDB = new FileHandler("patient.dat");
 		if (patientDB.exists()) {
 			AppData.INSTANCE.setPatientList((List<Patient>) patientDB.loadDB());
 		} else {
 			AppData.INSTANCE.setPatientList(Defaults.createPatient());
 		}
+		
+
 		
 		IDBManager procDB = new FileHandler("procedures.dat");
 		if (procDB.exists()) {
@@ -80,5 +83,21 @@ public class AppNavigation {
 		} else {
 			AppData.INSTANCE.setInvoiceList(Defaults.createInvoice());
 		}
+		
+
+		
+	}
+
+	public static void saveState() {
+		IDBManager userDB = new FileHandler("user.dat");
+		userDB.saveDB(AppData.INSTANCE.getUserList());
+		IDBManager procDB = new FileHandler("procedures.dat");
+		procDB.saveDB(AppData.INSTANCE.getProcedureList());
+		IDBManager paymentDB = new FileHandler("payments.dat");
+		paymentDB.saveDB(AppData.INSTANCE.getPaymentList());
+		IDBManager invoiceDB = new FileHandler("invoice.dat");
+		invoiceDB.saveDB(AppData.INSTANCE.getInvoiceList());
+		IDBManager patientDB = new FileHandler("patient.dat");
+		patientDB.saveDB(AppData.INSTANCE.getPatientList());
 	}
 }

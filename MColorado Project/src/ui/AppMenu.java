@@ -33,7 +33,10 @@ public class AppMenu extends MenuBar{
 		});
 		
 		MenuItem saveMenu = new MenuItem("Save DB...");
-		saveMenu.setDisable(true);
+		//saveMenu.setDisable(true);
+		saveMenu.setOnAction(event -> {
+			AppNavigation.saveState();
+		});
 		
 		MenuItem quitMenu = new MenuItem("Exit");
 		quitMenu.setOnAction(actionEvent -> Platform.exit());

@@ -9,15 +9,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		
-
 		InitialLoadWindow loader = new InitialLoadWindow();
-		
-		
-		
-
-
-
 
 	}
 
@@ -25,17 +17,3 @@ public class Main extends Application {
 		launch(args);
 	}
 }
-
-
-
-/*		LoginDialog login = new LoginDialog();
-Optional<Pair<String, String>> result = login.showAndWait();
-
-result.ifPresent(usernamePassword -> {
-    if(usernamePassword.getKey().equalsIgnoreCase("test") && usernamePassword.getValue().equalsIgnoreCase("test")) {
-    	
-		
-    } else {
-		System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
-	}
-});*/

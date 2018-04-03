@@ -1,60 +1,57 @@
 package ui;
 
-import java.util.List;
-
 import controller.AppData;
+import controller.AppNavigation;
+import controller.AppState;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Defaults;
-import model.Dentist;
-import model.Invoice;
-import model.Patient;
-import model.Payment;
-import model.Procedure;
-import persistence.FileHandler;
-import persistence.IDBManager;
 
 public class InitialLoadWindow extends Stage{
 
 	public InitialLoadWindow() throws Exception {
 		super();
-		loadState();
+		
+		BorderPane root = new BorderPane();
+		
+		root.setCenter(new ImageView("/assets/smile.png"));
+		root.setBottom(new Text("Loading Boca bites™ database"));
+		
+		Scene scene = new Scene(root, 400, 400);
+		
+		setTitle("Loading Boca bites™ ...");
+		getIcons().add(new Image("/assets/smile.png"));
+		setResizable(false);
+		setScene(scene);
+		show();
+		AppNavigation.loadState();
+		
+		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2500), delay -> {
+			loadMain();
+			close();
+		}));
+		timeline.play();
+		
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void loadState() throws Exception {
-		IDBManager userDB = new FileHandler("user.dat");
-		if (userDB.exists()) {
-			AppData.INSTANCE.setUserList((List<Dentist>) userDB.loadDB());
-		} else {
-			AppData.INSTANCE.setUserList(Defaults.createDentists());
-		}
+	
+	private void loadMain() {
+		AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));
+
 		
-		IDBManager patientDB = new FileHandler("patient.dat");
-		if (patientDB.exists()) {
-			AppData.INSTANCE.setPatientList((List<Patient>) patientDB.loadDB());
-		} else {
-			AppData.INSTANCE.setPatientList(Defaults.createPatient());
-		}
+		//TESTING HOME WINDOW
+		AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getUserList().get(0));
+		AppNavigation app = new AppNavigation(new HomeWindow());
+		app.showWindow();
 		
-		IDBManager procDB = new FileHandler("procedures.dat");
-		if (procDB.exists()) {
-			AppData.INSTANCE.setProcedureList((List<Procedure>) procDB.loadDB());
-		} else {
-			AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
-		}
 		
-		IDBManager paymentDB = new FileHandler("payments.dat");
-		if (paymentDB.exists()) {
-			AppData.INSTANCE.setPaymentList((List<Payment>) paymentDB.loadDB());
-		} else {
-			AppData.INSTANCE.setPaymentList(Defaults.createPayments());
-		}
-		
-		IDBManager invoiceDB = new FileHandler("invoice.dat");
-		if (invoiceDB.exists()) {
-			AppData.INSTANCE.setInvoiceList((List<Invoice>) invoiceDB.loadDB());
-		} else {
-			AppData.INSTANCE.setInvoiceList(Defaults.createInvoice());
-		}
+		//LoginWindow loginWindow = new LoginWindow();
+		//loginWindow.show();
 	}
 }

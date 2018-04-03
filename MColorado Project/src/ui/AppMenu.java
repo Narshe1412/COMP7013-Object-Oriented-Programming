@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppNavigation;
 import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -21,6 +22,13 @@ public class AppMenu extends MenuBar{
 	private Menu fileMenu() {
 		Menu self = new Menu("File");
 		MenuItem loadMenu = new MenuItem("Load DB...");
+		loadMenu.setOnAction(event -> {
+			try {
+				AppNavigation.loadState();
+			} catch (Exception e) {
+
+			}
+		});
 		
 		MenuItem saveMenu = new MenuItem("Save DB...");
 		saveMenu.setDisable(true);

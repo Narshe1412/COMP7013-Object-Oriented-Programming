@@ -13,6 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.Dentist;
 
@@ -48,10 +49,12 @@ public class ChangePasswordWindow extends Stage {
 
 		root.setCenter(textFields);
 
+		StackPane center = new StackPane();
 		Button btnSave = new Button("Save");
 		btnSave.setOnAction(event -> savePassword());
 		btnSave.setDefaultButton(true);
-		root.setBottom(btnSave);
+		center.getChildren().add(btnSave);
+		root.setBottom(center);
 
 		Scene scene = new Scene(root);
 		setScene(scene);

@@ -1,17 +1,14 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javafx.beans.property.SimpleDoubleProperty;
 /**
  * Default values for the system, for testing or initial load purposes
  * @author Manuel Colorado
  *
  */
 public class Defaults {
-	private static ArrayList<Procedure> procedures;
+	private static ProcedureList procedures;
 	private static List<Dentist> dentists;
 	private static List<Patient> patients;
 	private static List<Invoice> invoices;
@@ -20,15 +17,17 @@ public class Defaults {
 	public static List<Procedure> createProcedures() {
 
 		procedures = new ProcedureList();
-		procedures.add(new Procedure("Examination", 20));
-		procedures.add(new Procedure("Hygienist Scale and Polish", 60));
-		procedures.add(new Procedure("Root planing", 80));
-		procedures.add(new Procedure("Panoramic X-ray", 60));
-		procedures.add(new Procedure("Fillings", 80));
-		procedures.add(new Procedure("Root Canal Treatment", 400));
-		procedures.add(new Procedure("Crowns", 800));
-		procedures.add(new Procedure("Dentures", 450));
-		procedures.add(new Procedure("Teeth Whitening", 250));
+		procedures.addNew("Examination", 20);
+		procedures.addNew("Hygienist Scale and Polish", 60);
+		procedures.addNew("Root planing", 80);
+		procedures.addNew("Panoramic X-ray", 60);
+		procedures.addNew("Fillings", 80);
+		procedures.addNew("Root Canal Treatment", 400);
+		procedures.addNew("Crowns", 800);
+		procedures.addNew("Dentures", 450);
+		Procedure disabled = procedures.addNew("Disabled", 250);
+		disabled.setDisabled(true);
+		procedures.addNew("Teeth Whitening", 250);
 
 		return procedures;
 	}

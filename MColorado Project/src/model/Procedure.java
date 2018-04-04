@@ -13,10 +13,12 @@ public class Procedure implements Serializable{
 	private int procID;
 	private String procName;
 	private double procCost;
+	private boolean disabled;
 
 	public Procedure (final String name, final double cost) {
 		setProcName(name);
 		setProcCost(cost);
+		setDisabled(false);
 //		this.procID = id;
 //		id++;
 	}
@@ -51,5 +53,13 @@ public class Procedure implements Serializable{
 	
 	public void print() {
 		System.out.println(toString());
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 }

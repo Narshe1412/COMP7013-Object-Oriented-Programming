@@ -8,6 +8,7 @@ import controller.AppData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
@@ -25,7 +26,7 @@ import model.Payment;
 import model.Procedure;
 
 public class InvoiceProceduresPane extends Pane {
-	
+
 	private Button btnAddTreatment;
 	private Button btnRemoveTreatment;
 	private TableView<Procedure> table;
@@ -38,7 +39,7 @@ public class InvoiceProceduresPane extends Pane {
 		this.invoice = inv;
 		HBox root = new HBox(10);
 		root.setPadding(new Insets(10, 10, 10, 10));
-		
+
 		table = new TableView<Procedure>();
 		procList = FXCollections.observableArrayList(inv.getIn_procList());
 		table.setItems(procList);
@@ -50,38 +51,17 @@ public class InvoiceProceduresPane extends Pane {
 		colName.setCellValueFactory(data -> data.getValue().getProcName());
 		colName.setMinWidth(200);
 
-
 		table.getColumns().add(colName);
 		table.getColumns().add(colAmount);
 
-		
 		root.getChildren().add(table);
 		HBox.setHgrow(table, Priority.ALWAYS);
-		
+
 		VBox buttons = new VBox(10);
 		Button btnAddTreatment = new Button("Add Procedure");
 		btnAddTreatment.setMaxWidth(Double.MAX_VALUE);
-		btnAddTreatment.setOnAction(event -> {
-			List<String> choices = new ArrayList<>();
-			for (Procedure proc : AppData.INSTANCE.getProcedureList()) {
-				choices.add(proc.getProcName().get());
-			}
-			
-			ChoiceDialog<String> dialog = new ChoiceDialog<String>(choices.get(0), choices);
-			
-			dialog.setTitle("Add");
-			dialog.setHeaderText("Dental Procedures");
-			dialog.setContentText("Add a new treatment for this patient: ");
-			Stage icon = (Stage) dialog.getDialogPane().getScene().getWindow();
-			icon.getIcons().add(new Image(this.getClass().getResource("/assets/smile.png").toString()));
-			
-			// Traditional way to get the response value.
-			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(proc -> {
-				addProcedure(AppData.INSTANCE.getProcedureList().find(proc));
-			});
-		});
-		
+		btnAddTreatment.setOnAction(event -> onClickBtnAddProcedure());
+
 		Button btnRemoveTreatment = new Button("Remove Procedure");
 		btnRemoveTreatment.setMaxWidth(Double.MAX_VALUE);
 		btnRemoveTreatment.setOnAction(event -> deleteProcedure());
@@ -95,10 +75,9 @@ public class InvoiceProceduresPane extends Pane {
 		table.setMinWidth(350);
 		table.setMaxWidth(350);
 		getChildren().add(root);
-		
-		
+
 	}
-	
+
 	public void addProcedure(Procedure p) {
 		procList.add(p); // TODO review binding
 		invoice.addProcedure(p);
@@ -106,7 +85,7 @@ public class InvoiceProceduresPane extends Pane {
 		System.out.println(invoice.getIn_procList());
 		title.refresh();
 	}
-	
+
 	public void deleteProcedure() {
 		Procedure p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
@@ -118,5 +97,35 @@ public class InvoiceProceduresPane extends Pane {
 		}
 		title.refresh();
 	}
-}
 
+	public void onClickBtnAddProcedure() {
+
+		List<String> choices = new ArrayList<>();
+		for (Procedure proc : AppData.INSTANCE.getProcedureList()) {
+			if (!proc.isDisabled()) {
+				choices.add(proc.getProcName().get());
+			}
+		}
+		if (choices.size() > 0) {
+			ChoiceDialog<String> dialog = new ChoiceDialog<String>(choices.get(0), choices);
+
+			dialog.setTitle("Add");
+			dialog.setHeaderText("Dental Procedures");
+			dialog.setContentText("Add a new treatment for this patient: ");
+			Stage icon = (Stage) dialog.getDialogPane().getScene().getWindow();
+			icon.getIcons().add(new Image(this.getClass().getResource("/assets/smile.png").toString()));
+
+			// Traditional way to get the response value.
+			Optional<String> result = dialog.showAndWait();
+			result.ifPresent(proc -> {
+				addProcedure(AppData.INSTANCE.getProcedureList().find(proc));
+			});
+
+		} else {
+			AlertDialog alert = new AlertDialog(AlertType.WARNING, "No Procedures", null,
+					"There are no procedures registered in the system.");
+			alert.showAndWait();
+		}
+
+	}
+}

@@ -10,11 +10,11 @@ import javafx.scene.control.SeparatorMenuItem;
 
 public class AppMenu extends MenuBar {
 	HomeWindow parent;
+	ProcedureManagementWindow procMng;
 
 	public AppMenu(HomeWindow homeWindow) {
 		this.parent = homeWindow;
-		// prefWidthProperty().bind(Controller.getInstance().getStage().widthProperty());
-		// root.setTop(menuBar)
+		prefWidthProperty().bind(parent.widthProperty());
 		getMenus().addAll(fileMenu(), patientMenu(), reportsMenu(), adminMenu());
 	}
 
@@ -37,12 +37,6 @@ public class AppMenu extends MenuBar {
 
 		MenuItem quitMenu = new MenuItem("Exit");
 		quitMenu.setOnAction(actionEvent -> Platform.exit());
-		/*
-		 * tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton
-		 * instance of my tab pane? borderMenuItem.setOnAction(actionEvent -> new
-		 * MySplitPane()); //or get a singleton instance of my tab pane?
-		 * exitMenuItem.setOnAction(actionEvent -> Platform.exit());
-		 */
 		self.getItems().addAll(loadMenu, saveMenu, new SeparatorMenuItem(), quitMenu);
 		return self;
 	}
@@ -50,12 +44,6 @@ public class AppMenu extends MenuBar {
 	private Menu patientMenu() {
 		Menu self = new Menu("Patient");
 		MenuItem findPatientMenu = new MenuItem("Find Patient...");
-		/*
-		 * tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton
-		 * instance of my tab pane? borderMenuItem.setOnAction(actionEvent -> new
-		 * MySplitPane()); //or get a singleton instance of my tab pane?
-		 * exitMenuItem.setOnAction(actionEvent -> Platform.exit());
-		 */
 		self.getItems().addAll(findPatientMenu);
 		return self;
 	}
@@ -64,7 +52,7 @@ public class AppMenu extends MenuBar {
 		Menu self = new Menu("Reports");
 		MenuItem patientsReportMenu = new MenuItem("Application Report");
 		patientsReportMenu.setOnAction(event -> {
-			ReportPatientsWindow win = new ReportPatientsWindow();
+			ReportAppWindow win = new ReportAppWindow();
 			win.show();
 		});
 		MenuItem debtReportMenu = new MenuItem("Unpaid Invoices Report");
@@ -72,12 +60,6 @@ public class AppMenu extends MenuBar {
 			ReportDebtWindow win = new ReportDebtWindow();
 			win.show();
 		});
-		/*
-		 * tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton
-		 * instance of my tab pane? borderMenuItem.setOnAction(actionEvent -> new
-		 * MySplitPane()); //or get a singleton instance of my tab pane?
-		 * exitMenuItem.setOnAction(actionEvent -> Platform.exit());
-		 */
 		self.getItems().addAll(patientsReportMenu, debtReportMenu);
 		return self;
 	}
@@ -85,21 +67,27 @@ public class AppMenu extends MenuBar {
 	private Menu adminMenu() {
 		Menu self = new Menu("Admin");
 		MenuItem editProcedureMenu = new MenuItem("Manage Procedures...");
+		editProcedureMenu.setOnAction(event -> loadProcedureManagement());
 		MenuItem editStaffMenu = new MenuItem("Manage Staff...");
 		MenuItem changePasswordMenu = new MenuItem("Change Password...");
 		changePasswordMenu.setOnAction(event -> changePassword());
 		MenuItem logoutMenu = new MenuItem("Change User...");
 		logoutMenu.setOnAction(event -> logoutUser());
 
-		/*
-		 * tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton
-		 * instance of my tab pane? borderMenuItem.setOnAction(actionEvent -> new
-		 * MySplitPane()); //or get a singleton instance of my tab pane?
-		 * exitMenuItem.setOnAction(actionEvent -> Platform.exit());
-		 */
 		self.getItems().addAll(changePasswordMenu, logoutMenu, new SeparatorMenuItem(), editProcedureMenu,
 				editStaffMenu);
 		return self;
+	}
+
+	private void loadProcedureManagement() {
+		if (procMng == null) {
+			procMng = new ProcedureManagementWindow();
+			procMng.show();
+		} else {
+			procMng.show();
+			procMng.requestFocus();
+		}
+		
 	}
 
 	private void logoutUser() {

@@ -21,10 +21,10 @@ import model.Patient;
 import model.Payment;
 import model.Procedure;
 
-public class ReportPatientsWindow extends Stage {
+public class ReportAppWindow extends Stage {
 	
 
-	public ReportPatientsWindow() {
+	public ReportAppWindow() {
 		BorderPane root = new BorderPane();
 
 		TextFlow patientReport = getPatientReport();
@@ -69,7 +69,9 @@ public class ReportPatientsWindow extends Stage {
 				.sort((Procedure a, Procedure b) -> a.getProcName().get().compareToIgnoreCase(b.getProcName().get()));
 
 		for (Procedure proc : procedureList) {
-			procData += proc.toString() + "\n";
+			if(!proc.isDisabled()) {
+				procData += proc.toString() + "\n";
+			}
 		}
 		if (procData.trim().equalsIgnoreCase("")) {
 			procData += "There are no procedures registered on the system. \n";

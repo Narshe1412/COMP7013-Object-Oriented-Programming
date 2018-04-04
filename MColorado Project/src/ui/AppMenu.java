@@ -94,6 +94,7 @@ public class AppMenu extends MenuBar{
 		MenuItem editProcedureMenu = new MenuItem("Manage Procedures...");
 		MenuItem editStaffMenu = new MenuItem("Manage Staff...");
 		MenuItem changePasswordMenu = new MenuItem("Change Password...");
+		changePasswordMenu.setOnAction(event -> changePassword());
 /*
  	    tabMenuItem.setOnAction(actionEvent -> new MyTabPane()); //or get a singleton instance of my tab pane?
 	    borderMenuItem.setOnAction(actionEvent -> new MySplitPane()); //or get a singleton instance of my tab pane?
@@ -105,5 +106,10 @@ public class AppMenu extends MenuBar{
 				editProcedureMenu,
 				editStaffMenu);
 		return self;
+	}
+
+	private void changePassword() {
+		ChangePasswordWindow window = new ChangePasswordWindow();
+		window.show();	
 	}
 }

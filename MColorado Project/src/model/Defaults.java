@@ -54,8 +54,8 @@ public class Defaults {
 
 	public static List<Dentist> createDentists() throws Exception {
 		dentists = new DentistList();
-		dentists.add(new Dentist("admin", "admin"));
-		dentists.add(new Dentist("jdoe", "doe"));
+		dentists.add(new Dentist("admin", "admin123"));
+		dentists.add(new Dentist("jdoe", "12345678"));
 		return dentists;
 	}
 	

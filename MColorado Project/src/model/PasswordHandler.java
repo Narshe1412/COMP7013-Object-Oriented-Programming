@@ -4,6 +4,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import exception.PassException;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.Cipher;
 
 /**

@@ -3,10 +3,12 @@ package controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import model.*;
 import persistence.FileHandler;
 import persistence.IDBManager;
+import ui.CloseAlertDialog;
 
 public class AppNavigation {
 	private enum TypeOfChange {
@@ -46,6 +48,14 @@ public class AppNavigation {
 		// TODO Make sure that every time we load a new patient all the previous tabs
 		// are removed and the proper ones are added to the system
 
+	}
+	
+	public static void exitApp() {
+		if (AppState.INSTANCE.isModified()) {
+			CloseAlertDialog dialog = new CloseAlertDialog();
+		} else {
+			Platform.exit();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -103,6 +113,7 @@ public class AppNavigation {
 		invoiceDB.saveDB(AppData.INSTANCE.getInvoiceList());
 		IDBManager patientDB = new FileHandler("patient.dat");
 		patientDB.saveDB(AppData.INSTANCE.getPatientList());
+		AppState.INSTANCE.setModified(false);
 	}
 
 	public static void saveConfig() {

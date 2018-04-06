@@ -36,7 +36,7 @@ public class AppMenu extends MenuBar {
 		});
 
 		MenuItem quitMenu = new MenuItem("Exit");
-		quitMenu.setOnAction(actionEvent -> Platform.exit());
+		quitMenu.setOnAction(actionEvent -> AppNavigation.exitApp());
 		self.getItems().addAll(loadMenu, saveMenu, new SeparatorMenuItem(), quitMenu);
 		return self;
 	}

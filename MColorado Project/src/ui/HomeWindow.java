@@ -43,7 +43,7 @@ public class HomeWindow extends Stage implements ReloadableNode{
 */
 
 	    
-	    
+	    AppState.INSTANCE.setModified(true);
 	    root.setBottom(new Label("Logged as user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
 
 		Scene scene = new Scene(root, 640, 480);
@@ -52,13 +52,14 @@ public class HomeWindow extends Stage implements ReloadableNode{
 		getIcons().add(new Image("/assets/smile.png"));
 		setResizable(false);
 		
-		setOnHiding(event -> onClose(event));
+		setOnCloseRequest(event -> onClose(event));
 		
 	};
 	
-	private Object onClose(WindowEvent event) {
-		AppNavigation.saveConfig();
-		return null;
+	private void onClose(WindowEvent event) {
+		event.consume();
+		AppNavigation.exitApp();
+		
 	}
 
 	public void addNewTab(Tab t) {

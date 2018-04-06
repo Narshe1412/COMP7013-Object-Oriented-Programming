@@ -1,6 +1,7 @@
 package ui;
 
 import controller.AppData;
+import controller.AppState;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,17 +74,23 @@ public class ProcedureManagementWindow extends Stage{
 		if (p != null) {
 			procList.remove(p);
 			AppData.INSTANCE.getProcedureList().get(p.getProcID()).setDisabled(true);
+			AppState.INSTANCE.setModified(true);
+		    
 		}
 		
 	}
 
 	private void editProcedure() {
 		// TODO Auto-generated method stub
+		AppState.INSTANCE.setModified(true);
+	    
 	
 	}
 
 	private void addProcedure() {
 		// TODO Auto-generated method stub
+		AppState.INSTANCE.setModified(true);
+	    
 
 	}
 

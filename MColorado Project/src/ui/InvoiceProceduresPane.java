@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import controller.AppData;
+import controller.AppState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -84,6 +85,8 @@ public class InvoiceProceduresPane extends Pane {
 		System.out.println(procList);
 		System.out.println(invoice.getIn_procList());
 		title.refresh();
+		AppState.INSTANCE.setModified(true);
+	    
 	}
 
 	public void deleteProcedure() {
@@ -96,6 +99,8 @@ public class InvoiceProceduresPane extends Pane {
 			System.out.println(invoice.getIn_procList());
 		}
 		title.refresh();
+		AppState.INSTANCE.setModified(true);
+	    
 	}
 
 	public void onClickBtnAddProcedure() {

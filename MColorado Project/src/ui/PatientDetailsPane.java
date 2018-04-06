@@ -98,6 +98,8 @@ public class PatientDetailsPane extends Pane {
 			disableAll();
 			refreshUI();
 			parent.refreshUI();
+			AppState.INSTANCE.setModified(true);
+		    
 		});
 		/**
 		 * New button Workflow: Clicking the new button puts the UI in New mode 1.

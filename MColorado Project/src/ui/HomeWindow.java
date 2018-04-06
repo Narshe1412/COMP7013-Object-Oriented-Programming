@@ -43,7 +43,6 @@ public class HomeWindow extends Stage implements ReloadableNode{
 */
 
 	    
-	    AppState.INSTANCE.setModified(true);
 	    root.setBottom(new Label("Logged as user: " + AppState.INSTANCE.getCurrentUser().getUsername()));
 
 		Scene scene = new Scene(root, 640, 480);

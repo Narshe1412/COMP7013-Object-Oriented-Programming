@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import controller.AppData;
+import controller.AppState;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -136,6 +137,8 @@ public class InvoicePaymentsPane extends Pane {
 		invoice.addPayment(p);
 		invoice.calculateInvoicePaid();
 		title.refresh();
+		AppState.INSTANCE.setModified(true);
+	    
 	}
 
 	public void deletePayment() {
@@ -147,6 +150,8 @@ public class InvoicePaymentsPane extends Pane {
 			invoice.removePayment(p);
 		}
 		title.refresh();
+		AppState.INSTANCE.setModified(true);
+	    
 	}
 
 }

@@ -96,6 +96,8 @@ public class InvoiceControlsPane extends Pane {
 			Invoice i = AppData.INSTANCE.getInvoiceList().addNew();
 			AppState.INSTANCE.getCurrentPatient().addInvoice(i);
 			parent.addNewTab(new TabInvoice(i));
+			AppState.INSTANCE.setModified(true);
+		    
 		});
 		btnOpen = new Button("Open Invoice");
 		btnOpen.setOnAction(event -> {

@@ -96,7 +96,7 @@ public class AppMenu extends MenuBar {
 			InitialLoadWindow loader = new InitialLoadWindow();
 			parent.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			// TODO EXCEPTION
 			e.printStackTrace();
 		}
 

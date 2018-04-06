@@ -124,7 +124,7 @@ public class LoginWindow extends Stage {
 						txtPassword.requestFocus();
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					// TODO EXCEPTION
 					e.printStackTrace();
 				}
 			}

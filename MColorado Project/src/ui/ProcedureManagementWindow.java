@@ -81,14 +81,23 @@ public class ProcedureManagementWindow extends Stage{
 	}
 
 	private void editProcedure() {
-		// TODO Auto-generated method stub
+		Procedure p = table.getSelectionModel().getSelectedItem();
+		if ( p != null) {
+			int row = procList.indexOf(p);
+			int id = p.getProcID();
+			Procedure toEdit = AppData.INSTANCE.getProcedureList().get(id);
+			ProcedureDialog dialog = new ProcedureDialog(toEdit);
+			//dialog.getEdit();
+			procList.set(row, dialog.getEdit());
+		}
 		AppState.INSTANCE.setModified(true);
-	    
-	
 	}
 
 	private void addProcedure() {
-		// TODO Auto-generated method stub
+		ProcedureDialog dialog = new ProcedureDialog(null);
+		Procedure newProc = dialog.getEdit();
+		Procedure p = AppData.INSTANCE.getProcedureList().addNew(newProc.getProcName().get(), newProc.getProcCost().get());
+		procList.add(p);
 		AppState.INSTANCE.setModified(true);
 	    
 

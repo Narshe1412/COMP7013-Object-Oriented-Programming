@@ -84,7 +84,7 @@ public class ChangePasswordWindow extends Stage {
 				passWrong.showAndWait();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			// TODO EXCEPTION
 			e.printStackTrace();
 		}
 	}

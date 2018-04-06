@@ -115,10 +115,11 @@ public class Dentist extends Person {
 	 *            string that contains the password we want to check for a match
 	 * @return true if the password matches, false if it doesn't
 	 * @throws Exception
-	 *             throws exception if password cannot be decrypted
+	 *             throws exception if password cannot be encrypted
 	 */
 	public boolean verifyPassword(String password) throws Exception {
-		return password.equalsIgnoreCase(getPassword());
+		
+		return PasswordHandler.encrypt(password, sk).equalsIgnoreCase(this.password);
 	}
 
 	/**

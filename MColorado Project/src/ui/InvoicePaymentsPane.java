@@ -1,21 +1,25 @@
 package ui;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import controller.AppData;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import model.Invoice;
 import model.Payment;
 
@@ -57,39 +61,20 @@ public class InvoicePaymentsPane extends Pane {
 		btnAddPayment.setMaxWidth(Double.MAX_VALUE);
 		btnAddPayment.setOnAction(event -> {
 			if (invoice.isPaid()) {
-				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Invoice paid", null, "This invoice has already been paid. You cannot add more payments against it.");
+				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Invoice paid", null,
+						"This invoice has already been paid. You cannot add more payments against it.");
 				alert.showAndWait();
 			} else {
 				double remaining = invoice.calculateInvoiceAmt();
-				TextInputDialog dialog = new TextInputDialog(remaining + "");
-				dialog.setTitle("Add");
-				dialog.setHeaderText("Payments");
-				dialog.setContentText("How much the customer has paid? ");
-				Stage icon = (Stage) dialog.getDialogPane().getScene().getWindow();
-				icon.getIcons().add(new Image(this.getClass().getResource("/assets/smile.png").toString()));
-
-				// Traditional way to get the response value.
-				Optional<String> result = dialog.showAndWait();
-				result.ifPresent(e -> {
-					double amount = Double.parseDouble(result.get().trim());
-					if (amount > 0) {
-						if(amount <= remaining) {
-							pay(new Payment(amount));
-						} else {
-							AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Amount too big", null, "The amount introduced surpasses the remaining amount to be paid for this invoice.");
-							alert.showAndWait();
-						}
-							
-					}
-				});
+				showPaymentDialog(remaining);
 			}
 		});
 		Button btnRemovePayment = new Button("Delete");
 		btnRemovePayment.setMaxWidth(Double.MAX_VALUE);
 		btnRemovePayment.setOnAction(event -> {
-			deletePayment();	
-			//btnAddPayment.setDisable(invoice.isPaid());
-			});
+			deletePayment();
+			// btnAddPayment.setDisable(invoice.isPaid());
+		});
 
 		buttons.getChildren().add(btnAddPayment);
 		buttons.getChildren().add(btnRemovePayment);
@@ -101,10 +86,53 @@ public class InvoicePaymentsPane extends Pane {
 		getChildren().add(root);
 	}
 
+	private class PaymentData {
+		String value;
+		LocalDate date;
+
+		public PaymentData(String value, LocalDate date) {
+			this.value = value;
+			this.date = date;
+		}
+	}
+
+	private void showPaymentDialog(double remaining) {
+		Dialog<PaymentData> payDialog = new Dialog<>();
+		payDialog.setTitle("Add Payment");
+		payDialog.setHeaderText("Please specify payment amount and date");
+		DialogPane dialogPane = payDialog.getDialogPane();
+		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+		TextField textField = new TextField(remaining + "");
+		DatePicker datePicker = new DatePicker(LocalDate.now());
+
+		dialogPane.setContent(new VBox(10, textField, datePicker));
+		Platform.runLater(textField::requestFocus);
+		payDialog.setResultConverter((ButtonType button) -> {
+			if (button == ButtonType.OK) {
+				return new PaymentData(textField.getText(), datePicker.getValue());
+			}
+			return null;
+		});
+		Optional<PaymentData> result = payDialog.showAndWait();
+		result.ifPresent((PaymentData results) -> {
+			double amount = Double.parseDouble(results.value.trim());
+			if (amount > 0) {
+				if (amount <= remaining) {
+					pay(new Payment(amount, results.date));
+				} else {
+					AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Amount too big", null,
+							"The amount introduced surpasses the remaining amount to be paid for this invoice.");
+					alert.showAndWait();
+				}
+
+			}
+		});
+	}
+
 	public void pay(Payment p) {
 		// TODO review binding
 		AppData.INSTANCE.getPaymentList().add(p);
-		paymentList.add(p); 
+		paymentList.add(p);
 		invoice.addPayment(p);
 		invoice.calculateInvoicePaid();
 		title.refresh();
@@ -120,4 +148,5 @@ public class InvoicePaymentsPane extends Pane {
 		}
 		title.refresh();
 	}
+
 }

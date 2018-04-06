@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javafx.beans.property.DoubleProperty;
@@ -31,6 +33,11 @@ public class Payment implements Serializable{
 	public Payment (final double amount, final String date) {
 		setPaymentAmt(amount);
 		setPaymentDate(date);
+	}
+
+	public Payment(double amount, LocalDate date) {
+		setPaymentAmt(amount);
+		setPaymentDate(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 	}
 
 	public DoubleProperty getPaymentAmt() {

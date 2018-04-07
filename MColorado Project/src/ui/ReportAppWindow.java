@@ -3,6 +3,7 @@ package ui;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import controller.AppData;
 import javafx.geometry.Insets;
@@ -48,7 +49,7 @@ public class ReportAppWindow extends Stage {
 
 		String patientData = "";
 
-		List<Patient> patientList = AppData.INSTANCE.getPatientList();
+		List<Patient> patientList = AppData.INSTANCE.getPatientList().stream().collect(Collectors.toList());
 		patientList.sort((Patient a, Patient b) -> a.getName().compareToIgnoreCase(b.getName()));
 
 		for (Patient p : patientList) {
@@ -64,7 +65,7 @@ public class ReportAppWindow extends Stage {
 		procedureTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 20));
 
 		String procData = "";
-		List<Procedure> procedureList = AppData.INSTANCE.getProcedureList();
+		List<Procedure> procedureList = AppData.INSTANCE.getProcedureList().stream().collect(Collectors.toList());
 		procedureList
 				.sort((Procedure a, Procedure b) -> a.getProcName().get().compareToIgnoreCase(b.getProcName().get()));
 
@@ -83,7 +84,7 @@ public class ReportAppWindow extends Stage {
 		paymentTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 20));
 
 		String paymentData = "";
-		List<Payment> paymentList = AppData.INSTANCE.getPaymentList();
+		List<Payment> paymentList = AppData.INSTANCE.getPaymentList().stream().collect(Collectors.toList());
 		
 		for (Payment payment : paymentList) {
 			paymentData += payment.toString() + "\n";

@@ -3,6 +3,7 @@ package ui;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import controller.AppData;
 import javafx.geometry.Insets;
@@ -47,7 +48,7 @@ public class ReportDebtWindow extends Stage {
 
 		String patientData = "";
 
-		List<Patient> patientList = AppData.INSTANCE.getPatientList();
+		List<Patient> patientList = AppData.INSTANCE.getPatientList().stream().collect(Collectors.toList());
 		patientList.sort((Patient a, Patient b) -> (int) (b.getRemainingInvoiceValue() - a.getRemainingInvoiceValue()));
 
 		for (Patient p : patientList) {

@@ -54,6 +54,7 @@ public class ReportAppWindow extends Stage {
 
 		for (Patient p : patientList) {
 			patientData += p.toString() + "\n";
+			
 		}
 		if (patientData.trim().equalsIgnoreCase("")) {
 			patientData += "There are no patients registered on the system.\n";

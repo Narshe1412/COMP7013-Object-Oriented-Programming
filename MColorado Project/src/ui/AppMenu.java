@@ -51,8 +51,13 @@ public class AppMenu extends MenuBar {
 
 	private Menu reportsMenu() {
 		Menu self = new Menu("Reports");
-		MenuItem patientsReportMenu = new MenuItem("Application Report");
+		MenuItem patientsReportMenu = new MenuItem("Patients Full Report");
 		patientsReportMenu.setOnAction(event -> {
+			ReportPatientWindow win = new ReportPatientWindow();
+			win.show();
+		});
+		MenuItem appReportMenu = new MenuItem("Full Application Report");
+		appReportMenu.setOnAction(event -> {
 			ReportAppWindow win = new ReportAppWindow();
 			win.show();
 		});
@@ -61,7 +66,7 @@ public class AppMenu extends MenuBar {
 			ReportDebtWindow win = new ReportDebtWindow();
 			win.show();
 		});
-		self.getItems().addAll(patientsReportMenu, debtReportMenu);
+		self.getItems().addAll(patientsReportMenu, appReportMenu, debtReportMenu);
 		return self;
 	}
 

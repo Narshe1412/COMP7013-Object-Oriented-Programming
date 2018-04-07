@@ -11,6 +11,7 @@ import javafx.scene.control.SeparatorMenuItem;
 public class AppMenu extends MenuBar {
 	HomeWindow parent;
 	ProcedureManagementWindow procMng;
+	UserManagementWindow userMng;
 
 	public AppMenu(HomeWindow homeWindow) {
 		this.parent = homeWindow;
@@ -68,7 +69,8 @@ public class AppMenu extends MenuBar {
 		Menu self = new Menu("Admin");
 		MenuItem editProcedureMenu = new MenuItem("Manage Procedures...");
 		editProcedureMenu.setOnAction(event -> loadProcedureManagement());
-		MenuItem editStaffMenu = new MenuItem("Manage Staff...");
+		MenuItem editStaffMenu = new MenuItem("Manage Users...");
+		editStaffMenu.setOnAction(event -> loadUserManagement());
 		MenuItem changePasswordMenu = new MenuItem("Change Password...");
 		changePasswordMenu.setOnAction(event -> changePassword());
 		MenuItem logoutMenu = new MenuItem("Change User...");
@@ -77,6 +79,16 @@ public class AppMenu extends MenuBar {
 		self.getItems().addAll(changePasswordMenu, logoutMenu, new SeparatorMenuItem(), editProcedureMenu,
 				editStaffMenu);
 		return self;
+	}
+
+	private void loadUserManagement() {
+		if (userMng == null) {
+			userMng = new UserManagementWindow();
+			userMng.show();
+		} else {
+			userMng.show();
+			userMng.requestFocus();
+		}
 	}
 
 	private void loadProcedureManagement() {
@@ -93,6 +105,7 @@ public class AppMenu extends MenuBar {
 	private void logoutUser() {
 		try {
 			AppData.INSTANCE.setSavedUser(null);
+			AppNavigation.saveConfig();
 			InitialLoadWindow loader = new InitialLoadWindow();
 			parent.close();
 		} catch (Exception e) {

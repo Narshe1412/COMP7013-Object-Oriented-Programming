@@ -13,10 +13,6 @@ import model.Procedure;
 
 public class ProcedureDialog extends Dialog<Procedure> {
 
-	private enum DialogType {
-		ADD, EDIT
-	};
-
 	TextField procName;
 	TextField procCost;
 	Procedure toEdit;

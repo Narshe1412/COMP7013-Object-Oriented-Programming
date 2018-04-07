@@ -3,9 +3,11 @@ package ui;
 import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -110,6 +112,16 @@ public class LoginWindow extends Stage {
 								AppData.INSTANCE.setSavedUser(user);
 							}
 							AppState.INSTANCE.setCurrentUser(user);
+							// If user is eligible for password reset
+							if (user.verifyPassword("1111")) {
+								ChangePasswordWindow window = new ChangePasswordWindow();
+								window.showAndWait();
+								if (user.verifyPassword("1111")) {
+									AlertDialog alert = new AlertDialog(AlertType.ERROR, "Critical Error", "Password reset not completed", "You cannot continue with an insecure password. The application will now close");
+									alert.showAndWait();
+									Platform.exit();
+								}
+							}
 							AppNavigation.setMainWindow(new HomeWindow());
 							AppNavigation.getMainWindow().show();
 							close();

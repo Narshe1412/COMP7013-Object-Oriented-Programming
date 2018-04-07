@@ -33,4 +33,11 @@ public class DentistList extends ArrayList<Dentist> implements Serializable{
 		}
 		return null;
 	}
+
+	public Dentist addNew(Dentist pDentist) {
+		if(add(pDentist)) {
+			return pDentist;
+		}
+		return null;
+	}
 }

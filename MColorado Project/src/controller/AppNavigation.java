@@ -51,6 +51,7 @@ public class AppNavigation {
 	}
 	
 	public static void exitApp() {
+		saveConfig();
 		if (AppState.INSTANCE.isModified()) {
 			CloseAlertDialog dialog = new CloseAlertDialog();
 		} else {

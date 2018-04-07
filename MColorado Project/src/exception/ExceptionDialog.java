@@ -1,4 +1,4 @@
-package ui;
+package exception;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -32,7 +32,5 @@ public class ExceptionDialog extends Alert{
 
 		// Set expandable Exception into the dialog pane.
 		getDialogPane().setExpandableContent(expContent);
-
 	}
-//	alert.showAndWait()
 }

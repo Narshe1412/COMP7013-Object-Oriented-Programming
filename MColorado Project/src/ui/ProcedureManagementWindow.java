@@ -72,10 +72,9 @@ public class ProcedureManagementWindow extends Stage{
 	private void deleteProcedure() {
 		Procedure p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
-			procList.remove(p);
 			AppData.INSTANCE.getProcedureList().get(p.getProcID()).setDisabled(true);
-			AppState.INSTANCE.setModified(true);
-		    
+			procList.remove(p);
+			AppState.INSTANCE.setModified(true);   
 		}
 		
 	}
@@ -87,7 +86,6 @@ public class ProcedureManagementWindow extends Stage{
 			int id = p.getProcID();
 			Procedure toEdit = AppData.INSTANCE.getProcedureList().get(id);
 			ProcedureDialog dialog = new ProcedureDialog(toEdit);
-			//dialog.getEdit();
 			procList.set(row, dialog.getEdit());
 		}
 		AppState.INSTANCE.setModified(true);
@@ -96,11 +94,7 @@ public class ProcedureManagementWindow extends Stage{
 	private void addProcedure() {
 		ProcedureDialog dialog = new ProcedureDialog(null);
 		Procedure newProc = dialog.getEdit();
-		Procedure p = AppData.INSTANCE.getProcedureList().addNew(newProc.getProcName().get(), newProc.getProcCost().get());
-		procList.add(p);
+		procList.add(newProc);
 		AppState.INSTANCE.setModified(true);
-	    
-
 	}
-
 }

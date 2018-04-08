@@ -9,27 +9,28 @@ import model.*;
 import persistence.FileHandler;
 import persistence.IDBManager;
 import ui.CloseAlertDialog;
+import ui.ReloadableNode;
 
 public class AppNavigation {
 	private enum TypeOfChange {
 		USER_CHANGED, PATIENT_CHANGED, INVOICE_ADDED
 	}
 
-	private static Stage app;
+	private static ReloadableNode app;
 
-	public AppNavigation(Stage app) {
-		setMainWindow(app);
+	public AppNavigation(ReloadableNode window) {
+		setMainWindow(window);
 	}
 
-	public void showWindow() {
-		app.show();
+	public static void showWindow() {
+		((Stage) app).show();
 	}
 
-	public static void setMainWindow(Stage newWindow) {
-		app = newWindow;
+	public static void setMainWindow(ReloadableNode window) {
+		app = window;
 	}
 
-	public static Stage getMainWindow() {
+	public static ReloadableNode getMainWindow() {
 		return app;
 	}
 
@@ -43,10 +44,22 @@ public class AppNavigation {
 		AppState.INSTANCE.setCurrentPatient(newPatient);
 		refreshUI(TypeOfChange.PATIENT_CHANGED);
 	}
+	
+	public static void loadPatient(Patient pPatient) {
+		AppState.INSTANCE.setCurrentPatient(pPatient);
+		System.out.println("loaded " + pPatient);
+		refreshUI(TypeOfChange.PATIENT_CHANGED);
+	}
+
+	public static void clearPatient() {
+		AppState.INSTANCE.setCurrentPatient(null);
+		refreshUI(TypeOfChange.PATIENT_CHANGED);
+	}
 
 	public static void refreshUI(TypeOfChange change) {
 		// TODO Make sure that every time we load a new patient all the previous tabs
 		// are removed and the proper ones are added to the system
+		app.refreshUI();
 
 	}
 	
@@ -133,15 +146,7 @@ public class AppNavigation {
 		}
 	}
 
-	public static void loadPatient(Patient byId) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	public static void clearPatient() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
 

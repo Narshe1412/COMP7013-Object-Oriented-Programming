@@ -123,7 +123,7 @@ public class LoginWindow extends Stage {
 								}
 							}
 							AppNavigation.setMainWindow(new HomeWindow());
-							AppNavigation.getMainWindow().show();
+							AppNavigation.showWindow();
 							close();
 						} else {
 							errorMessage.setText("Wrong username or password.");

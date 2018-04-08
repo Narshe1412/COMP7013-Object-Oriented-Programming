@@ -21,11 +21,11 @@ public class InitialLoadWindow extends Stage{
 		BorderPane root = new BorderPane();
 		
 		root.setCenter(new ImageView("/assets/smile.png"));
-		root.setBottom(new Text("Loading Boca bites™ database"));
+		root.setBottom(new Text("Loading Boca bitesï¿½ database"));
 		
 		Scene scene = new Scene(root, 400, 400);
 		
-		setTitle("Loading Boca bites™ ...");
+		setTitle("Loading Boca bitesï¿½ ...");
 		getIcons().add(new Image("/assets/smile.png"));
 		setResizable(false);
 		setScene(scene);
@@ -44,15 +44,15 @@ public class InitialLoadWindow extends Stage{
 	
 	
 	private void loadMain() {
-		AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));
-
+		//AppState.INSTANCE.setCurrentPatient(AppData.INSTANCE.getPatientList().get(0));
+		
 		if (AppData.INSTANCE.getSavedUser() == null) {
 			LoginWindow loginWindow = new LoginWindow();
 			loginWindow.show();
 		} else {
 			AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getSavedUser());
-			AppNavigation app = new AppNavigation(new HomeWindow());
-			app.showWindow();
+			AppNavigation.setMainWindow(new HomeWindow());
+			AppNavigation.showWindow();
 		}
 	}
 }

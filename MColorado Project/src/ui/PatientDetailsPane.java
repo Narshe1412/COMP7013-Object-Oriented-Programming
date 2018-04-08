@@ -88,7 +88,7 @@ public class PatientDetailsPane extends Pane {
 		btnSave = new Button("Save");
 		btnSave.setOnAction(event -> {
 			if (AppState.INSTANCE.getCurrentPatient() == null) {
-				Patient p = AppData.INSTANCE.getPatientList().add(getTxtName(), getTxtAddress(), getTxtPhone());
+				Patient p = AppData.INSTANCE.getPatientList().addNew(getTxtName(), getTxtAddress(), getTxtPhone());
 				AppNavigation.updatePatient(p);
 			} else {
 				AppData.INSTANCE.getPatientList().updateById(getTxtId(), getTxtName(), getTxtAddress(), getTxtPhone());
@@ -175,6 +175,7 @@ public class PatientDetailsPane extends Pane {
 	public void refreshUI() {
 
 		loadPatientDetails(AppState.INSTANCE.getCurrentPatient());
+		
 	}
 
 	/**

@@ -49,7 +49,7 @@ public class PatientList extends ArrayList<Patient> implements Serializable {
 	 *            String that represents the phone of the patient
 	 * @return the reference to the patient already in the list
 	 */
-	public Patient add(final String name, final String address, final String phone) {
+	public Patient addNew(final String name, final String address, final String phone) {
 		Patient p = new Patient(name, address, phone);
 		super.add(p);
 		p.setPatientNo(indexOf(p));

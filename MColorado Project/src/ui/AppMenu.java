@@ -9,9 +9,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 
 public class AppMenu extends MenuBar {
-	HomeWindow parent;
-	ProcedureManagementWindow procMng;
-	UserManagementWindow userMng;
+	private HomeWindow parent;
+	private ProcedureManagementWindow procMng;
+	private UserManagementWindow userMng;
+	private PatientManagementWindow patMng;
 
 	public AppMenu(HomeWindow homeWindow) {
 		this.parent = homeWindow;
@@ -45,9 +46,13 @@ public class AppMenu extends MenuBar {
 	private Menu patientMenu() {
 		Menu self = new Menu("Patient");
 		MenuItem findPatientMenu = new MenuItem("Find Patient...");
-		self.getItems().addAll(findPatientMenu);
+		MenuItem patientMgtMenu = new MenuItem("Manage Patients");
+		patientMgtMenu.setOnAction(event -> loadPatientWindow());
+		self.getItems().addAll(findPatientMenu, patientMgtMenu);
 		return self;
 	}
+
+
 
 	private Menu reportsMenu() {
 		Menu self = new Menu("Reports");
@@ -105,6 +110,16 @@ public class AppMenu extends MenuBar {
 			procMng.requestFocus();
 		}
 		
+	}
+	
+	private void loadPatientWindow() {
+		if (patMng == null) {
+			patMng = new PatientManagementWindow();
+			patMng.show();
+		} else {
+			patMng.show();
+			patMng.requestFocus();
+		}
 	}
 
 	private void logoutUser() {

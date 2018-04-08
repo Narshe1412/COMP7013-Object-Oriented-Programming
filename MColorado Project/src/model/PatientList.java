@@ -125,4 +125,13 @@ public class PatientList extends ArrayList<Patient> implements Serializable {
 		}
 		return result;
 	}
+
+	public Patient getById(int patientNo) {
+		for (Patient p: this) {
+			if (p.getPatientNo() == patientNo) {
+				return p;
+			}
+		}
+		return null;
+	}
 }

@@ -133,6 +133,16 @@ public class AppNavigation {
 		}
 	}
 
+	public static void loadPatient(Patient byId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void clearPatient() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 class Config implements Serializable {

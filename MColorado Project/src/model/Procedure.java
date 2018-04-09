@@ -9,7 +9,7 @@ import javafx.beans.property.StringProperty;
 
 @SuppressWarnings("serial")
 public class Procedure implements Serializable{
-	private static int id = 0;
+	//private static int id = 0;
 	private int procID;
 	private String procName;
 	private double procCost;

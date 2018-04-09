@@ -15,7 +15,7 @@ import javafx.beans.property.StringProperty;
 
 @SuppressWarnings("serial")
 public class Payment implements Serializable{
-	private static int id = 0;
+	//private static int id = 0;
 	private int paymentID;
 	private double paymentAmt;
 	private Date paymentDate;

@@ -6,7 +6,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Patient extends Person {
-	private static int id = 0;
+	//private static int id = 0;
 	private int patientNo;
 	private final List<Invoice> p_invoiceList;
 

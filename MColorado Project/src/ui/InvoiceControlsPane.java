@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import controller.AppData;
-import controller.AppNavigation;
 import controller.AppState;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,7 +23,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Invoice;
-import model.Procedure;
 
 public class InvoiceControlsPane extends Pane {
 	private HomeWindow parent;

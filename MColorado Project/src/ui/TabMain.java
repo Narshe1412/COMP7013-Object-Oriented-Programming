@@ -2,10 +2,10 @@ package ui;
 
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
-import javafx.stage.Stage;
 
 class TabMain extends Tab implements ReloadableNode{
 	
+	@SuppressWarnings("unused")
 	private HomeWindow parent;
 	private PatientDetailsPane details;
 	private InvoiceControlsPane invoices;

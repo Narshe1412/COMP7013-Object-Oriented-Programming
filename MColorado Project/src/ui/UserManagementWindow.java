@@ -4,7 +4,6 @@ import controller.AppData;
 import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +18,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Dentist;
-import model.Procedure;
 
 public class UserManagementWindow extends Stage {
 

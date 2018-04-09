@@ -30,6 +30,7 @@ public class PatientDetailsPane extends Pane {
 	private Button btnNew;
 	private Button btnEdit;
 	private Button btnCancel;
+	@SuppressWarnings("unused")
 	private HomeWindow parent;
 
 	public PatientDetailsPane(HomeWindow parent) {

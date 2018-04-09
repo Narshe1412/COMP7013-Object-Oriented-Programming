@@ -12,7 +12,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Invoice implements Serializable{
 
-	private static int id = 0;
+	//private static int id = 0;
 	private int invoiceID;
 	private double invoiceAmt;
 	private Date invoiceDate;

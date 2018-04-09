@@ -10,6 +10,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExcepHandler());
+		@SuppressWarnings("unused")
 		InitialLoadWindow loader = new InitialLoadWindow();
 
 	}

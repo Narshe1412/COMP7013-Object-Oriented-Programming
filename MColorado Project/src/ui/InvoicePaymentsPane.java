@@ -26,8 +26,8 @@ import model.Payment;
 
 public class InvoicePaymentsPane extends Pane {
 
-	private Button btnAddPayment;
-	private Button btnRemovePayment;
+	@SuppressWarnings("unused")
+	private Button btnAddPayment, btnRemovePayment;
 	private TableView<Payment> table;
 	private ObservableList<Payment> paymentList;
 	private InvoiceTitlePane title;
@@ -144,6 +144,7 @@ public class InvoicePaymentsPane extends Pane {
 	public void deletePayment() {
 		Payment p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
+			@SuppressWarnings("unused")
 			int row = paymentList.indexOf(p);
 			AppData.INSTANCE.getPaymentList().remove(p);
 			paymentList.remove(p); // TODO review binding

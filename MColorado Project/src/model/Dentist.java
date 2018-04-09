@@ -105,6 +105,7 @@ public class Dentist extends Person {
 	 * @throws Exception
 	 *             if password cannot be decrypted
 	 */
+	@SuppressWarnings("unused")
 	private String getPassword() throws Exception {
 		return PasswordHandler.decrypt(password, sk);
 	}

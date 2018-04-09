@@ -5,7 +5,6 @@ import java.io.IOException;
 import controller.AppData;
 import controller.AppNavigation;
 import exception.ExceptionDialog;
-import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -129,7 +128,7 @@ public class AppMenu extends MenuBar {
 		try {
 			AppData.INSTANCE.setSavedUser(null);
 			AppNavigation.saveConfig();
-			InitialLoadWindow loader = new InitialLoadWindow();
+			new InitialLoadWindow();
 			parent.close();
 		} catch (IOException e) {
 			ExceptionDialog exwin = new ExceptionDialog("I/O Error", "There was a problem saving application config file.", e );

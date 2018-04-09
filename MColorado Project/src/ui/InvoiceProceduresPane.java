@@ -12,10 +12,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -23,13 +21,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Invoice;
-import model.Payment;
 import model.Procedure;
 
 public class InvoiceProceduresPane extends Pane {
 
-	private Button btnAddTreatment;
-	private Button btnRemoveTreatment;
+	@SuppressWarnings("unused")
+	private Button btnAddTreatment, btnRemoveTreatment;
 	private TableView<Procedure> table;
 	private ObservableList<Procedure> procList;
 	private Invoice invoice;
@@ -45,7 +42,7 @@ public class InvoiceProceduresPane extends Pane {
 		procList = FXCollections.observableArrayList(inv.getIn_procList());
 		table.setItems(procList);
 
-		TableColumn<Procedure, Double> colAmount = new TableColumn<Procedure, Double>("Amount (€)");
+		TableColumn<Procedure, Double> colAmount = new TableColumn<Procedure, Double>("Amount (ï¿½)");
 		colAmount.setCellValueFactory(data -> data.getValue().getProcCost().asObject());
 		colAmount.setMinWidth(120);
 		TableColumn<Procedure, String> colName = new TableColumn<Procedure, String>("Type of Procedure");
@@ -92,6 +89,7 @@ public class InvoiceProceduresPane extends Pane {
 	public void deleteProcedure() {
 		Procedure p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
+			@SuppressWarnings("unused")
 			int row = procList.indexOf(p);
 			procList.remove(p); // TODO review binding
 			invoice.removeProcedure(p);

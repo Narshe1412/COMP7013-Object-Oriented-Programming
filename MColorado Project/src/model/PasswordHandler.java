@@ -5,7 +5,6 @@ import javax.crypto.spec.SecretKeySpec;
 import exception.ExceptionDialog;
 import exception.PassException;
 
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 

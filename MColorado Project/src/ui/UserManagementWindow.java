@@ -2,6 +2,8 @@ package ui;
 
 import controller.AppData;
 import controller.AppState;
+import exception.ExceptionDialog;
+import exception.PassException;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -76,11 +78,12 @@ public class UserManagementWindow extends Stage {
 			try {
 				AppData.INSTANCE.getUserList().find(d.getUsername()).setPassword("1111");
 				AlertDialog alert = new AlertDialog(AlertType.CONFIRMATION, "Password reset",
-						"The password has been reset for user " + d.getUsername(), "New temporary password is \"1111\"");
+						"The password has been reset for user " + d.getUsername(),
+						"New temporary password is \"1111\"");
 				alert.showAndWait();
-			} catch (Exception e) {
-				// TODO EXCEPTION
-				e.printStackTrace();
+			} catch (PassException e) {
+				ExceptionDialog exWin = new ExceptionDialog("Critical Error", "Unable to reset user password.", e);
+				exWin.show();
 			}
 
 		}

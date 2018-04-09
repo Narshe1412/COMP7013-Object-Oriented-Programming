@@ -1,5 +1,7 @@
 package model;
 
+import exception.PassException;
+
 @SuppressWarnings("serial")
 /**
  * 
@@ -59,7 +61,7 @@ public class Dentist extends Person {
 	 *             throws exception if password cannot be hashed
 	 */
 	public Dentist(final String name, final String address, final String phone, final String username,
-			final String password) throws Exception {
+			final String password) throws PassException {
 		super(name, address, phone);
 		setUsername(username);
 		setPassword(password);
@@ -92,7 +94,7 @@ public class Dentist extends Person {
 	 * @throws Exception
 	 *             throws exception if password cannot be hashed
 	 */
-	public void setPassword(final String password) throws Exception {
+	public void setPassword(final String password) throws PassException {
 		this.password = PasswordHandler.encrypt(password, sk);
 	}
 
@@ -117,7 +119,7 @@ public class Dentist extends Person {
 	 * @throws Exception
 	 *             throws exception if password cannot be encrypted
 	 */
-	public boolean verifyPassword(String password) throws Exception {
+	public boolean verifyPassword(String password) throws PassException {
 		
 		return PasswordHandler.encrypt(password, sk).equalsIgnoreCase(this.password);
 	}

@@ -3,6 +3,8 @@ package ui;
 import java.util.Optional;
 
 import controller.AppData;
+import exception.ExceptionDialog;
+import exception.PassException;
 import javafx.application.Platform;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -55,9 +57,9 @@ public class UserDialog extends Dialog<Dentist> {
 						alert.showAndWait();
 					}
 
-				} catch (Exception e) {
-					// TODO EXCEPTION
-					e.printStackTrace();
+				} catch (PassException e) {
+					ExceptionDialog exWin = new ExceptionDialog("Critical Error","There was a problem creating the new user.",e);
+					exWin.show();
 				}
 			}
 			return null;

@@ -1,7 +1,10 @@
 package ui;
 
+import java.io.IOException;
+
 import controller.AppData;
 import controller.AppNavigation;
+import exception.ExceptionDialog;
 import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -128,9 +131,12 @@ public class AppMenu extends MenuBar {
 			AppNavigation.saveConfig();
 			InitialLoadWindow loader = new InitialLoadWindow();
 			parent.close();
+		} catch (IOException e) {
+			ExceptionDialog exwin = new ExceptionDialog("I/O Error", "There was a problem saving application config file.", e );
+			exwin.show();
 		} catch (Exception e) {
-			// TODO EXCEPTION
-			e.printStackTrace();
+			ExceptionDialog exwin = new ExceptionDialog("Critical error", "There was an unexpected error handling application window", e);
+			exwin.show();
 		}
 
 	}

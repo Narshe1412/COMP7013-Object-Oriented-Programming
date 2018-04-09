@@ -2,11 +2,17 @@ package model;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import exception.ExceptionDialog;
 import exception.PassException;
 
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 /**
  * 
@@ -29,7 +35,7 @@ public class PasswordHandler {
 	 * @return a hashed encrypted string of text using the algorithm
 	 * @throws Exception
 	 */
-	public static String encrypt(String strClearText, String strKey) throws Exception {
+	public static String encrypt(String strClearText, String strKey) throws PassException {
 		String strData = "";
 
 		try {
@@ -39,8 +45,19 @@ public class PasswordHandler {
 			byte[] encrypted = cipher.doFinal(strClearText.getBytes());
 			strData = new String(encrypted);
 
+		} catch (NoSuchAlgorithmException e) {
+			ExceptionDialog exWin = new ExceptionDialog("Critical Error",
+					"There was a problem with the encryption algorithm.", e);
+			exWin.show();
+		} catch (BadPaddingException | NoSuchPaddingException | IllegalBlockSizeException e) {
+			ExceptionDialog exWin = new ExceptionDialog("Critical Error",
+					"The hashed password is corrupted or was unable to be saved.", e);
+			exWin.show();
+		} catch (InvalidKeyException e) {
+			ExceptionDialog exWin = new ExceptionDialog("Critical Error",
+					"The encryption key provided does not match the one provided to decrypt.", e);
+			exWin.show();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new PassException("Fatal: Encryption problem during password handling.");
 		}
 		return strData;
@@ -58,7 +75,7 @@ public class PasswordHandler {
 	 * @return a decrypted string of text using the same parameters used to encrypt
 	 * @throws Exception
 	 */
-	public static String decrypt(String strEncrypted, String strKey) throws Exception {
+	public static String decrypt(String strEncrypted, String strKey) throws PassException {
 		String strData = "";
 
 		try {
@@ -68,9 +85,20 @@ public class PasswordHandler {
 			byte[] decrypted = cipher.doFinal(strEncrypted.getBytes());
 			strData = new String(decrypted);
 
+		} catch (NoSuchAlgorithmException e) {
+			ExceptionDialog exWin = new ExceptionDialog("Critical Error",
+					"There was a problem with the encryption algorithm.", e);
+			exWin.show();
+		} catch (BadPaddingException | NoSuchPaddingException | IllegalBlockSizeException e) {
+			ExceptionDialog exWin = new ExceptionDialog("Critical Error",
+					"The hashed password is corrupted or was unable to be loaded.", e);
+			exWin.show();
+		} catch (InvalidKeyException e) {
+			ExceptionDialog exWin = new ExceptionDialog("Critical Error",
+					"The encryption key provided does not match the one provided to decrypt.", e);
+			exWin.show();
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new PassException("There was a problem checking your password.");
+			throw new PassException("Fatal: Encryption problem during password handling.");
 		}
 		return strData;
 	}

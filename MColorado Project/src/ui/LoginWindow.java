@@ -3,6 +3,8 @@ package ui;
 import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
+import exception.ExceptionDialog;
+import exception.PassException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -135,9 +137,9 @@ public class LoginWindow extends Stage {
 						txtPassword.setText("");
 						txtPassword.requestFocus();
 					}
-				} catch (Exception e) {
-					// TODO EXCEPTION
-					e.printStackTrace();
+				} catch (PassException e) {
+					ExceptionDialog exWin = new ExceptionDialog("Critical error", "Unable to load password from the system.", e);
+					exWin.show();
 				}
 			}
 		});

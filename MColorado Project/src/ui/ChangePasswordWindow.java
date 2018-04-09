@@ -3,6 +3,8 @@ package ui;
 import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
+import exception.ExceptionDialog;
+import exception.PassException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -51,7 +53,14 @@ public class ChangePasswordWindow extends Stage {
 
 		StackPane center = new StackPane();
 		Button btnSave = new Button("Save");
-		btnSave.setOnAction(event -> savePassword());
+		btnSave.setOnAction(event -> {
+			try {
+				savePassword();
+			} catch (PassException e) {
+				ExceptionDialog exWin = new ExceptionDialog("Critical Error", "Error when saving and encrypting the new password.", e);
+				exWin.show();
+			}
+		});
 		btnSave.setDefaultButton(true);
 		center.getChildren().add(btnSave);
 		root.setBottom(center);
@@ -63,29 +72,24 @@ public class ChangePasswordWindow extends Stage {
 		setResizable(false);
 	}
 
-	private void savePassword() {
+	private void savePassword() throws PassException {
 		Dentist user = AppState.INSTANCE.getCurrentUser();
 
-		try {
-			if (user.verifyPassword(txtOldPassword.getText().trim())) {
-				if (txtNewPassword.getText().trim().equals(txtRepeatPassword.getText().trim())) {
-					user.setPassword(txtNewPassword.getText().trim());
-					AppData.INSTANCE.setSavedUser(null); // Password cleared
-					AppNavigation.saveUsers();
-					close();
-				} else {
-					AlertDialog passMismatch = new AlertDialog(AlertType.ERROR, "Wrong Details", "Password mismatch",
-							"The new password introduced does not match.");
-					passMismatch.showAndWait();
-				}
+		if (user.verifyPassword(txtOldPassword.getText().trim())) {
+			if (txtNewPassword.getText().trim().equals(txtRepeatPassword.getText().trim())) {
+				user.setPassword(txtNewPassword.getText().trim());
+				AppData.INSTANCE.setSavedUser(null); // Password cleared
+				AppNavigation.saveUsers();
+				close();
 			} else {
-				AlertDialog passWrong = new AlertDialog(AlertType.ERROR, "Wrong Details", "Wrong password",
-						"The old password is incorrect.");
-				passWrong.showAndWait();
+				AlertDialog passMismatch = new AlertDialog(AlertType.ERROR, "Wrong Details", "Password mismatch",
+						"The new password introduced does not match.");
+				passMismatch.showAndWait();
 			}
-		} catch (Exception e) {
-			// TODO EXCEPTION
-			e.printStackTrace();
+		} else {
+			AlertDialog passWrong = new AlertDialog(AlertType.ERROR, "Wrong Details", "Wrong password",
+					"The old password is incorrect.");
+			passWrong.showAndWait();
 		}
 	}
 }

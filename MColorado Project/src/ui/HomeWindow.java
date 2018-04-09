@@ -57,8 +57,7 @@ public class HomeWindow extends Stage implements ReloadableNode{
 	
 	private void onClose(WindowEvent event) {
 		event.consume();
-		AppNavigation.exitApp();
-		
+		AppNavigation.exitApp();	
 	}
 
 	public void addNewTab(Tab t) {

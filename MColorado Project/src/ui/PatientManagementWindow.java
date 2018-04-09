@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Invoice;
 import model.Patient;
 
@@ -28,8 +29,10 @@ public class PatientManagementWindow extends Stage {
 
 	private ObservableList<Patient> patientList;
 	private TableView<Patient> table;
+	private AppMenu parent;
 
-	public PatientManagementWindow() {
+	public PatientManagementWindow(AppMenu parent) {
+		this.parent = parent;
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10));
 
@@ -48,11 +51,15 @@ public class PatientManagementWindow extends Stage {
 		table.getColumns().add(colName);
 		table.getColumns().add(colAddress);
 		table.getColumns().add(colPhone);
+		
+		table.setOnMouseClicked(event -> openPatient());
 
 		root.setCenter(table);
 
 		VBox buttons = new VBox(10);
 		buttons.setPadding(new Insets(10));
+		Button btnFilter = new Button("Filter");
+		btnFilter.setOnAction(event -> filterPatient());
 		Button btnOpen = new Button("Open");
 		btnOpen.setOnAction(event -> openPatient());
 		Button btnDelete = new Button("Delete");
@@ -66,6 +73,17 @@ public class PatientManagementWindow extends Stage {
 		setScene(scene);
 		setTitle("User Management");
 		getIcons().add(new Image("/assets/smile.png"));
+		setOnCloseRequest(event -> onClose(event));
+	}
+
+	private void filterPatient() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void onClose(WindowEvent event) {
+		event.consume();
+		parent.unloadPatientWindow();
 	}
 
 	private void openPatient() {
@@ -73,7 +91,7 @@ public class PatientManagementWindow extends Stage {
 		if (p != null) {
 			AppNavigation.loadPatient(AppData.INSTANCE.getPatientList().getById(p.getPatientNo()));
 		}
-		this.hide();
+		parent.unloadPatientWindow();
 	}
 
 	private void deletePatient() {

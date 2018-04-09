@@ -48,9 +48,8 @@ public class AppMenu extends MenuBar {
 	private Menu patientMenu() {
 		Menu self = new Menu("Patient");
 		MenuItem findPatientMenu = new MenuItem("Find Patient...");
-		MenuItem patientMgtMenu = new MenuItem("Manage Patients");
-		patientMgtMenu.setOnAction(event -> loadPatientWindow());
-		self.getItems().addAll(findPatientMenu, patientMgtMenu);
+		findPatientMenu.setOnAction(event -> loadPatientWindow());
+		self.getItems().addAll(findPatientMenu);
 		return self;
 	}
 
@@ -95,33 +94,47 @@ public class AppMenu extends MenuBar {
 
 	private void loadUserManagement() {
 		if (userMng == null) {
-			userMng = new UserManagementWindow();
+			userMng = new UserManagementWindow(this);
 			userMng.show();
 		} else {
 			userMng.show();
 			userMng.requestFocus();
 		}
 	}
+	
+	public void unloadUserManagement() {
+		userMng.close();
+		userMng = null;
+	}
 
 	private void loadProcedureManagement() {
 		if (procMng == null) {
-			procMng = new ProcedureManagementWindow();
+			procMng = new ProcedureManagementWindow(this);
 			procMng.show();
 		} else {
 			procMng.show();
 			procMng.requestFocus();
 		}
-		
+	}
+	
+	public void unloadProcedureManagement() {
+		procMng.close();
+		procMng = null;
 	}
 	
 	private void loadPatientWindow() {
 		if (patMng == null) {
-			patMng = new PatientManagementWindow();
+			patMng = new PatientManagementWindow(this);
 			patMng.show();
 		} else {
 			patMng.show();
 			patMng.requestFocus();
 		}
+	}
+	
+	public void unloadPatientWindow() {
+		patMng.close();
+		patMng = null;
 	}
 
 	private void logoutUser() {

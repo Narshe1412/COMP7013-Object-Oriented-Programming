@@ -17,14 +17,17 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Dentist;
 
 public class UserManagementWindow extends Stage {
 
 	private ObservableList<Dentist> userList;
 	private TableView<Dentist> table;
+	private AppMenu parent;
 
-	public UserManagementWindow() {
+	public UserManagementWindow(AppMenu parent) {
+		this.parent = parent;
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10));
 
@@ -68,6 +71,12 @@ public class UserManagementWindow extends Stage {
 		setScene(scene);
 		setTitle("User Management");
 		getIcons().add(new Image("/assets/smile.png"));
+		setOnCloseRequest(event -> onClose(event));
+	}
+
+	private void onClose(WindowEvent event) {
+		event.consume();
+		parent.unloadUserManagement();
 	}
 
 	private void resetUserPassword() {

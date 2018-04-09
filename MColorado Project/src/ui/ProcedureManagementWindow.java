@@ -14,14 +14,17 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Procedure;
 
 public class ProcedureManagementWindow extends Stage{
 	
 	private ObservableList<Procedure> procList;
 	private TableView<Procedure> table;
+	private AppMenu parent;
 
-	public ProcedureManagementWindow() {
+	public ProcedureManagementWindow(AppMenu parent) {
+		this.parent = parent;
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10));
 		
@@ -38,7 +41,7 @@ public class ProcedureManagementWindow extends Stage{
 		TableColumn<Procedure, Integer> colID = new TableColumn<Procedure, Integer>("Id");
 		colID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getProcID()).asObject());
 
-		TableColumn<Procedure, Double> colAmount = new TableColumn<Procedure, Double>("Amount (€)");
+		TableColumn<Procedure, Double> colAmount = new TableColumn<Procedure, Double>("Amount (ï¿½)");
 		colAmount.setCellValueFactory(data -> data.getValue().getProcCost().asObject());
 		colAmount.setMinWidth(120);
 		TableColumn<Procedure, String> colName = new TableColumn<Procedure, String>("Type of Procedure");
@@ -67,6 +70,13 @@ public class ProcedureManagementWindow extends Stage{
 		setScene(scene);
 		setTitle("Procedure Management");
 		getIcons().add(new Image("/assets/smile.png"));
+		
+		setOnCloseRequest(event -> onClose(event));
+	}
+
+	private void onClose(WindowEvent event) {
+		event.consume();
+		parent.unloadProcedureManagement();
 	}
 
 	private void deleteProcedure() {

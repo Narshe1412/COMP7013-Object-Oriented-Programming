@@ -47,7 +47,6 @@ public class AppNavigation {
 	
 	public static void loadPatient(Patient pPatient) {
 		AppState.INSTANCE.setCurrentPatient(pPatient);
-		System.out.println("loaded " + pPatient);
 		refreshUI(TypeOfChange.PATIENT_CHANGED);
 	}
 
@@ -57,10 +56,7 @@ public class AppNavigation {
 	}
 
 	public static void refreshUI(TypeOfChange change) {
-		// TODO Make sure that every time we load a new patient all the previous tabs
-		// are removed and the proper ones are added to the system
 		app.refreshUI();
-
 	}
 	
 	public static void exitApp() {

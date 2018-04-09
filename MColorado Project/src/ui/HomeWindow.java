@@ -47,7 +47,7 @@ public class HomeWindow extends Stage implements ReloadableNode{
 
 		Scene scene = new Scene(root, 640, 480);
 		setScene(scene);
-		setTitle("Boca bites™");
+		setTitle("Boca bitesâ„¢");
 		getIcons().add(new Image("/assets/smile.png"));
 		setResizable(false);
 		

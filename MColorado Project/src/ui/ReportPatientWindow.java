@@ -1,7 +1,5 @@
-//TODO Refactoring
 package ui;
 
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,8 +22,17 @@ import model.Patient;
 import model.Payment;
 import model.Procedure;
 
+/**
+ * Creates a new window that will produce a report
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class ReportPatientWindow extends Stage {
 
+	/**
+	 * Constructor
+	 */
 	public ReportPatientWindow() {
 		BorderPane root = new BorderPane();
 
@@ -41,19 +48,27 @@ public class ReportPatientWindow extends Stage {
 		getIcons().add(new Image("/assets/smile.png"));
 	}
 
+	/**
+	 * Creates a report with all the patient details
+	 * 
+	 * @return a TextFlow object with all the report already generated
+	 */
 	private TextFlow getPatientReport() {
 
 		TextFlow result = new TextFlow();
 
+		/** Patient Section */
 		Text patientTitle = new Text("List of Patients: \n");
 		patientTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 20));
 		patientTitle.setUnderline(true);
 		result.getChildren().add(patientTitle);
 
 		if (AppData.INSTANCE.getPatientList().isEmpty()) {
+			// Fallback if no patients were registered on the system
 			Text empty = new Text("No patients have been registered in the system.\n");
 			result.getChildren().add(empty);
 		} else {
+			// Creates a copy of the patientList and orders them by name
 			List<Patient> patientList = AppData.INSTANCE.getPatientList().stream().collect(Collectors.toList());
 			patientList.sort((Patient a, Patient b) -> a.getName().compareToIgnoreCase(b.getName()));
 
@@ -69,7 +84,7 @@ public class ReportPatientWindow extends Stage {
 				patientData += p.toString() + "\n";
 				patientDataTxt = new Text(patientData);
 				patientDataTxt.setFont(Font.font("Calibri", FontWeight.BLACK, 16));
-				result.getChildren().addAll(new Text("\n"),patientDataTxt);
+				result.getChildren().addAll(new Text("\n"), patientDataTxt);
 
 				procedureTitle = new Text("Procedures: \n");
 				procedureTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 13));
@@ -79,15 +94,20 @@ public class ReportPatientWindow extends Stage {
 				String procData = "";
 				String paymentData = "";
 
+				/** Invoices section */
 				if (p.getP_invoiceList().isEmpty()) {
+					// Fallback if this patient has no invoices
 					result.getChildren().add(new Text("This patient doesn't have any invoices yet.\n"));
 				} else {
 					for (Invoice i : p.getP_invoiceList()) {
 						invoiceTitle = new Text("Invoice no. " + i.getInvoiceID() + "\n");
 						invoiceTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 14));
-						if (i.getIn_paymentList().isEmpty()) {
+
+						/** List of Procedures */
+						if (i.getIn_procList().isEmpty()) {
 							procData += "No procedures added to this bill. \n";
 						} else {
+							// Copies the list of procedures and orders them by name
 							List<Procedure> procedureList = i.getIn_procList().stream().collect(Collectors.toList());
 							procedureList.sort((Procedure a, Procedure b) -> a.getProcName().get()
 									.compareToIgnoreCase(b.getProcName().get()));
@@ -95,11 +115,13 @@ public class ReportPatientWindow extends Stage {
 								procData += proc.toString() + "\n";
 							}
 						}
+
+						/** List of Payments */
 						if (i.getIn_paymentList().isEmpty()) {
+							// Fallback if no payments are in the system
 							paymentData += "There are no payments against this invoice.\n";
 						} else {
 							List<Payment> paymentList = i.getIn_paymentList().stream().collect(Collectors.toList());
-
 							for (Payment payment : paymentList) {
 								paymentData += payment.toString() + "\n";
 							}
@@ -111,20 +133,15 @@ public class ReportPatientWindow extends Stage {
 							paymentDataTxt);
 				}
 			}
-
 		}
 
+		/** Date the report was generated */
 		Text txtDate = new Text("\n\nReport generated on: " + new Date() + "\n");
 		txtDate.setFont(Font.font("Consolas", FontWeight.THIN, FontPosture.ITALIC, 10));
 		txtDate.setTextAlignment(TextAlignment.RIGHT);
 		result.getChildren().add(txtDate);
-		return result;
-	}
 
-	class ByName implements Comparator<Patient> {
-		@Override
-		public int compare(Patient a, Patient b) {
-			return a.getName().compareToIgnoreCase(b.getName());
-		}
+		/** Returns the full TextFlow */
+		return result;
 	}
 }

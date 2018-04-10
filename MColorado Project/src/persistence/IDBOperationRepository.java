@@ -1,13 +1,24 @@
-//TODO Refactoring
+
 package persistence;
 
+/**
+ * Interface that implements CRUD operations for the system
+ * 
+ * @author Manuel Colorado
+ *
+ * @param <T>
+ *            The model Object that will be used for the operation
+ */
 public interface IDBOperationRepository<T> {
-	
-	// Implements CRUD operations
+
 	boolean add(T contents);
+
 	Iterable<T> getByID(int id);
+
 	Iterable<T> getAll();
+
 	boolean update(T contents);
+
 	boolean remove(T contents);
 
 }

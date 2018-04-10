@@ -1,4 +1,5 @@
 //TODO Refactoring
+//TODO Progress bar animation
 package ui;
 
 import controller.AppData;

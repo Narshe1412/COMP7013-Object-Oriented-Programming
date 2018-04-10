@@ -86,15 +86,8 @@ public class ChangePasswordWindow extends Stage {
 
 		// Verify that the old password string is between 8 and 16 characters
 		if (!Validator.stringValidator(oldPass, 8, 16)) {
-			txtOldPassword.setTooltip(new Tooltip("Password needs to be between 8 and 16 characters"));
-			txtOldPassword.setStyle("-fx-border-color: red; -fx-border-width: 1px ;");
-			txtOldPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-				if (!oldValue.equals(newValue) && Validator.stringValidator(newValue, 8, 16)) {
-					txtOldPassword.setStyle("-fx-border-color: green ; -fx-border-width: 1px ;");
-				} else {
-					txtOldPassword.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
-				}
-			});
+			Validator.setStringValidation(oldPass, 8, 16, txtOldPassword,
+					"Password needs to be between 8 and 16 characters");
 		} else {
 			try {
 				// Verify if the old password matches the one in the database
@@ -115,28 +108,13 @@ public class ChangePasswordWindow extends Stage {
 					} else {
 						// Add styling to fields that are not between 8 and 16
 						if (!Validator.stringValidator(newPass, 8, 16)) {
-							txtNewPassword.setTooltip(new Tooltip("Password needs to be between 8 and 16 characters"));
-							txtNewPassword.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
-							txtNewPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-								if (!oldValue.equals(newValue) && Validator.stringValidator(newValue, 8, 16)) {
-									txtNewPassword.setStyle("-fx-border-color: green ; -fx-border-width: 1px ;");
-								} else {
-									txtNewPassword.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
-								}
-							});
+							Validator.setStringValidation(newPass, 8, 16, txtNewPassword,
+									"Password needs to be between 8 and 16 characters");
 						}
 
 						if (!Validator.stringValidator(repeatPass, 8, 16)) {
-							txtRepeatPassword
-									.setTooltip(new Tooltip("Password needs to be between 8 and 16 characters"));
-							txtRepeatPassword.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
-							txtRepeatPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-								if (!oldValue.equals(newValue) && Validator.stringValidator(newValue, 8, 16)) {
-									txtRepeatPassword.setStyle("-fx-border-color: green ; -fx-border-width: 1px ;");
-								} else {
-									txtRepeatPassword.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
-								}
-							});
+							Validator.setStringValidation(repeatPass, 8, 16, txtRepeatPassword,
+									"Password needs to be between 8 and 16 characters");
 						}
 					}
 

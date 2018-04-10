@@ -19,7 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Dentist;
+
 /**
+ * Creates a window to manage the users of the system
  * 
  * @author Manuel Colorado
  *
@@ -30,6 +32,12 @@ public class UserManagementWindow extends Stage {
 	private TableView<Dentist> table;
 	private AppMenu parent;
 
+	/**
+	 * Creates the window to manage the users of the system
+	 * 
+	 * @param parent
+	 *            Parent window passed as parameter to call methods on the parent
+	 */
 	public UserManagementWindow(AppMenu parent) {
 		this.parent = parent;
 		BorderPane root = new BorderPane();
@@ -78,29 +86,45 @@ public class UserManagementWindow extends Stage {
 		setOnCloseRequest(event -> onClose(event));
 	}
 
+	/**
+	 * Captures the window close event to prevent the default close and use the
+	 * custom one
+	 * 
+	 * @param event
+	 *            the OnCloseRequest event to be handled
+	 */
 	private void onClose(WindowEvent event) {
+		// Prevents the default close event
 		event.consume();
+		// Calls the custom close event
 		parent.unloadUserManagement();
 	}
 
+	/**
+	 * Resets the current user password by setting it to 11111111, this value will
+	 * be captured in the login window forcing the user to reset his password
+	 */
 	private void resetUserPassword() {
 		Dentist d = table.getSelectionModel().getSelectedItem();
 		if (d != null) {
 			try {
-				AppData.INSTANCE.getUserList().find(d.getUsername()).setPassword("1111");
+				AppData.INSTANCE.getUserList().find(d.getUsername()).setPassword("11111111");
+				// Warns the user the password has been reset and what's the temporary password
 				AlertDialog alert = new AlertDialog(AlertType.CONFIRMATION, "Password reset",
 						"The password has been reset for user " + d.getUsername(),
-						"New temporary password is \"1111\"");
+						"New temporary password is \"11111111\"");
 				alert.showAndWait();
 			} catch (PassException e) {
 				ExceptionDialog exWin = new ExceptionDialog("Critical Error", "Unable to reset user password.", e);
 				exWin.show();
 			}
-
 		}
-
 	}
 
+	/**
+	 * Deletes the selected user from the system. Won't proceed if the user to be
+	 * deleted is the current user logged in the system
+	 */
 	private void deleteUser() {
 		Dentist d = table.getSelectionModel().getSelectedItem();
 		if (d != null) {
@@ -116,6 +140,9 @@ public class UserManagementWindow extends Stage {
 		}
 	}
 
+	/**
+	 * Edits the selected user by calling a instance of the UserDialog object
+	 */
 	private void editUser() {
 		Dentist d = table.getSelectionModel().getSelectedItem();
 		if (d != null) {
@@ -128,11 +155,16 @@ public class UserManagementWindow extends Stage {
 		AppState.INSTANCE.setModified(true);
 	}
 
+	/**
+	 * Adds a new user to the system by calling an instance of the UserDialog object
+	 */
 	private void addUser() {
 		UserDialog dialog = new UserDialog(null);
 		Dentist dentist = dialog.getEdit();
-		userList.add(dentist);
-		AppState.INSTANCE.setModified(true);
+		if (dentist != null) {
+			userList.add(dentist);
+			AppState.INSTANCE.setModified(true);
+		}
 	}
 
 }

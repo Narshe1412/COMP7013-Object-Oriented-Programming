@@ -116,10 +116,10 @@ public class LoginWindow extends Stage {
 							}
 							AppState.INSTANCE.setCurrentUser(user);
 							// If user is eligible for password reset
-							if (user.verifyPassword("1111")) {
+							if (user.verifyPassword("11111111")) {
 								ChangePasswordWindow window = new ChangePasswordWindow();
 								window.showAndWait();
-								if (user.verifyPassword("1111")) {
+								if (user.verifyPassword("11111111")) {
 									AlertDialog alert = new AlertDialog(AlertType.ERROR, "Critical Error", "Password reset not completed", "You cannot continue with an insecure password. The application will now close");
 									alert.showAndWait();
 									Platform.exit();

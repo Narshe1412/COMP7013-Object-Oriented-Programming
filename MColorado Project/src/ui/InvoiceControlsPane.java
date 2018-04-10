@@ -1,4 +1,3 @@
-//TODO Refactoring
 package ui;
 
 import java.util.ArrayList;
@@ -25,6 +24,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Invoice;
 
+/**
+ * Creates a pane to control the invoice details for the patient
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class InvoiceControlsPane extends Pane {
 	private HomeWindow parent;
 
@@ -36,6 +41,13 @@ public class InvoiceControlsPane extends Pane {
 	private Text txtAmountTotal;
 	private Button btnPay;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param parent
+	 *            the reference to the parent object so this pane can call parent
+	 *            methods
+	 */
 	public InvoiceControlsPane(HomeWindow parent) {
 		this.parent = parent;
 
@@ -68,43 +80,46 @@ public class InvoiceControlsPane extends Pane {
 
 		root.setCenter(expenses);
 
+		/** Gets the total amount that remains to be paid */
 		btnPay.setOnAction(event -> {
 			List<String> choices = new ArrayList<>();
 			for (Invoice inv : AppState.INSTANCE.getCurrentPatient().getP_invoiceList()) {
-				if(!inv.isPaid()) {
-					String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate()
-					+ "   Total pending: " + inv.getInvoiceAmt() + " $";
+				if (!inv.isPaid()) {
+					String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate() + "   Total pending: "
+							+ inv.getInvoiceAmt() + "";
 					choices.add(invoiceDetails);
 				}
 			}
-			if(choices.isEmpty()) {
-				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Information", null, "This patient does not owe us any money");
+			if (choices.isEmpty()) {
+				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Information", null,
+						"This patient does not owe us any money");
 				alert.showAndWait();
 			} else {
 				loadInvoiceDialog(choices);
 			}
-			
+
 		});
-		
+
 		HBox btnGroup = new HBox(20);
 		btnGroup.setPadding(new Insets(25, 25, 25, 0));
 		btnGroup.setAlignment(Pos.CENTER);
 
+		/** Creates a new invoice and adds a tab corresponding to the new invoice */
 		btnNew = new Button("New Invoice");
 		btnNew.setOnAction(event -> {
 			Invoice i = AppData.INSTANCE.getInvoiceList().addNew();
 			AppState.INSTANCE.getCurrentPatient().addInvoice(i);
 			parent.addNewTab(new TabInvoice(i));
 			AppState.INSTANCE.setModified(true);
-		    
+
 		});
+		/** Opens the list of invoices and creates a new tab for the selected invoice */
 		btnOpen = new Button("Open Invoice");
 		btnOpen.setOnAction(event -> {
 			List<String> choices = new ArrayList<>();
 			for (Invoice inv : AppState.INSTANCE.getCurrentPatient().getP_invoiceList()) {
 				String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate()
-						+ (inv.isPaid() ? "   --PAID--" : "") 
-						+ "   Total: " + inv.getInvoiceAmt() + " $";
+						+ (inv.isPaid() ? "   --PAID--" : "") + "   Total: " + inv.getInvoiceAmt() + " $";
 				choices.add(invoiceDetails);
 			}
 			loadInvoiceDialog(choices);
@@ -122,17 +137,25 @@ public class InvoiceControlsPane extends Pane {
 		refresh();
 	}
 
+	/**
+	 * Refresh the window with the current invoice values
+	 */
 	public void refresh() {
 		if (AppState.INSTANCE.getCurrentPatient() == null) {
-			txtAmountTotal.setText("0.0 $");
-			txtAmountDue.setText("0.0 $");
+			txtAmountTotal.setText("0.0");
+			txtAmountDue.setText("0.0");
 		} else {
-			txtAmountTotal.setText(AppState.INSTANCE.getCurrentPatient().getTotalInvoiceValue() + " $");
-			txtAmountDue.setText(AppState.INSTANCE.getCurrentPatient().getRemainingInvoiceValue() + " $");
-
+			txtAmountTotal.setText(AppState.INSTANCE.getCurrentPatient().getTotalInvoiceValue() + "");
+			txtAmountDue.setText(AppState.INSTANCE.getCurrentPatient().getRemainingInvoiceValue() + "");
 		}
 	}
-	
+
+	/**
+	 * Load the list of invoices to allow the user to select the one to open
+	 * 
+	 * @param choices
+	 *            the list of available invoices to open
+	 */
 	private void loadInvoiceDialog(List<String> choices) {
 		ChoiceDialog<String> dialog = new ChoiceDialog<String>(choices.get(0), choices);
 

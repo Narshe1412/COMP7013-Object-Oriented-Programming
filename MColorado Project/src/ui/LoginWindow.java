@@ -1,4 +1,3 @@
-//TODO Refactoring
 package ui;
 
 import controller.AppData;

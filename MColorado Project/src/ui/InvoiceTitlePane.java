@@ -1,4 +1,3 @@
-//TODO Refactoring
 package ui;
 
 import javafx.geometry.Insets;
@@ -10,8 +9,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import model.Invoice;
 
+/**
+ * Creates the header for the Invoice details pane with the details of a
+ * specific invoice
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class InvoiceTitlePane extends StackPane {
-	
+
 	private Label lblDate;
 	private TextField txtDate;
 	private Label lblTotalInvoice;
@@ -22,9 +28,15 @@ public class InvoiceTitlePane extends StackPane {
 	private TextField txtRemainInvoice;
 	private Invoice invoice;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param inv
+	 *            the invoice that will be displayed by the pane
+	 */
 	public InvoiceTitlePane(Invoice inv) {
 		this.invoice = inv;
-		
+
 		GridPane root = new GridPane();
 		root.setHgap(10);
 		root.setPadding(new Insets(10, 10, 10, 10));
@@ -64,16 +76,17 @@ public class InvoiceTitlePane extends StackPane {
 		root.add(lblRemainInvoice, 3, 0);
 		root.add(txtRemainInvoice, 3, 1);
 		refresh();
-		
+
 		getChildren().add(root);
 	}
-	
+
+	/**
+	 * Refreshes the pane with the current details of the invoice
+	 */
 	public void refresh() {
 		txtDate.setText(invoice.getStringDate());
-		txtTotalInvoice.setText(invoice.getInvoiceAmt() + " €");
-		txtPaidInvoice.setText(invoice.calculateInvoicePaid() + " €");
-		txtRemainInvoice.setText(invoice.calculateInvoiceAmt() + " €");
+		txtTotalInvoice.setText(invoice.getInvoiceAmt() + "");
+		txtPaidInvoice.setText(invoice.calculateInvoicePaid() + "");
+		txtRemainInvoice.setText(invoice.calculateInvoiceAmt() + "");
 	}
-
-
 }

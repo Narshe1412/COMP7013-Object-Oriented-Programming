@@ -1,5 +1,3 @@
-//TODO Refactoring
-//TODO Progress bar animation
 package ui;
 
 import controller.AppData;
@@ -7,6 +5,7 @@ import controller.AppNavigation;
 import controller.AppState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,19 +14,41 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Creates the loading window for the application
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class InitialLoadWindow extends Stage {
 
+	/**
+	 * Constructor
+	 * 
+	 * @throws Exception
+	 *             Handles an exception that can be thrown if the database load
+	 *             fails
+	 */
 	public InitialLoadWindow() throws Exception {
 		super();
 
 		BorderPane root = new BorderPane();
+		ImageView textLogo = new ImageView("/assets/textlogo.png");
+		textLogo.setFitWidth(250);
+		textLogo.setFitHeight(80);
+		BorderPane.setAlignment(textLogo, Pos.CENTER);
+		root.setTop(textLogo);
 
-		root.setCenter(new ImageView("/assets/smile.png"));
-		root.setBottom(new Text("Loading Boca bites™ database"));
+		ImageView scaledImageView = new ImageView("/assets/logo.png");
+		scaledImageView.setFitWidth(300);
+		scaledImageView.setFitHeight(300);
+		root.setCenter(scaledImageView);
+
+		root.setBottom(new Text("Loading Boca bites database"));
 
 		Scene scene = new Scene(root, 400, 400);
 
-		setTitle("Loading Boca bites™");
+		setTitle("Loading Boca bites");
 		getIcons().add(new Image("/assets/smile.png"));
 		setResizable(false);
 		setScene(scene);
@@ -43,6 +64,9 @@ public class InitialLoadWindow extends Stage {
 
 	}
 
+	/**
+	 * Loads the database and config objects
+	 */
 	private void loadMain() {
 		if (AppData.INSTANCE.getSavedUser() == null) {
 			LoginWindow loginWindow = new LoginWindow();
@@ -54,3 +78,5 @@ public class InitialLoadWindow extends Stage {
 		}
 	}
 }
+
+// TODO Add Progress bar animation

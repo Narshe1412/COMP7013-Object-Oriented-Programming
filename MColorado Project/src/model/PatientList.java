@@ -125,9 +125,16 @@ public class PatientList extends ArrayList<Patient> implements Serializable {
 		return result;
 	}
 
-	//TODO Refactoring
+	/**
+	 * Obtains the Patient object that matches the id passed by parameter
+	 * 
+	 * @param patientNo
+	 *            an integer that represents the value of a Patient id
+	 * @return the Patient object that matches the id value, or null if it cannot
+	 *         find a match
+	 */
 	public Patient getById(int patientNo) {
-		for (Patient p: this) {
+		for (Patient p : this) {
 			if (p.getPatientNo() == patientNo) {
 				return p;
 			}

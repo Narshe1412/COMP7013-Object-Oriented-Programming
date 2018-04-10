@@ -1,4 +1,3 @@
-//TODO Refactoring
 package ui;
 
 import controller.AppData;
@@ -17,6 +16,12 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import model.Patient;
 
+/**
+ * Loads a pane with the patient details from the system
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class PatientDetailsPane extends Pane {
 
 	private Label lblName;
@@ -34,6 +39,13 @@ public class PatientDetailsPane extends Pane {
 	@SuppressWarnings("unused")
 	private HomeWindow parent;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param parent
+	 *            a reference to the parent window so this pane can call methods on
+	 *            the parent
+	 */
 	public PatientDetailsPane(HomeWindow parent) {
 		this.parent = parent;
 
@@ -89,19 +101,26 @@ public class PatientDetailsPane extends Pane {
 		 */
 		btnSave = new Button("Save");
 		btnSave.setOnAction(event -> {
-			if (AppState.INSTANCE.getCurrentPatient() == null) {
-				Patient p = AppData.INSTANCE.getPatientList().addNew(getTxtName(), getTxtAddress(), getTxtPhone());
-				AppNavigation.updatePatient(p);
+			if (Validator.stringValidator(getTxtName(), 2, 100)) {
+				if (AppState.INSTANCE.getCurrentPatient() == null) {
+					Patient p = AppData.INSTANCE.getPatientList().addNew(getTxtName(), getTxtAddress(), getTxtPhone());
+					AppNavigation.updatePatient(p);
+				} else {
+					AppData.INSTANCE.getPatientList().updateById(getTxtId(), getTxtName(), getTxtAddress(),
+							getTxtPhone());
+				}
+				btnCancel.setVisible(false);
+				btnNew.setVisible(true);
+				disableAll();
+				refreshUI();
+				parent.refreshUI();
+				AppState.INSTANCE.setModified(true);
 			} else {
-				AppData.INSTANCE.getPatientList().updateById(getTxtId(), getTxtName(), getTxtAddress(), getTxtPhone());
+				if (!Validator.stringValidator(getTxtName(), 2, 100)) {
+					Validator.setStringValidation(getTxtName(), 2, 100, txtName, "Name cannot be blank");
+				}
 			}
-			btnCancel.setVisible(false);
-			btnNew.setVisible(true);
-			disableAll();
-			refreshUI();
-			parent.refreshUI();
-			AppState.INSTANCE.setModified(true);
-		    
+
 		});
 		/**
 		 * New button Workflow: Clicking the new button puts the UI in New mode 1.
@@ -165,7 +184,7 @@ public class PatientDetailsPane extends Pane {
 		root.add(btnCancel, 3, 6);
 		GridPane.setHalignment(btnNew, HPos.RIGHT);
 		GridPane.setHalignment(btnCancel, HPos.RIGHT);
-		
+
 		disableAll();
 		refreshUI();
 		this.getChildren().add(root);
@@ -175,9 +194,7 @@ public class PatientDetailsPane extends Pane {
 	 * Refreshes the UI with the details from the app state
 	 */
 	public void refreshUI() {
-
 		loadPatientDetails(AppState.INSTANCE.getCurrentPatient());
-		
 	}
 
 	/**
@@ -214,7 +231,6 @@ public class PatientDetailsPane extends Pane {
 			setTxtName(p.getName());
 			setTxtAddress(p.getAddress());
 			setTxtPhone(p.getPhone());
-
 		}
 	}
 

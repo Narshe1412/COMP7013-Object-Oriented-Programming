@@ -1,4 +1,3 @@
-//TODO Refactoring
 package ui;
 
 import java.util.ArrayList;
@@ -24,6 +23,12 @@ import javafx.stage.Stage;
 import model.Invoice;
 import model.Procedure;
 
+/**
+ * Creates a new pane to control the procedures related to an invoice
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class InvoiceProceduresPane extends Pane {
 
 	@SuppressWarnings("unused")
@@ -33,6 +38,15 @@ public class InvoiceProceduresPane extends Pane {
 	private Invoice invoice;
 	private InvoiceTitlePane title;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param inv
+	 *            the invoice that will be displayed
+	 * @param title
+	 *            the parent passed by parameter so it can be called the methods to
+	 *            refresh the pane
+	 */
 	public InvoiceProceduresPane(Invoice inv, InvoiceTitlePane title) {
 		this.title = title;
 		this.invoice = inv;
@@ -43,7 +57,7 @@ public class InvoiceProceduresPane extends Pane {
 		procList = FXCollections.observableArrayList(inv.getIn_procList());
 		table.setItems(procList);
 
-		TableColumn<Procedure, Double> colAmount = new TableColumn<Procedure, Double>("Amount (�)");
+		TableColumn<Procedure, Double> colAmount = new TableColumn<Procedure, Double>("Amount");
 		colAmount.setCellValueFactory(data -> data.getValue().getProcCost().asObject());
 		colAmount.setMinWidth(120);
 		TableColumn<Procedure, String> colName = new TableColumn<Procedure, String>("Type of Procedure");
@@ -74,9 +88,14 @@ public class InvoiceProceduresPane extends Pane {
 		table.setMinWidth(350);
 		table.setMaxWidth(350);
 		getChildren().add(root);
-
 	}
 
+	/**
+	 * Adds a new procedure to the invoice
+	 * 
+	 * @param p
+	 *            a Procedure object that will be added to the system
+	 */
 	public void addProcedure(Procedure p) {
 		procList.add(p); // TODO review binding
 		invoice.addProcedure(p);
@@ -84,9 +103,12 @@ public class InvoiceProceduresPane extends Pane {
 		System.out.println(invoice.getIn_procList());
 		title.refresh();
 		AppState.INSTANCE.setModified(true);
-	    
+
 	}
 
+	/**
+	 * Delete the selected procedure from the invoice
+	 */
 	public void deleteProcedure() {
 		Procedure p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
@@ -99,13 +121,16 @@ public class InvoiceProceduresPane extends Pane {
 		}
 		title.refresh();
 		AppState.INSTANCE.setModified(true);
-	    
+
 	}
 
+	/**
+	 * Creates a new dialog with the list of procedures to be added to the invoice
+	 */
 	public void onClickBtnAddProcedure() {
-
 		List<String> choices = new ArrayList<>();
 		for (Procedure proc : AppData.INSTANCE.getProcedureList()) {
+			// Removes the disabled procedures from the list
 			if (!proc.isDisabled()) {
 				choices.add(proc.getProcName().get());
 			}
@@ -130,6 +155,5 @@ public class InvoiceProceduresPane extends Pane {
 					"There are no procedures registered in the system.");
 			alert.showAndWait();
 		}
-
 	}
 }

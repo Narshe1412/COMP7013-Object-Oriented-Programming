@@ -1,4 +1,3 @@
-//TODO Refactoring
 package ui;
 
 import java.time.LocalDate;
@@ -25,6 +24,12 @@ import javafx.scene.layout.VBox;
 import model.Invoice;
 import model.Payment;
 
+/**
+ * Creates a pane that controls the payments referent to a specific invoice
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class InvoicePaymentsPane extends Pane {
 
 	@SuppressWarnings("unused")
@@ -34,6 +39,15 @@ public class InvoicePaymentsPane extends Pane {
 	private InvoiceTitlePane title;
 	private Invoice invoice;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param inv
+	 *            Invoice object passed by parameter with all the details that will
+	 *            be displayed on screen
+	 * @param title
+	 *            The parent pane to provide updates and call refresh method
+	 */
 	public InvoicePaymentsPane(Invoice inv, InvoiceTitlePane title) {
 		this.invoice = inv;
 		this.title = title;
@@ -62,11 +76,13 @@ public class InvoicePaymentsPane extends Pane {
 		Button btnAddPayment = new Button("Pay");
 		btnAddPayment.setMaxWidth(Double.MAX_VALUE);
 		btnAddPayment.setOnAction(event -> {
+			// Prevent adding more payments if the invoice is paid
 			if (invoice.isPaid()) {
 				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Invoice paid", null,
 						"This invoice has already been paid. You cannot add more payments against it.");
 				alert.showAndWait();
 			} else {
+				// Call the dialog to add new payments
 				double remaining = invoice.calculateInvoiceAmt();
 				showPaymentDialog(remaining);
 			}
@@ -88,6 +104,7 @@ public class InvoicePaymentsPane extends Pane {
 		getChildren().add(root);
 	}
 
+	/** Class that will be used as a return value for the Dialog call */
 	private class PaymentData {
 		String value;
 		LocalDate date;
@@ -98,6 +115,12 @@ public class InvoicePaymentsPane extends Pane {
 		}
 	}
 
+	/**
+	 * Obtains a payment value using the dialog to add a new payment
+	 * 
+	 * @param remaining
+	 *            a value containing the remaining amount that needs to be paid
+	 */
 	private void showPaymentDialog(double remaining) {
 		Dialog<PaymentData> payDialog = new Dialog<>();
 		payDialog.setTitle("Add Payment");
@@ -126,11 +149,16 @@ public class InvoicePaymentsPane extends Pane {
 							"The amount introduced surpasses the remaining amount to be paid for this invoice.");
 					alert.showAndWait();
 				}
-
 			}
 		});
 	}
 
+	/**
+	 * Adds a new payment to the invoice
+	 * 
+	 * @param p
+	 *            A new payment to add to the system
+	 */
 	public void pay(Payment p) {
 		// TODO review binding
 		AppData.INSTANCE.getPaymentList().add(p);
@@ -139,9 +167,11 @@ public class InvoicePaymentsPane extends Pane {
 		invoice.calculateInvoicePaid();
 		title.refresh();
 		AppState.INSTANCE.setModified(true);
-	    
 	}
 
+	/**
+	 * Deletes the selected payment from the system
+	 */
 	public void deletePayment() {
 		Payment p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
@@ -153,7 +183,5 @@ public class InvoicePaymentsPane extends Pane {
 		}
 		title.refresh();
 		AppState.INSTANCE.setModified(true);
-	    
 	}
-
 }

@@ -1,4 +1,3 @@
-//TODO Refactoring
 package persistence;
 
 import java.sql.*;

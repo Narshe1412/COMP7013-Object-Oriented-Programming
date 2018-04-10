@@ -4,6 +4,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 
+/**
+ * Creates an exception hanlder for generic unhandled exceptions
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class UncaughtExcepHandler implements UncaughtExceptionHandler {
 	@Override
 	public void uncaughtException(Thread arg0, Throwable arg1) {

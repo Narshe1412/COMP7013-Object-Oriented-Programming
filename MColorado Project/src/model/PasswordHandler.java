@@ -32,7 +32,8 @@ public class PasswordHandler {
 	 *            String of text that will be used by the hashing algorithm to
 	 *            encrypt
 	 * @return a hashed encrypted string of text using the algorithm
-	 * @throws Exception
+	 * @throws PassException
+	 *             when attempts to encrypt the password and is unable to do so
 	 */
 	public static String encrypt(String strClearText, String strKey) throws PassException {
 		String strData = "";
@@ -72,7 +73,8 @@ public class PasswordHandler {
 	 *            String of text that will be used by the hashing algorithm to
 	 *            decrypt
 	 * @return a decrypted string of text using the same parameters used to encrypt
-	 * @throws Exception
+	 * @throws PassException
+	 *             when attempts to decrypt the password and is unable to do so
 	 */
 	public static String decrypt(String strEncrypted, String strKey) throws PassException {
 		String strData = "";

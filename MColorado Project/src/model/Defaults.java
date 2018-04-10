@@ -2,6 +2,8 @@ package model;
 
 import java.util.Date;
 import java.util.List;
+
+import exception.PassException;
 /**
  * Default values for the system, for testing or initial load purposes
  * @author Manuel Colorado
@@ -51,7 +53,7 @@ public class Defaults {
 		
 	}
 
-	public static List<Dentist> createDentists() throws Exception {
+	public static List<Dentist> createDentists() throws PassException {
 		dentists = new DentistList();
 		dentists.add(new Dentist("admin", "admin123"));
 		dentists.add(new Dentist("jdoe", "12345678"));

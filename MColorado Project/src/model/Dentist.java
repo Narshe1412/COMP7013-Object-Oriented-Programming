@@ -38,7 +38,7 @@ public class Dentist extends Person {
 	 * @throws Exception
 	 *             throws exception if password cannot be hashed
 	 */
-	public Dentist(final String username, final String password) throws Exception {
+	public Dentist(final String username, final String password) throws PassException {
 		super(username, "xxx", "xxx");
 		setUsername(username);
 		setPassword(password);

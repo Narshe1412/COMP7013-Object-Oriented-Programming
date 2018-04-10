@@ -3,6 +3,11 @@ package ui;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 
+/**
+ * Creates a main tab window where the current selected patient details will be displayed and a summary of the invoices
+ * @author Manuel Colorado
+ *
+ */
 class TabMain extends Tab implements ReloadableNode{
 	
 	@SuppressWarnings("unused")
@@ -10,6 +15,10 @@ class TabMain extends Tab implements ReloadableNode{
 	private PatientDetailsPane details;
 	private InvoiceControlsPane invoices;
 	
+	/**
+	 * Creates the main tab for the system
+	 * @param parent The caller parent, so the children can use its methods
+	 */
 	public TabMain(HomeWindow parent) {
 		this.parent = parent;
 		setText("Patient Details");
@@ -23,6 +32,9 @@ class TabMain extends Tab implements ReloadableNode{
 		setClosable(false);
 	}
 	
+	/**
+	 * Refreshes the content in this tab
+	 */
 	public void refreshUI() {
 		details.refreshUI();
 		invoices.refresh();

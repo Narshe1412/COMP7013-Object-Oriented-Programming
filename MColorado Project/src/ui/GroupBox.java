@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.TitledPane;
 
 /**
- * 
+ * @deprecated No longer used by this application
  * @author Mohammed Handosa
  * @see <a href=
  *      "https://stackoverflow.com/a/41605221/5866637">GroupBox / TitledBorder in JavaFX 2?</a>

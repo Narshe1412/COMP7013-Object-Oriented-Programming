@@ -110,32 +110,4 @@ class TestPatient {
 				()->assertEquals(false, sut5.getP_invoiceList().contains(invTwo))
 				);
 	}
-	
-	@Test
-	void testPatientID() {
-		//Arrange
-		Patient sut6;
-		String name = "name";
-		String address = "addr";
-		String phone = "12233";
-		
-		//Arrange
-		sut6 = new Patient(name, address, phone);
-		int expectedIDsut6 = 6 - 1; // counter starts at 0
-		
-		//Assert
-		assertAll("",
-				()->assertEquals(expectedIDsut6, sut6.getPatientNo()));
-	}
 }
-/*
- * 	private static int id = 0;
-	private int patientNo;
-
-	public int getPatientNo() {
-	}
-	
-	public void setPatientNo() {
-	}
-	
- * */

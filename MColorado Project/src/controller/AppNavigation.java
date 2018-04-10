@@ -3,6 +3,7 @@ package controller;
 import java.io.Serializable;
 import java.util.List;
 
+import exception.PassException;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import model.*;
@@ -69,7 +70,7 @@ public class AppNavigation {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void loadState() throws Exception {
+	public static void loadState() throws PassException{
 
 		IDBManager userDB = new FileHandler("user.dat");
 		if (userDB.exists()) {

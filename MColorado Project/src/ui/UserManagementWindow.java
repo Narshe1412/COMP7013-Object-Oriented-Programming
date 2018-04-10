@@ -19,7 +19,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Dentist;
-
+/**
+ * 
+ * @author Manuel Colorado
+ *
+ */
 public class UserManagementWindow extends Stage {
 
 	private ObservableList<Dentist> userList;

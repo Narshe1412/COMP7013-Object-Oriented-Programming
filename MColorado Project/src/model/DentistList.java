@@ -33,6 +33,11 @@ public class DentistList extends ArrayList<Dentist> implements Serializable{
 		return null;
 	}
 
+	/**
+	 * Adds a new dentist to the system and return the reference for this object
+	 * @param pDentist 
+	 * @return
+	 */
 	public Dentist addNew(Dentist pDentist) {
 		if(add(pDentist)) {
 			return pDentist;

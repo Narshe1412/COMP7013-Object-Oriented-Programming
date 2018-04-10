@@ -1,3 +1,4 @@
+//TODO Refactoring
 package model;
 
 import java.io.Serializable;

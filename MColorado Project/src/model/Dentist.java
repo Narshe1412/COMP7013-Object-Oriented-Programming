@@ -35,7 +35,7 @@ public class Dentist extends Person {
 	 *            username for the system
 	 * @param password
 	 *            password for the system, that would be hashed
-	 * @throws Exception
+	 * @throws PassException
 	 *             throws exception if password cannot be hashed
 	 */
 	public Dentist(final String username, final String password) throws PassException {
@@ -57,7 +57,7 @@ public class Dentist extends Person {
 	 *            Username that will be used in the system
 	 * @param password
 	 *            Password that will be used in the system, it will be hashed
-	 * @throws Exception
+	 * @throws PassException
 	 *             throws exception if password cannot be hashed
 	 */
 	public Dentist(final String name, final String address, final String phone, final String username,
@@ -91,7 +91,7 @@ public class Dentist extends Person {
 	 * 
 	 * @param password
 	 *            string that will be hashed and stored for this user
-	 * @throws Exception
+	 * @throws PassException
 	 *             throws exception if password cannot be hashed
 	 */
 	public void setPassword(final String password) throws PassException {
@@ -102,11 +102,11 @@ public class Dentist extends Person {
 	 * Obtains the unhashed password from the user
 	 * 
 	 * @return the unhashed password from the user
-	 * @throws Exception
+	 * @throws PassException
 	 *             if password cannot be decrypted
 	 */
 	@SuppressWarnings("unused")
-	private String getPassword() throws Exception {
+	private String getPassword() throws PassException {
 		return PasswordHandler.decrypt(password, sk);
 	}
 
@@ -117,7 +117,7 @@ public class Dentist extends Person {
 	 * @param password
 	 *            string that contains the password we want to check for a match
 	 * @return true if the password matches, false if it doesn't
-	 * @throws Exception
+	 * @throws PassException
 	 *             throws exception if password cannot be encrypted
 	 */
 	public boolean verifyPassword(String password) throws PassException {

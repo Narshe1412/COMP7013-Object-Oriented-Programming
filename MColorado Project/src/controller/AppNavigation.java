@@ -135,8 +135,6 @@ public class AppNavigation {
 	 * @throws PassException
 	 *             handles exceptions when loading users as the passwords have been
 	 *             hashed and stored encrypted
-	 * @throws IOException
-	 *             handles exceptions when loading the database
 	 */
 	@SuppressWarnings("unchecked")
 	public static void loadState() throws PassException {

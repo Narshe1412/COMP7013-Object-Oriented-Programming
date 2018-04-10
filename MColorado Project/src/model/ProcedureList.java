@@ -60,7 +60,7 @@ public class ProcedureList extends ArrayList<Procedure> implements Serializable 
 	 * Updates the Prcedure based on the id passed by parameter with the name and
 	 * priced passed by parameter
 	 * 
-	 * @param p
+	 * @param id
 	 *            a reference to the procedure that will be updated
 	 * @param name
 	 *            the new name for this procedure

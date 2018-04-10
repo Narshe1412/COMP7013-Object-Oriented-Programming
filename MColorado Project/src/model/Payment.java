@@ -121,8 +121,6 @@ public class Payment implements Serializable {
 	 * 
 	 * @param date
 	 *            a string representing a date in the format dd/MM/yyyy
-	 * @exception ParseException
-	 *                exception thrown when the date cannot be parsed
 	 */
 	public void setPaymentDate(final String date) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

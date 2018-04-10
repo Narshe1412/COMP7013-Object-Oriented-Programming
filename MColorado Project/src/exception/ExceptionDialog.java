@@ -44,9 +44,9 @@ public class ExceptionDialog extends Alert {
 	/**
 	 * Constructor
 	 * 
-	 * @param header
+	 * @param headerText
 	 *            String that will appear as header of the exception window
-	 * @param context
+	 * @param contextText
 	 *            String that will describe to the user what happened with the
 	 *            exception
 	 * @param exceptionText

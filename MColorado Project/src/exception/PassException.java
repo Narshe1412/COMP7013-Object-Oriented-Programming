@@ -10,7 +10,7 @@ public class PassException extends Exception {
 
 	/**
 	 * Creates a custom exception with an additional details field
-	 * @param details
+	 * @param details exception details passed as string
 	 */
 	public PassException(String details) {
 		super(details);

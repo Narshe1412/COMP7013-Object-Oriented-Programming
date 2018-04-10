@@ -23,8 +23,6 @@ public class FileController {
 	 * 
 	 * @param path
 	 *            a string representing an absolute or relative path on the system
-	 * @exception IOException
-	 *                throws an exception when it's not possible to create a file
 	 */
 	public final void createFile(final String path) {
 		File file = new File(path);
@@ -83,8 +81,6 @@ public class FileController {
 	 * @param info
 	 *            an object that will be serialized into the file
 	 * @return true if the save operation was successful, false otherwise
-	 * @exception throws
-	 *                exception if the operation ended in error
 	 */
 	public final boolean saveFile(final String path, final Object info) {
 		// Saves the file to the path provided and returns true if successful

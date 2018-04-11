@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import exception.PassException;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 import model.*;
 import persistence.FileHandler;
 import persistence.IDBManager;
+import persistence.MySQLController;
 import ui.CloseAlertDialog;
 import ui.ReloadableNode;
 
@@ -138,7 +140,8 @@ public class AppNavigation {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void loadState() throws PassException {
-
+		
+		
 		IDBManager userDB = new FileHandler("user.dat");
 		if (userDB.exists()) {
 			AppData.INSTANCE.setUserList((List<Dentist>) userDB.loadDB());

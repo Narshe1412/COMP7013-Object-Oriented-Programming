@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
-import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -34,6 +33,7 @@ public class ButtonMenu extends Pane {
 		// Obtain singleton value
 		alarmEnabled = State.INSTANCE.getAlarmEnabled();
 		HBox root = new HBox();
+		root.setAlignment(Pos.CENTER);
 
 		btnOnoff = new Button("On / Off");
 		// Swap from on to off and vice versa
@@ -50,10 +50,12 @@ public class ButtonMenu extends Pane {
 
 		// Close the application
 		btnExit = new Button("Exit");
-		btnExit.setOnAction(event -> doExit(event));
-		
+		btnExit.setOnAction(event -> {
+			event.consume();
+			doExit();
+		});
+
 		root.getChildren().addAll(btnOnoff, new Label("              "), btnExit);
-		root.setAlignment(Pos.CENTER);
 		getChildren().add(root);
 	}
 
@@ -63,8 +65,7 @@ public class ButtonMenu extends Pane {
 	 * @param event
 	 *            captures the event of clicking the window
 	 */
-	private void doExit(ActionEvent event) {
-		event.consume();
+	public void doExit() {
 		// Creates the alert
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Close confirmation");

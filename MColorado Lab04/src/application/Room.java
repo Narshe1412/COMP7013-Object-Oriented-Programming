@@ -1,5 +1,7 @@
 package application;
 
+import java.io.File;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,15 +10,23 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Room extends Pane {
 	private final ToggleGroup togGrp;
 	private RadioButton radioOn;
 	private RadioButton radioOff;
+	private MediaPlayer mediaPlayer;
 
-	public Room(String title) {
-
+	public Room(String title, String borderCss) {
+		String musicFile = "src/alarm.mp3"; 
+		Media sound = new Media(new File(musicFile).toURI().toString());
+		mediaPlayer = new MediaPlayer(sound);
+		
 		VBox root = new VBox();
+		root.setPadding(new Insets(10));
+		setStyle(borderCss);
 		root.getChildren().add(new Label(title));
 		
 		BorderPane alarmGroup = new BorderPane();
@@ -31,7 +41,7 @@ public class Room extends Pane {
 		radioOff = new RadioButton("Off");
 		radioOff.setToggleGroup(togGrp);
 		radioOff.setSelected(true);
-		radioOff.setOnAction(event -> setStyle(null));
+		radioOff.setOnAction(event -> disableAlarm());
 		radioGroup.getChildren().addAll(radioOn, radioOff);
 		alarmGroup.setLeft(radioGroup);
 		alarmGroup.visibleProperty().bind(State.INSTANCE.getAlarmEnabled());
@@ -48,9 +58,15 @@ public class Room extends Pane {
 		
 	}
 
+	private void disableAlarm() {
+		setStyle(null);
+		mediaPlayer.stop();
+	}
+
 	private void checkIntruder() {
 		if(togGrp.getSelectedToggle().equals(radioOn)) {
 			setStyle("-fx-background-color: red");
+			mediaPlayer.play();
 		};
 	}
 }

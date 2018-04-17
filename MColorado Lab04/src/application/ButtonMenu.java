@@ -1,9 +1,14 @@
 package application;
 
+import java.util.Optional;
+
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -29,11 +34,23 @@ public class ButtonMenu extends Pane {
 		});
 		
 		btnExit = new Button("Exit");
-		btnExit.setOnAction(event -> Platform.exit());
+		btnExit.setOnAction(event -> doExit(event));
 
 		root.getChildren().addAll(btnOnoff, btnExit);
 
 		getChildren().add(root);
+	}
+
+	private void doExit(ActionEvent event) {
+		event.consume();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Close confirmation");
+		alert.setContentText("Do you want to exit?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+		    Platform.exit();
+		} 
 	}
 
 	private void toggleAlarm() {

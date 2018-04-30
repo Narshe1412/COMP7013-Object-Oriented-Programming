@@ -2,7 +2,7 @@ package persistence;
 
 import java.sql.*;
 
-public class MySQLController {
+public abstract class MySQLController {
 
 	private Connection con;
 	private final String DB_URL;
@@ -11,7 +11,7 @@ public class MySQLController {
 	public MySQLController() {
 		DB_URL = "jdbc:mysql://localhost:3306/bocabites";
 		database = "bocabites";
-		
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -34,6 +34,7 @@ public class MySQLController {
 	public boolean openConnection() {
 		try {
 			setCon(DriverManager.getConnection(DB_URL, "root", ""));
+			getCon().setAutoCommit(false);
 			return true;
 		} catch (SQLException e) {
 			setCon(null);
@@ -65,23 +66,9 @@ public class MySQLController {
 
 	}
 
-	public Object loadDB() {
-		try {
-			Statement s = getCon().createStatement();
-			s.execute("create table ( firstcolumn integer )");
-			s.execute("insert into TEST12345 values(1)");
-			s.execute("select firstcolumn from TEST12345");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+	public abstract Object loadDB();
 
-	public boolean saveDB(Object database) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean saveDB(Object database);
 
 	public Connection getCon() {
 		return con;

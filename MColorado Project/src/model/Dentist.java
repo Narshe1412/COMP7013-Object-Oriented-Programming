@@ -9,6 +9,7 @@ import exception.PassException;
  *
  */
 public class Dentist extends Person {
+	private int userNo;
 	private String username;
 	private String password;
 	private final transient String sk = "h4xx0rPRIVVYk3yl33t";
@@ -140,5 +141,21 @@ public class Dentist extends Person {
 	 */
 	public void print() {
 		System.out.println(toString());
+	}
+
+	/**
+	 * Gets the user id in the system
+	 * @return an ingeger representation of the user id
+	 */
+	public int getUserNo() {
+		return userNo;
+	}
+
+	/**
+	 * Set up the user id in the system
+	 * @param userNo an integer that represents the user id in the system
+	 */
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 }

@@ -1,9 +1,13 @@
 package controller;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.rowset.CachedRowSet;
+
+import exception.ExceptionDialog;
 import exception.PassException;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -11,6 +15,7 @@ import model.*;
 import persistence.FileHandler;
 import persistence.IDBManager;
 import persistence.MySQLController;
+import persistence.TableHandler;
 import ui.CloseAlertDialog;
 import ui.ReloadableNode;
 
@@ -137,46 +142,130 @@ public class AppNavigation {
 	 * @throws PassException
 	 *             handles exceptions when loading users as the passwords have been
 	 *             hashed and stored encrypted
+	 * @throws SQLException
 	 */
-	@SuppressWarnings("unchecked")
-	public static void loadState() throws PassException {
-		
-		
-		IDBManager userDB = new FileHandler("user.dat");
+	public static void loadState() throws PassException, SQLException {
+
+		IDBManager userDB = new TableHandler("dentist");
 		if (userDB.exists()) {
-			AppData.INSTANCE.setUserList((List<Dentist>) userDB.loadDB());
+			AppData.INSTANCE.setUserList(new DentistList());
+			CachedRowSet crs = (CachedRowSet) userDB.loadDB();
+			while (crs.next()) {
+				int userNo = crs.getInt("userNo");
+				String username = crs.getString("username");
+				String password = crs.getString("password");
+				String name = crs.getString("name");
+				String address = crs.getString("address");
+				String phone = crs.getString("phone");
+				Dentist d = new Dentist(username, password, name, address, phone);
+				d.setUserNo(userNo);
+				AppData.INSTANCE.getUserList().add(d);
+			}
+			if (AppData.INSTANCE.getUserList().isEmpty()) {
+				AppData.INSTANCE.setUserList(Defaults.createDentists());
+			}
 		} else {
-			AppData.INSTANCE.setUserList(Defaults.createDentists());
+			ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Dentist database", "");
+			exwin.show();
 		}
 
-		IDBManager patientDB = new FileHandler("patient.dat");
+		IDBManager patientDB = new TableHandler("patient");
 		if (patientDB.exists()) {
-			AppData.INSTANCE.setPatientList((List<Patient>) patientDB.loadDB());
+			AppData.INSTANCE.setPatientList(new PatientList());
+			CachedRowSet crs = (CachedRowSet) patientDB.loadDB();
+			while (crs.next()) {
+				int patientNo = crs.getInt("patientNo");
+				String name = crs.getString("name");
+				String address = crs.getString("address");
+				String phone = crs.getString("phone");
+				Patient p = new Patient(name, address, phone);
+				p.setPatientNo(patientNo);
+				AppData.INSTANCE.getPatientList().add(p);
+			}
 		} else {
-			AppData.INSTANCE.setPatientList(Defaults.createPatient());
+			ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Patient database", "");
+			exwin.show();
 		}
 
-		IDBManager procDB = new FileHandler("procedures.dat");
-		if (procDB.exists()) {
-			AppData.INSTANCE.setProcedureList((List<Procedure>) procDB.loadDB());
-		} else {
-			AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
-		}
-
-		IDBManager paymentDB = new FileHandler("payments.dat");
-		if (paymentDB.exists()) {
-			AppData.INSTANCE.setPaymentList((List<Payment>) paymentDB.loadDB());
-		} else {
-			AppData.INSTANCE.setPaymentList(Defaults.createPayments());
-		}
-
-		IDBManager invoiceDB = new FileHandler("invoice.dat");
+		IDBManager invoiceDB = new TableHandler("invoice");
 		if (invoiceDB.exists()) {
-			AppData.INSTANCE.setInvoiceList((List<Invoice>) invoiceDB.loadDB());
-		} else {
-			AppData.INSTANCE.setInvoiceList(Defaults.createInvoice());
+			AppData.INSTANCE.setInvoiceList(new InvoiceList());
+			CachedRowSet crs = (CachedRowSet) invoiceDB.loadDB();
+			while (crs.next()) {
+				int invoiceID = crs.getInt("invoiceID");
+				String invoiceDate = crs.getString("invoiceDate");
+				int patientNo = crs.getInt("patientNo");
+				Invoice i = new Invoice(invoiceDate);
+				i.setInvoiceID(invoiceID);
+				AppData.INSTANCE.getInvoiceList().add(i);
+				try {
+					AppData.INSTANCE.getPatientList().getById(patientNo).addInvoice(i);
+				} catch (Exception e) {
+					// TODO silent fail for now
+					System.out.println("cannot add invoice to app\n" + i);
+				}
+			}
 		}
 
+		IDBManager procDB = new TableHandler("procs");
+		if (procDB.exists()) {
+			AppData.INSTANCE.setProcedureList(new ProcedureList());
+			CachedRowSet crs = (CachedRowSet) procDB.loadDB();
+			while (crs.next()) {
+				int procId = crs.getInt("procId");
+				String procName = crs.getString("procName");
+				double procCost = crs.getDouble("procCost");
+				boolean disabled = crs.getBoolean("disabled");
+				Procedure p = new Procedure(procName, procCost);
+				p.setProcID(procId);
+				p.setDisabled(disabled);
+				AppData.INSTANCE.getProcedureList().add(p);
+			}
+			if (AppData.INSTANCE.getProcedureList().isEmpty()) {
+				AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
+			}
+		} else {
+			ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Procedure database", "");
+			exwin.show();
+		}
+
+		IDBManager invprocDB = new TableHandler("invoiceprocedure");
+		if (invprocDB.exists()) {
+			CachedRowSet crs = (CachedRowSet) invprocDB.loadDB();
+			while (crs.next()) {
+				int ipid = crs.getInt("ipid");
+				int invoiceID = crs.getInt("invoiceID");
+				int procedureID = crs.getInt("procedureID");
+				try {
+					Procedure proc = AppData.INSTANCE.getProcedureList().getById(procedureID);
+					AppData.INSTANCE.getInvoiceList().getById(invoiceID).addProcedure(proc);
+				} catch (Exception e) {
+					// TODO silent fail for now
+					System.out.println(ipid + ":Unable to add proc " + procedureID + " to invoice " + invoiceID);
+				}
+			}
+		}
+
+		IDBManager paymentDB = new TableHandler("payment");
+		if (paymentDB.exists()) {
+			AppData.INSTANCE.setPaymentList(new PaymentList());
+			CachedRowSet crs = (CachedRowSet) paymentDB.loadDB();
+			while (crs.next()) {
+				int paymentID = crs.getInt("paymentID");
+				double paymentAmt = crs.getDouble("paymentAmt");
+				String paymentDate = crs.getString("paymentDate");
+				int invoiceID = crs.getInt("invoiceID");
+				Payment p = new Payment(paymentAmt, paymentDate);
+				p.setPaymentID(paymentID);
+				AppData.INSTANCE.getPaymentList().add(p);
+				try {
+					AppData.INSTANCE.getInvoiceList().getById(invoiceID).getIn_paymentList().add(p);
+				} catch (Exception e) {
+					// TODO silent fail for now
+					System.out.println("cannot add payment to app\n" + p);
+				}
+			}
+		}
 	}
 
 	/**

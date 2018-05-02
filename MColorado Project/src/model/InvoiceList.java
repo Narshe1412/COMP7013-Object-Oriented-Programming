@@ -52,8 +52,8 @@ public class InvoiceList extends ArrayList<Invoice> implements Serializable {
 	 *            the new Date for the invoice
 	 */
 	public void updateById(final int id, final Date date) {
-		Invoice toUpdate = get(id);
-		toUpdate.setInvoiceDate(date);
+		//Invoice toUpdate = get(id);
+		//toUpdate.setInvoiceDate(date);
 	}
 
 	/**
@@ -83,5 +83,15 @@ public class InvoiceList extends ArrayList<Invoice> implements Serializable {
 			result += indexOf(inv) + ": " + inv.toString() + "\n";
 		}
 		return result;
+	}
+
+	public Invoice getById(final int invoiceID) {
+		// TODO Document and polish
+		for (Invoice i: this) {
+			if(i.getInvoiceID() == invoiceID) {
+				return i;
+			}
+		}
+		return null;
 	}
 }

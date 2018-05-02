@@ -120,4 +120,14 @@ public class ProcedureList extends ArrayList<Procedure> implements Serializable 
 		}
 		return result;
 	}
+
+	public Procedure getById(final int procedureID) {
+		// TODO Document and polish
+		for (Procedure p : this) {
+			if (p.getProcID() == procedureID) {
+				return p;
+			}
+		}
+		return null;
+	}
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import controller.AppData;
 import controller.AppNavigation;
@@ -57,6 +58,10 @@ public class AppMenu extends MenuBar {
 			} catch (PassException e) {
 				ExceptionDialog exWin = new ExceptionDialog("Critical Error",
 						"There was a problem creating the user database", e);
+				exWin.show();
+			} catch (SQLException e) {
+				ExceptionDialog exWin = new ExceptionDialog("Database Error",
+						"There was a problem connecting to the user database", e);
 				exWin.show();
 			}
 		});

@@ -19,8 +19,6 @@ public class Main extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExcepHandler());
 		@SuppressWarnings("unused")
 		InitialLoadWindow loader = new InitialLoadWindow();
-		TableHandler test = new TableHandler("test");
-		System.out.println(test.exists());
 	}
 
 	public static void main(String[] args) {

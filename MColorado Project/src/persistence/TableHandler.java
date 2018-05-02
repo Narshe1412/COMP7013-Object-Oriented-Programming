@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
+
 import com.mysql.jdbc.NotImplemented;
 
 import exception.DBException;
@@ -32,16 +36,14 @@ public class TableHandler extends MySQLController implements IDBManager {
 	 * @throws DBException
 	 */
 	private ResultSet executeQuery(String query) throws DBException {
-		openConnection();
 		ResultSet rs;
 		try {
 			Statement s = getCon().createStatement();
 			rs = s.executeQuery(query);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			rs = null;
 			throw new DBException(e, "Unable to access the database");
-		} finally {
-			closeConnection();
 		}
 		return rs;
 	}
@@ -69,14 +71,22 @@ public class TableHandler extends MySQLController implements IDBManager {
 
 	@Override
 	public Object loadDB() {
+		openConnection();
 		String query = "SELECT * FROM " + table + ";";
 		ResultSet rs;
 		try {
 			rs = executeQuery(query);
-		} catch (DBException e) {
-			rs = null;
+			RowSetFactory factory = RowSetProvider.newFactory();
+			CachedRowSet crs = factory.createCachedRowSet();
+			crs.populate(rs);
+			return crs;
+		} catch (DBException | SQLException e) {
+			e.printStackTrace();
+			new DBException(e, "Error opening the database");
+		} finally {
+			closeConnection();
 		}
-		return rs;
+		return null;
 	}
 
 	@Override

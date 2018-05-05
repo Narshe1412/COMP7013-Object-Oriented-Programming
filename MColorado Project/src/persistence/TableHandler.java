@@ -13,6 +13,8 @@ import javax.sql.rowset.RowSetProvider;
 import com.mysql.jdbc.NotImplemented;
 
 import exception.DBException;
+import exception.ExceptionDialog;
+import javafx.application.Platform;
 
 public class TableHandler extends MySQLController implements IDBManager {
 
@@ -63,11 +65,13 @@ public class TableHandler extends MySQLController implements IDBManager {
 				return true;
 			}
 			return false;
-		} catch (SQLException e) {
-			closeConnection();
-			return false;
-		}
+		} catch (SQLException | NullPointerException e) {
+			DBException.fatalDbErrorDialog(e);
+		} 
+		return false;
 	}
+
+	
 
 	@Override
 	public Object loadDB() {
@@ -81,8 +85,7 @@ public class TableHandler extends MySQLController implements IDBManager {
 			crs.populate(rs);
 			return crs;
 		} catch (DBException | SQLException e) {
-			e.printStackTrace();
-			new DBException(e, "Error opening the database");
+			DBException.fatalDbErrorDialog(e, "Error loading table " + table);
 		} finally {
 			closeConnection();
 		}

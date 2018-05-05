@@ -14,4 +14,20 @@ public class DBException extends Exception {
 		ExceptionDialog win = new ExceptionDialog("Database Error", message, errors.toString());
 		win.show();
 	}
+	//TODO javadoc
+	/**
+	 * @param e
+	 */
+	public static void fatalDbErrorDialog(Exception e) {
+		ExceptionDialog exWin = new ExceptionDialog("Fatal Error", "Unable to connect to database. \n\nShutting down...", e);
+		exWin.showAndWait();
+		System.exit(0);
+	}
+
+	//TODO javadoc
+	public static void fatalDbErrorDialog(Exception e, String message) {
+		ExceptionDialog exWin = new ExceptionDialog("Fatal Error", message + "\n\nShutting down...", e);
+		exWin.showAndWait();
+		System.exit(0);		
+	}
 }

@@ -48,6 +48,9 @@ public class AppMenu extends MenuBar {
 	 */
 	private Menu fileMenu() {
 		Menu self = new Menu("File");
+		/**
+		 * @deprecated
+		 */
 		MenuItem loadMenu = new MenuItem("Load DB");
 		/**
 		 * Loads the stored database
@@ -67,6 +70,7 @@ public class AppMenu extends MenuBar {
 		});
 
 		/**
+		 * @deprecated
 		 * Saves all the changes in the app
 		 */
 		MenuItem saveMenu = new MenuItem("Save DB");
@@ -80,7 +84,7 @@ public class AppMenu extends MenuBar {
 		MenuItem quitMenu = new MenuItem("Exit");
 		quitMenu.setOnAction(actionEvent -> AppNavigation.exitApp());
 
-		self.getItems().addAll(loadMenu, saveMenu, new SeparatorMenuItem(), quitMenu);
+		self.getItems().addAll(/*loadMenu, saveMenu, new SeparatorMenuItem(),*/ quitMenu);
 		return self;
 	}
 

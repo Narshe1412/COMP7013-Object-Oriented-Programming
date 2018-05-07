@@ -28,6 +28,7 @@ public class InitialLoadWindow extends Stage {
 	 * @throws Exception
 	 *             Handles an exception that can be thrown if the database load
 	 *             fails
+	 * @version 1.0
 	 */
 	public InitialLoadWindow() throws Exception {
 		super();

@@ -3,8 +3,6 @@ package application;
 import exception.UncaughtExcepHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import persistence.MySQLController;
-import persistence.TableHandler;
 import ui.InitialLoadWindow;
 /**
  * Loads the application

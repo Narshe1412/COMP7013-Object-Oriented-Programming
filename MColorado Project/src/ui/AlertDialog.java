@@ -8,7 +8,7 @@ import javafx.stage.Stage;
  * Facade to simplify Alert dialog creation
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class AlertDialog extends Alert {
 

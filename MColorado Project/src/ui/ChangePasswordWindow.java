@@ -97,7 +97,7 @@ public class ChangePasswordWindow extends Stage {
 						if (newPass.equals(repeatPass)) {
 							user.setPassword(newPass);
 							AppData.INSTANCE.setSavedUser(null); // Password cleared
-							AppNavigation.saveUsers();
+							AppNavigation.updateDBelement(user, "dentist");
 							close();
 						} else {
 							AlertDialog passMismatch = new AlertDialog(AlertType.ERROR, "Wrong Details",

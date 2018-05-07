@@ -13,6 +13,7 @@ import javafx.scene.control.ButtonType;
  * 
  * @author Manuel Colorado
  *
+ * @deprecated No longer in use by the application
  */
 public class CloseAlertDialog extends Alert {
 

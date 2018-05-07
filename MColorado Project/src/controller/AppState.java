@@ -11,15 +11,19 @@ import model.Patient;
  */
 public enum AppState {
 	INSTANCE;
-
+	/**
+	 * @deprecated SQL will make a persistent state
+	 */
 	private boolean modified;
+
 	private Dentist currentUser;
 	private Patient currentPatient;
 	private Patient previousPatient;
-	
+
 	/**
 	 * Checks if any of the models have been modified and the app requires saving
 	 * 
+	 * @deprecated SQL will make a persistent state
 	 * @return true if modified, false if not
 	 */
 	public boolean isModified() {
@@ -29,6 +33,7 @@ public enum AppState {
 	/**
 	 * Sets the modified state on the application
 	 * 
+	 * @deprecated SQL will make a persistent state
 	 * @param state
 	 *            true to indicate some value has been modified and the model needs
 	 *            to be saved
@@ -49,7 +54,8 @@ public enum AppState {
 	/**
 	 * Sets up the current user for the system, to establish permissions and options
 	 * 
-	 * @param user a Dentist object that establishes the current user
+	 * @param user
+	 *            a Dentist object that establishes the current user
 	 */
 	public void setCurrentUser(final Dentist user) {
 		this.currentUser = user;

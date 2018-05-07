@@ -16,7 +16,7 @@ import exception.DBException;
 import exception.ExceptionDialog;
 import javafx.application.Platform;
 
-public class TableHandler extends MySQLController implements IDBManager {
+class TableHandler extends MySQLController implements IDBManager {
 
 	private String table;
 
@@ -37,7 +37,7 @@ public class TableHandler extends MySQLController implements IDBManager {
 	 * @param query
 	 * @throws DBException
 	 */
-	private ResultSet executeQuery(String query) throws DBException {
+	private ResultSet executeQuery(final String query) throws DBException {
 		ResultSet rs;
 		try {
 			Statement s = getCon().createStatement();
@@ -48,6 +48,11 @@ public class TableHandler extends MySQLController implements IDBManager {
 			throw new DBException(e, "Unable to access the database");
 		}
 		return rs;
+	}
+	
+	public CachedRowSet executeStatement(final String sql) {
+		//TODO handle queries with variables
+		return null;
 	}
 
 	/**

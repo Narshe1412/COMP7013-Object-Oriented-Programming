@@ -11,7 +11,7 @@ package persistence;
  */
 public interface IDBOperationRepository<T> {
 
-	boolean add(T contents);
+	int add(T contents);
 
 	T getByID(int id);
 

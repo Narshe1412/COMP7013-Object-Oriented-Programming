@@ -18,9 +18,9 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 	}
 
 	@Override
-	public boolean add(Payment contents) {
+	public int add(Payment contents) {
 		// TODO Auto-generated method stub
-		return false;
+		return -1;
 	}
 
 	@Override

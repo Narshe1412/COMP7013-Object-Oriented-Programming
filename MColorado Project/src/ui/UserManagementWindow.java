@@ -168,7 +168,7 @@ public class UserManagementWindow extends Stage {
 		UserDialog dialog = new UserDialog(null);
 		Dentist dentist = dialog.getEdit();
 		if (dentist != null) {
-			if (AppNavigation.addDBelement(new DentistDAO(), dentist)) {
+			if (AppNavigation.addDBelement(new DentistDAO(), dentist) > 0) {
 				userList.add(dentist);
 			}
 		}

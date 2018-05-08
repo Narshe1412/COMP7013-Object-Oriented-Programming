@@ -18,9 +18,9 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 	}
 
 	@Override
-	public boolean add(Invoice contents) {
+	public int add(Invoice contents) {
 		// TODO Auto-generated method stub
-		return false;
+		return -1;
 	}
 
 	@Override

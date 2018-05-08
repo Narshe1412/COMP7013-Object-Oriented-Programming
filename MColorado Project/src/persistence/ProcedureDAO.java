@@ -18,9 +18,9 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 	}
 
 	@Override
-	public boolean add(Procedure contents) {
+	public int add(Procedure contents) {
 		// TODO Auto-generated method stub
-		return false;
+		return -1;
 	}
 
 	@Override

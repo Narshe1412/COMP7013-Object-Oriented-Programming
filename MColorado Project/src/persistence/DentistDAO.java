@@ -2,6 +2,7 @@ package persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.sql.rowset.CachedRowSet;
@@ -19,9 +20,34 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 	}
 
 	@Override
-	public boolean add(Dentist contents) {
-		// TODO Auto-generated method stub
-		return false;
+	public int add(Dentist contents) {
+		if (userDB.exists()) {
+			try {
+				String sql = "INSERT INTO dentist (userNo, username, password, name, address, phone) "
+						+ "VALUES (NULL, ?, ?, ?, ?, ?);";
+				userDB.openConnection();
+				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, contents.getUsername());
+				pstmt.setString(2, contents.getHashedPassword());
+				pstmt.setString(3, contents.getName());
+				pstmt.setString(4, contents.getAddress());
+				pstmt.setString(5, contents.getPhone());
+
+				int userID = userDB.executeUpdate(pstmt);
+				if (userID > 0) {
+					contents.setUserNo(userID);
+					return userID;
+				} else {
+					throw new SQLException("Unable to create user.");
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
+				exwin.show();
+			} finally {
+				userDB.closeConnection();
+			}
+		}
+		return -1;
 	}
 
 	@Override
@@ -67,11 +93,12 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 					String name = crs.getString("name");
 					String address = crs.getString("address");
 					String phone = crs.getString("phone");
-					Dentist d = new Dentist(username, password, name, address, phone);
+					Dentist d = new Dentist(name, address, phone, username);
+					d.setHashedPassword(password);
 					d.setUserNo(userNo);
 					returnedList.add(d);
 				}
-			} catch (SQLException | PassException e) {
+			} catch (SQLException e) {
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
 				exwin.show();
 			}
@@ -81,13 +108,49 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 
 	@Override
 	public boolean update(Dentist contents) {
-		// TODO Auto-generated method stub
+		if (userDB.exists()) {
+			try {
+				String sql = "UPDATE dentist SET " + "username = ?, " + "password = ?, " + "name = ?, "
+						+ "address = ?, " + "phone = ? " + "WHERE dentist.userNo = ?;";
+				userDB.openConnection();
+				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql);
+				pstmt.setString(1, contents.getUsername());
+				pstmt.setString(2, contents.getHashedPassword());
+				pstmt.setString(3, contents.getName());
+				pstmt.setString(4, contents.getAddress());
+				pstmt.setString(5, contents.getPhone());
+				pstmt.setInt(6, contents.getUserNo());
+				System.out.println(pstmt);
+				userDB.executeUpdate(pstmt);
+
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
+				exwin.show();
+			} finally {
+				userDB.closeConnection();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean remove(Dentist contents) {
-		// TODO Auto-generated method stub
+		if (userDB.exists()) {
+			try {
+				String sql = "DELETE FROM dentist WHERE dentist.userNo = ?";
+				userDB.openConnection();
+				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, contents.getUserNo());
+				if (userDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
+				exwin.show();
+			} finally {
+				userDB.closeConnection();
+			}
+		}
 		return false;
 	}
 

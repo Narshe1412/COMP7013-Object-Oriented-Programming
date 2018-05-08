@@ -155,7 +155,10 @@ public class AppNavigation {
 			AppData.INSTANCE.getUserList().add(d);
 		}
 		if (AppData.INSTANCE.getUserList().isEmpty()) {
-			AppData.INSTANCE.setUserList(Defaults.createDentists());
+			for(Dentist d : Defaults.createDentists()) {
+				addDBelement(new DentistDAO(), d);
+				AppData.INSTANCE.getUserList().add(d);
+			}
 		}
 
 		/**
@@ -289,7 +292,7 @@ public class AppNavigation {
 	 * @param element
 	 * @return
 	 */
-	public static <T> boolean addDBelement(IDBOperationRepository<T> dao, final T element) {
+	public static <T> int addDBelement(IDBOperationRepository<T> dao, final T element) {
 		return dao.add(element);
 	}
 

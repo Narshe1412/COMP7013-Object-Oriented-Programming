@@ -62,6 +62,27 @@ class TableHandler extends MySQLController implements IDBManager {
 		}
 		return null;
 	}
+	
+	public int executeUpdate(PreparedStatement pstmt) {
+		try {
+			openConnection();
+			int rows = pstmt.executeUpdate();
+			
+	        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+	            if (generatedKeys.next()) {
+	                return generatedKeys.getInt(1);
+	            }
+	            else {
+	                return rows;
+	            }
+	        }
+		} catch (SQLException e){
+			
+		} finally {
+			closeConnection();
+		}
+		return -1;
+	}
 
 	/**
 	 * Verifies if the table exits in the database
@@ -108,5 +129,7 @@ class TableHandler extends MySQLController implements IDBManager {
 		// Not Implemented
 		return false;
 	}
+
+
 
 }

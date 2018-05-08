@@ -20,9 +20,9 @@ public class PatientDAO implements IDBOperationRepository<Patient> {
 	}
 
 	@Override
-	public boolean add(Patient contents) {
+	public int add(Patient contents) {
 		// TODO Auto-generated method stub
-		return false;
+		return -1;
 	}
 
 	@Override

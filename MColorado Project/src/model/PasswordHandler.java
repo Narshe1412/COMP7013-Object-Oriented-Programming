@@ -7,6 +7,7 @@ import exception.PassException;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -43,7 +44,7 @@ public class PasswordHandler {
 			Cipher cipher = Cipher.getInstance("Blowfish");
 			cipher.init(Cipher.ENCRYPT_MODE, skeyspec);
 			byte[] encrypted = cipher.doFinal(strClearText.getBytes());
-			strData = new String(encrypted);
+			strData = new String(Base64.getEncoder().encode(encrypted));
 
 		} catch (NoSuchAlgorithmException e) {
 			ExceptionDialog exWin = new ExceptionDialog("Critical Error",
@@ -84,7 +85,7 @@ public class PasswordHandler {
 			Cipher cipher = Cipher.getInstance("Blowfish");
 			cipher.init(Cipher.DECRYPT_MODE, skeyspec);
 			byte[] decrypted = cipher.doFinal(strEncrypted.getBytes());
-			strData = new String(decrypted);
+			strData = new String(Base64.getDecoder().decode(decrypted));
 
 		} catch (NoSuchAlgorithmException e) {
 			ExceptionDialog exWin = new ExceptionDialog("Critical Error",

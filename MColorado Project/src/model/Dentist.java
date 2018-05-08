@@ -2,13 +2,13 @@ package model;
 
 import exception.PassException;
 
-@SuppressWarnings("serial")
 /**
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class Dentist extends Person {
+	private static final long serialVersionUID = 1L;
 	private int userNo;
 	private String username;
 	private String password;
@@ -69,6 +69,24 @@ public class Dentist extends Person {
 	}
 
 	/**
+	 * Creates a new user in the system, with all needed parameters minus the
+	 * password
+	 * 
+	 * @param name
+	 *            Name of the dentist
+	 * @param address
+	 *            Address for the dentist
+	 * @param phone
+	 *            Phone for the dentist
+	 * @param username
+	 *            Username that will be used in the system
+	 */
+	public Dentist(final String name, final String address, final String phone, final String username) {
+		super(name, address, phone);
+		setUsername(username);
+	}
+
+	/**
 	 * Changes the username for the dentist
 	 * 
 	 * @param username
@@ -100,6 +118,16 @@ public class Dentist extends Person {
 	}
 
 	/**
+	 * Stores a hashed password from the database
+	 * 
+	 * @param password
+	 *            an encoded Base64 string that contains the hashed password
+	 */
+	public void setHashedPassword(final String password) {
+		this.password = password;
+	}
+
+	/**
 	 * Obtains the unhashed password from the user
 	 * 
 	 * @return the unhashed password from the user
@@ -109,6 +137,15 @@ public class Dentist extends Person {
 	@SuppressWarnings("unused")
 	private String getPassword() throws PassException {
 		return PasswordHandler.decrypt(password, sk);
+	}
+
+	/**
+	 * Returns the stored hashed password from the system without decoding it
+	 * 
+	 * @return an encoded Base64 string that represents a hashed password
+	 */
+	public String getHashedPassword() {
+		return password;
 	}
 
 	/**
@@ -122,7 +159,6 @@ public class Dentist extends Person {
 	 *             throws exception if password cannot be encrypted
 	 */
 	public boolean verifyPassword(String password) throws PassException {
-		
 		return PasswordHandler.encrypt(password, sk).equalsIgnoreCase(this.password);
 	}
 
@@ -145,7 +181,8 @@ public class Dentist extends Person {
 
 	/**
 	 * Gets the user id in the system
-	 * @return an ingeger representation of the user id
+	 * 
+	 * @return an integer representation of the user id
 	 */
 	public int getUserNo() {
 		return userNo;
@@ -153,7 +190,9 @@ public class Dentist extends Person {
 
 	/**
 	 * Set up the user id in the system
-	 * @param userNo an integer that represents the user id in the system
+	 * 
+	 * @param userNo
+	 *            an integer that represents the user id in the system
 	 */
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;

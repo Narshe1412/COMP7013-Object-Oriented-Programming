@@ -24,8 +24,39 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 	}
 
 	@Override
-	public Iterable<Invoice> getByID(int id) {
-		// TODO Auto-generated method stub
+	public Invoice getByID(int id) {
+		if (invoiceDB.exists()) {
+			try {
+				String sql = "SELECT * FROM invoice WHERE invoiceID = ?";
+				invoiceDB.openConnection();
+				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, id);
+
+				CachedRowSet crs = (CachedRowSet) invoiceDB.executeStatement(pstmt);
+				while (crs.next()) {
+					int invoiceID = crs.getInt("invoiceID");
+					String invoiceDate = crs.getString("invoiceDate");
+					int patientNo = crs.getInt("patientNo");
+					Invoice i = new Invoice(invoiceDate);
+					i.setInvoiceID(invoiceID);
+					return i;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Invoice database", "");
+				exwin.show();
+				while (e != null) {
+					System.out.println(e.getSQLState());
+					System.out.println(e.getMessage());
+					System.out.println(e.getErrorCode());
+					e = e.getNextException();
+				}
+
+			} catch (NullPointerException e) {
+				// Resultset is empty, no need to action
+			} finally {
+				invoiceDB.closeConnection();
+			}
+		}
 		return null;
 	}
 
@@ -43,7 +74,7 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 					returnedList.add(i);
 				}
 			} catch (SQLException e) {
-				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Invoice database", "");
 				exwin.show();
 			}
 		}
@@ -56,9 +87,9 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 			try {
 				String sql = "SELECT * FROM invoice WHERE patientNo = ?";
 				invoiceDB.openConnection();
-				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql);		
+				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql);
 				pstmt.setInt(1, id);
-				
+
 				CachedRowSet crs = (CachedRowSet) invoiceDB.executeStatement(pstmt);
 				while (crs.next()) {
 					int invoiceID = crs.getInt("invoiceID");
@@ -78,7 +109,7 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 					System.out.println(e.getMessage());
 					System.out.println(e.getErrorCode());
 					e = e.getNextException();
-				   }
+				}
 
 			} catch (NullPointerException e) {
 				// Resultset is empty, no need to action

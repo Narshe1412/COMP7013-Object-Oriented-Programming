@@ -13,7 +13,7 @@ public interface IDBOperationRepository<T> {
 
 	boolean add(T contents);
 
-	Iterable<T> getByID(int id);
+	T getByID(int id);
 
 	Iterable<T> getAll();
 

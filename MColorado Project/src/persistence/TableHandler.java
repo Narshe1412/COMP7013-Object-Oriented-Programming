@@ -44,10 +44,8 @@ class TableHandler extends MySQLController implements IDBManager {
 		}
 		return rs;
 	}
-	
+
 	public CachedRowSet executeStatement(final PreparedStatement pstmt) {
-		//TODO handle queries with variables
-		
 		try {
 			openConnection();
 			ResultSet rs;
@@ -62,7 +60,6 @@ class TableHandler extends MySQLController implements IDBManager {
 		} finally {
 			closeConnection();
 		}
-		
 		return null;
 	}
 
@@ -83,11 +80,9 @@ class TableHandler extends MySQLController implements IDBManager {
 			return false;
 		} catch (SQLException | NullPointerException e) {
 			DBException.fatalDbErrorDialog(e);
-		} 
+		}
 		return false;
 	}
-
-	
 
 	@Override
 	public Object loadDB() {

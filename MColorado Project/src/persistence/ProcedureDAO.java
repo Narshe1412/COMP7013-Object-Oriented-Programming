@@ -10,7 +10,7 @@ import exception.ExceptionDialog;
 import model.Procedure;
 
 public class ProcedureDAO implements IDBOperationRepository<Procedure> {
-	IDBManager procDB;
+	TableHandler procDB;
 
 	public ProcedureDAO() {
 		procDB = new TableHandler("procs");
@@ -24,8 +24,34 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 	}
 
 	@Override
-	public Iterable<Procedure> getByID(int id) {
-		// TODO Auto-generated method stub
+	public Procedure getByID(int id) {
+		if (procDB.exists()) {
+			try {
+				String sql = "SELECT * FROM procs p WHERE p.procId = ?";
+				procDB.openConnection();
+				PreparedStatement pstmt = procDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, id);
+				
+				CachedRowSet crs = (CachedRowSet) procDB.executeStatement(pstmt);
+				while (crs.next()) {
+					int procId = crs.getInt("procId");
+					String procName = crs.getString("procName");
+					double procCost = crs.getDouble("procCost");
+					boolean disabled = crs.getBoolean("disabled");
+					Procedure p = new Procedure(procName, procCost);
+					p.setProcID(procId);
+					p.setDisabled(disabled);
+					return p;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Procedure database", "");
+				exwin.show();
+			} catch (NullPointerException e) {
+				// Resultset is empty, no need to action
+			} finally {
+				procDB.closeConnection();
+			}
+		}
 		return null;
 	}
 

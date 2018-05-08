@@ -24,8 +24,33 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 	}
 
 	@Override
-	public Iterable<Payment> getByID(int id) {
-		// TODO Auto-generated method stub
+	public Payment getByID(int id) {
+		if (paymentDB.exists()) {
+
+			try {
+				String sql = "SELECT * FROM payment WHERE paymentID = ?";
+				paymentDB.openConnection();
+				PreparedStatement pstmt = paymentDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, id);
+
+				CachedRowSet crs = (CachedRowSet) paymentDB.executeStatement(pstmt);
+				while (crs.next()) {
+					int paymentID = crs.getInt("paymentID");
+					double paymentAmt = crs.getDouble("paymentAmt");
+					String paymentDate = crs.getString("paymentDate");
+					Payment p = new Payment(paymentAmt, paymentDate);
+					p.setPaymentID(paymentID);
+					return p;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Payment database", "");
+				exwin.show();
+			} catch (NullPointerException e) {
+				// Resultset is empty, no need to action
+			} finally {
+				paymentDB.closeConnection();
+			}
+		}
 		return null;
 	}
 
@@ -45,7 +70,7 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 					returnedList.add(p);
 				}
 			} catch (SQLException e) {
-				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Invoice database", "");
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Payment database", "");
 				exwin.show();
 			}
 		}
@@ -60,8 +85,8 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 				String sql = "SELECT * FROM payment WHERE invoiceID = ?";
 				paymentDB.openConnection();
 				PreparedStatement pstmt = paymentDB.getCon().prepareStatement(sql);
-
 				pstmt.setInt(1, id);
+
 				CachedRowSet crs = (CachedRowSet) paymentDB.executeStatement(pstmt);
 				while (crs.next()) {
 					int paymentID = crs.getInt("paymentID");
@@ -76,7 +101,7 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 					}
 				}
 			} catch (SQLException e) {
-				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Invoice database", "");
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Payment database", "");
 				exwin.show();
 			} catch (NullPointerException e) {
 				// Resultset is empty, no need to action

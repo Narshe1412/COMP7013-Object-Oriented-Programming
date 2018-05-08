@@ -170,7 +170,7 @@ public class InvoiceControlsPane extends Pane {
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(invoiceSelected -> {
 			int id = Integer.parseInt(invoiceSelected.substring(0, invoiceSelected.indexOf("#")));
-			Invoice i = AppData.INSTANCE.getInvoiceList().get(id);
+			Invoice i = AppData.INSTANCE.getInvoiceList().getById(id);
 			if (!parent.getActiveInvoices().contains(i)) {
 				parent.addNewTab(new TabInvoice(i));
 			} else {

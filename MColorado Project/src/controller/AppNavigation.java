@@ -167,18 +167,13 @@ public class AppNavigation {
 		if (AppData.INSTANCE.getProcedureList().isEmpty()) {
 			AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
 		}
-
-
-		/**
-		 * Load up the list of patients. Add the related invoices for each patient.
-		 */
-		AppData.INSTANCE.setPatientList(new PatientList());
-		for (Patient p : new PatientDAO().getAll()) {
-			AppData.INSTANCE.getPatientList().add(p);
 		
-			for (Invoice i : new InvoiceDAO().getAllFromPatient(p.getPatientNo())) {
-				p.addInvoice(i);
-			}
+		/**
+		 * Load the list of Payments.
+		 */
+		AppData.INSTANCE.setPaymentList(new PaymentList());
+		for (Payment p : new PaymentDAO().getAll()) {
+			AppData.INSTANCE.getPaymentList().add(p);
 		}
 
 		/**
@@ -188,20 +183,32 @@ public class AppNavigation {
 		for (Invoice i : new InvoiceDAO().getAll()) {
 			AppData.INSTANCE.getInvoiceList().add(i);
 			for (Payment p : new PaymentDAO().getAllFromInvoice(i.getInvoiceID())) {
-				i.addPayment(p);
+				i.addPayment(AppData.INSTANCE.getPaymentList().getById(p.getPaymentID()));
 			}
 			for (Procedure p : new ProcedureDAO().getAllFromInvoice(i.getInvoiceID())) {
-				i.addProcedure(p);
+				i.addProcedure(AppData.INSTANCE.getProcedureList().getById(p.getProcID()));
 			}
 		}
 
 		/**
-		 * Load the list of Payments.
+		 * Load up the list of patients. Add the related invoices for each patient.
 		 */
-		AppData.INSTANCE.setPaymentList(new PaymentList());
-		for (Payment p : new PaymentDAO().getAll()) {
-			AppData.INSTANCE.getPaymentList().add(p);
+		AppData.INSTANCE.setPatientList(new PatientList());
+		try {
+			for (Patient p : new PatientDAO().getAll()) {
+				AppData.INSTANCE.getPatientList().add(p);
+				for (Invoice i : new InvoiceDAO().getAllFromPatient(p.getPatientNo())) {
+					p.addInvoice(AppData.INSTANCE.getInvoiceList().getById(i.getInvoiceID()));
+				}
+			}
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+
+
+
 
 	}
 

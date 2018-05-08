@@ -1,5 +1,6 @@
 package persistence;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -54,9 +55,14 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 	public Iterable<Payment> getAllFromInvoice(final int id) {
 		ArrayList<Payment> returnedList = new ArrayList<>();
 		if (paymentDB.exists()) {
-			String sql = null; //TODO SQL
-			CachedRowSet crs = (CachedRowSet) paymentDB.executeStatement(sql);
+
 			try {
+				String sql = "SELECT * FROM payment WHERE invoiceID = ?";
+				paymentDB.openConnection();
+				PreparedStatement pstmt = paymentDB.getCon().prepareStatement(sql);
+
+				pstmt.setInt(1, id);
+				CachedRowSet crs = (CachedRowSet) paymentDB.executeStatement(pstmt);
 				while (crs.next()) {
 					int paymentID = crs.getInt("paymentID");
 					double paymentAmt = crs.getDouble("paymentAmt");
@@ -72,6 +78,10 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 			} catch (SQLException e) {
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Invoice database", "");
 				exwin.show();
+			} catch (NullPointerException e) {
+				// Resultset is empty, no need to action
+			} finally {
+				paymentDB.closeConnection();
 			}
 		}
 		return returnedList;

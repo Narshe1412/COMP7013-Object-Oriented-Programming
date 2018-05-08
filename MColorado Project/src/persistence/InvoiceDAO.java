@@ -1,5 +1,6 @@
 package persistence;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -52,9 +53,13 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 	public Iterable<Invoice> getAllFromPatient(final int id) {
 		ArrayList<Invoice> returnedList = new ArrayList<>();
 		if (invoiceDB.exists()) {
-			String sql = null; //TODO SQL
-			CachedRowSet crs = (CachedRowSet) invoiceDB.executeStatement(sql);
 			try {
+				String sql = "SELECT * FROM invoice WHERE patientNo = ?";
+				invoiceDB.openConnection();
+				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql);		
+				pstmt.setInt(1, id);
+				
+				CachedRowSet crs = (CachedRowSet) invoiceDB.executeStatement(pstmt);
 				while (crs.next()) {
 					int invoiceID = crs.getInt("invoiceID");
 					String invoiceDate = crs.getString("invoiceDate");
@@ -68,6 +73,17 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 			} catch (SQLException e) {
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Invoice database", "");
 				exwin.show();
+				while (e != null) {
+					System.out.println(e.getSQLState());
+					System.out.println(e.getMessage());
+					System.out.println(e.getErrorCode());
+					e = e.getNextException();
+				   }
+
+			} catch (NullPointerException e) {
+				// Resultset is empty, no need to action
+			} finally {
+				invoiceDB.closeConnection();
 			}
 		}
 		return returnedList;

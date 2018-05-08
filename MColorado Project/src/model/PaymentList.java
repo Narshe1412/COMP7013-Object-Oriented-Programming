@@ -95,4 +95,14 @@ public class PaymentList extends ArrayList<Payment> implements Serializable {
 		}
 		return result;
 	}
+
+	public Payment getById(final int paymentID) {
+		// TODO Document and polish
+		for (Payment p : this) {
+			if (p.getPaymentID() == paymentID) {
+				return p;
+			}
+		}
+		return null;
+	}
 }

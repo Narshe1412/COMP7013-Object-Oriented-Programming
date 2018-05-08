@@ -75,7 +75,6 @@ public class Invoice implements Serializable{
 	 */
 	public void setInvoiceDate(final String date) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println("date-" + date);
 		try {
 			Date parsedDate = df.parse(date);
 			setInvoiceDate(parsedDate);

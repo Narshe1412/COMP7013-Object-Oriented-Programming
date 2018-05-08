@@ -49,7 +49,7 @@ public class PatientDAO implements IDBOperationRepository<Patient> {
 				exwin.show();
 			}
 		}
-		return null;
+		return returnedList;
 	}
 
 	@Override

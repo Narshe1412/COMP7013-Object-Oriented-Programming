@@ -34,7 +34,7 @@ public abstract class MySQLController {
 	public boolean openConnection() {
 		try {
 			setCon(DriverManager.getConnection(DB_URL, "root", ""));
-			getCon().setAutoCommit(false);
+			getCon().setAutoCommit(true); //TODO
 			return true;
 		} catch (SQLException e) {
 			setCon(null);

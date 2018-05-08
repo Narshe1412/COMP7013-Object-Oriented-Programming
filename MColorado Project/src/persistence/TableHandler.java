@@ -1,20 +1,15 @@
 package persistence;
 
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
 
-import com.mysql.jdbc.NotImplemented;
-
 import exception.DBException;
-import exception.ExceptionDialog;
-import javafx.application.Platform;
 
 class TableHandler extends MySQLController implements IDBManager {
 
@@ -50,8 +45,24 @@ class TableHandler extends MySQLController implements IDBManager {
 		return rs;
 	}
 	
-	public CachedRowSet executeStatement(final String sql) {
+	public CachedRowSet executeStatement(final PreparedStatement pstmt) {
 		//TODO handle queries with variables
+		
+		try {
+			openConnection();
+			ResultSet rs;
+			rs = pstmt.executeQuery();
+			RowSetFactory factory = RowSetProvider.newFactory();
+			CachedRowSet crs = factory.createCachedRowSet();
+			crs.populate(rs);
+			return crs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
+		
 		return null;
 	}
 

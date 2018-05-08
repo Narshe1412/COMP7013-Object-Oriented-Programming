@@ -1,5 +1,6 @@
 package persistence;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -56,9 +57,14 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 		TableHandler invprocDB = new TableHandler("invoiceprocedure");
 		ArrayList<Procedure> returnedList = new ArrayList<>();
 		if (invprocDB.exists()) {
-			String sql = null; // TODO SQL
-			CachedRowSet crs = (CachedRowSet) invprocDB.executeStatement(sql);
 			try {
+				String sql = "SELECT * FROM procs p, invoiceprocedure i " + "WHERE i.invoiceID = ? "
+						+ "AND i.procedureID = p.procId";
+				invprocDB.openConnection();
+				PreparedStatement pstmt = invprocDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, id);
+				
+				CachedRowSet crs = (CachedRowSet) invprocDB.executeStatement(pstmt);
 				while (crs.next()) {
 					int ipid = crs.getInt("ipid");
 					int invoiceID = crs.getInt("invoiceID");
@@ -77,9 +83,13 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 			} catch (SQLException e) {
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Procedure database", "");
 				exwin.show();
+			} catch (NullPointerException e) {
+				// Resultset is empty, no need to action
+			} finally {
+				invprocDB.closeConnection();
 			}
 		}
-		return null;
+		return returnedList;
 	}
 
 	@Override

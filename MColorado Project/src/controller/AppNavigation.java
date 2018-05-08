@@ -9,6 +9,7 @@ import model.*;
 import persistence.DentistDAO;
 import persistence.FileHandler;
 import persistence.IDBManager;
+import persistence.IDBOperationRepository;
 import persistence.InvoiceDAO;
 import persistence.PatientDAO;
 import persistence.PaymentDAO;
@@ -156,7 +157,7 @@ public class AppNavigation {
 		if (AppData.INSTANCE.getUserList().isEmpty()) {
 			AppData.INSTANCE.setUserList(Defaults.createDentists());
 		}
-		
+
 		/**
 		 * Load the list of Procedures. Create Defaults if none exists
 		 */
@@ -167,7 +168,7 @@ public class AppNavigation {
 		if (AppData.INSTANCE.getProcedureList().isEmpty()) {
 			AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
 		}
-		
+
 		/**
 		 * Load the list of Payments.
 		 */
@@ -177,7 +178,8 @@ public class AppNavigation {
 		}
 
 		/**
-		 * Load the list of invoices. Add the related payments and procedures for each Invoice.
+		 * Load the list of invoices. Add the related payments and procedures for each
+		 * Invoice.
 		 */
 		AppData.INSTANCE.setInvoiceList(new InvoiceList());
 		for (Invoice i : new InvoiceDAO().getAll()) {
@@ -205,10 +207,6 @@ public class AppNavigation {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-
-
 
 	}
 
@@ -264,13 +262,8 @@ public class AppNavigation {
 		}
 	}
 
-	public static boolean updateDBelement(final Object element, final String table) {
-		switch (table) {
-		case "dentist":
-			new DentistDAO().update((Dentist) element);
-			break;
-		}
-		return false;
+	public static <T> boolean updateDBelement(IDBOperationRepository<T> dao, final T element) {
+		return dao.update(element);
 	}
 
 }

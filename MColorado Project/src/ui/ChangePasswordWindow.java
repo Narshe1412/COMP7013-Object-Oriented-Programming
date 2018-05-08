@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.Dentist;
+import persistence.DentistDAO;
 
 /**
  * Creates a new window that allows the user to change the password
@@ -97,7 +98,7 @@ public class ChangePasswordWindow extends Stage {
 						if (newPass.equals(repeatPass)) {
 							user.setPassword(newPass);
 							AppData.INSTANCE.setSavedUser(null); // Password cleared
-							AppNavigation.updateDBelement(user, "dentist");
+							AppNavigation.updateDBelement(new DentistDAO(), user);
 							close();
 						} else {
 							AlertDialog passMismatch = new AlertDialog(AlertType.ERROR, "Wrong Details",

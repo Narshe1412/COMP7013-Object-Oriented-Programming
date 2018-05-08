@@ -90,8 +90,10 @@ public class UserDialog extends Dialog<Dentist> {
 			if (button == ButtonType.OK) {
 				try {
 					// Checks if the username introduced does not match another user in the system
-					if (AppData.INSTANCE.getUserList().find(user.getText().trim()) == null) {
-						// Validates the required fields username and name
+					// or matches the current username
+					if (AppData.INSTANCE.getUserList().find(user.getText().trim()) == null
+							|| toEdit.getUsername() == user.getText().trim()) {
+						// Validates the required fields username, name and phone
 						if (Validator.stringValidator(userName.getText().trim(), 2, 250)
 								&& Validator.stringValidator(user.getText().trim(), 2, 20)) {
 							if (userPhone.getText().trim().equals("")

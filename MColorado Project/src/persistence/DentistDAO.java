@@ -120,7 +120,6 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 				pstmt.setString(4, contents.getAddress());
 				pstmt.setString(5, contents.getPhone());
 				pstmt.setInt(6, contents.getUserNo());
-				System.out.println(pstmt);
 				userDB.executeUpdate(pstmt);
 
 			} catch (SQLException e) {

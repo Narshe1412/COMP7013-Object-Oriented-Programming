@@ -23,10 +23,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Dentist;
+
 /**
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class LoginWindow extends Stage {
 
@@ -103,7 +104,8 @@ public class LoginWindow extends Stage {
 				txtPassword.setText("");
 				txtUsername.requestFocus();
 			} else {
-				// If they're not empty, attempt to find the user in the list of users from the system
+				// If they're not empty, attempt to find the user in the list of users from the
+				// system
 				try {
 					Dentist user = AppData.INSTANCE.getUserList().find(txtUsername.getText().trim());
 					// If the user is not found
@@ -119,7 +121,9 @@ public class LoginWindow extends Stage {
 								ChangePasswordWindow window = new ChangePasswordWindow();
 								window.showAndWait();
 								if (user.verifyPassword("11111111")) {
-									AlertDialog alert = new AlertDialog(AlertType.ERROR, "Critical Error", "Password reset not completed", "You cannot continue with an insecure password. The application will now close");
+									AlertDialog alert = new AlertDialog(AlertType.ERROR, "Critical Error",
+											"Password reset not completed",
+											"You cannot continue with an insecure password. The application will now close");
 									alert.showAndWait();
 									Platform.exit();
 								}
@@ -138,7 +142,8 @@ public class LoginWindow extends Stage {
 						txtPassword.requestFocus();
 					}
 				} catch (PassException e) {
-					ExceptionDialog exWin = new ExceptionDialog("Critical error", "Unable to load password from the system.", e);
+					ExceptionDialog exWin = new ExceptionDialog("Critical error",
+							"Unable to load password from the system.", e);
 					exWin.show();
 				}
 			}

@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  * Creates the loading window for the application
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class InitialLoadWindow extends Stage {
 
@@ -28,7 +28,7 @@ public class InitialLoadWindow extends Stage {
 	 * @throws Exception
 	 *             Handles an exception that can be thrown if the database load
 	 *             fails
-	 * @version 1.0
+	 * 
 	 */
 	public InitialLoadWindow() throws Exception {
 		super();

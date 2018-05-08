@@ -8,7 +8,7 @@ import javafx.scene.control.Tooltip;
  * Validates different input rules in the client side
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class Validator {
 
@@ -117,8 +117,7 @@ public class Validator {
 		}
 		return true;
 	}
-	
-	
+
 	/**
 	 * Sets up a listener to a TextField passed by parameter that will check for
 	 * changes in the TextProperty of the node and change the field between red and

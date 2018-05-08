@@ -14,7 +14,7 @@ import model.Invoice;
  * specific invoice
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class InvoiceTitlePane extends StackPane {
 

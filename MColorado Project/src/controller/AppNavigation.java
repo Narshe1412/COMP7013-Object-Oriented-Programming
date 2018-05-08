@@ -262,8 +262,35 @@ public class AppNavigation {
 		}
 	}
 
+	/**
+	 * 
+	 * @param dao
+	 * @param element
+	 * @return
+	 */
 	public static <T> boolean updateDBelement(IDBOperationRepository<T> dao, final T element) {
 		return dao.update(element);
+	}
+	
+	/**
+	 * 
+	 * @param dao
+	 * @param element
+	 * @return
+	 */
+
+	public static <T> boolean deleteDBelement(IDBOperationRepository<T> dao, final T element) {
+		return dao.remove(element);
+	}
+
+	/**
+	 * 
+	 * @param dao
+	 * @param element
+	 * @return
+	 */
+	public static <T> boolean addDBelement(IDBOperationRepository<T> dao, final T element) {
+		return dao.add(element);
 	}
 
 }

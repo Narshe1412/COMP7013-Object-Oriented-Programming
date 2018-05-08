@@ -23,7 +23,7 @@ import model.Dentist;
  * Creates a dialog window to capture the details of a new user (Dentist)
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class UserDialog extends Dialog<Dentist> {
 	TextField userName;
@@ -94,8 +94,16 @@ public class UserDialog extends Dialog<Dentist> {
 						// Validates the required fields username and name
 						if (Validator.stringValidator(userName.getText().trim(), 2, 250)
 								&& Validator.stringValidator(user.getText().trim(), 2, 20)) {
-							return new Dentist(userName.getText(), userAddress.getText(), userPhone.getText(),
-									user.getText().trim(), "11111111");
+							if (userPhone.getText().trim().equals("")
+									|| Validator.unsignedIntValidator(userPhone.getText())) {
+								return new Dentist(userName.getText(), userAddress.getText(), userPhone.getText(),
+										user.getText().trim(), "11111111");
+							} else {
+								AlertDialog alert = new AlertDialog(AlertType.WARNING, "Phone Error",
+										"Phone not numeric", "Phone needs to be a numeric value");
+								alert.showAndWait();
+							}
+
 						}
 					} else {
 						AlertDialog alert = new AlertDialog(AlertType.WARNING, "Username Taken", "Username taken",

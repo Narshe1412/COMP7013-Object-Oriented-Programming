@@ -1,6 +1,7 @@
 package ui;
 
 import controller.AppData;
+import controller.AppNavigation;
 import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
@@ -19,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Dentist;
+import persistence.DentistDAO;
 
 /**
  * Creates a window to manage the users of the system
@@ -109,6 +111,7 @@ public class UserManagementWindow extends Stage {
 		if (d != null) {
 			try {
 				AppData.INSTANCE.getUserList().find(d.getUsername()).setPassword("11111111");
+				AppNavigation.updateDBelement(new DentistDAO(), d);
 				// Warns the user the password has been reset and what's the temporary password
 				AlertDialog alert = new AlertDialog(AlertType.CONFIRMATION, "Password reset",
 						"The password has been reset for user " + d.getUsername(),
@@ -133,9 +136,10 @@ public class UserManagementWindow extends Stage {
 						"Cannot delete current user.");
 				alert.showAndWait();
 			} else {
-				AppData.INSTANCE.getUserList().remove(d);
-				userList.remove(d);
-				AppState.INSTANCE.setModified(true);
+				if (AppNavigation.deleteDBelement(new DentistDAO(), d)) {
+					AppData.INSTANCE.getUserList().remove(d);
+					userList.remove(d);
+				}
 			}
 		}
 	}
@@ -150,9 +154,11 @@ public class UserManagementWindow extends Stage {
 
 			Dentist toEdit = AppData.INSTANCE.getUserList().find(d.getUsername());
 			UserDialog dialog = new UserDialog(toEdit);
-			userList.set(row, dialog.getEdit());
+			Dentist edited = dialog.getEdit();
+			if (AppNavigation.updateDBelement(new DentistDAO(), edited)) {
+				userList.set(row, edited);
+			}
 		}
-		AppState.INSTANCE.setModified(true);
 	}
 
 	/**
@@ -162,8 +168,9 @@ public class UserManagementWindow extends Stage {
 		UserDialog dialog = new UserDialog(null);
 		Dentist dentist = dialog.getEdit();
 		if (dentist != null) {
-			userList.add(dentist);
-			AppState.INSTANCE.setModified(true);
+			if (AppNavigation.addDBelement(new DentistDAO(), dentist)) {
+				userList.add(dentist);
+			}
 		}
 	}
 

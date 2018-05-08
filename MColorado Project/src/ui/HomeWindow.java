@@ -22,7 +22,7 @@ import model.Invoice;
  * A status bar at the bottom
  * 
  * @author Manuel Colorado
- *
+ * @version 1.0
  */
 public class HomeWindow extends Stage implements ReloadableNode {
 

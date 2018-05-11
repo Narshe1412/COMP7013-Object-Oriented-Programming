@@ -128,7 +128,22 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 
 	@Override
 	public boolean remove(Invoice contents) {
-		// TODO Auto-generated method stub
+		if (invoiceDB.exists()) {
+			try {
+				String sql = "UPDATE invoice SET deleted = 1 WHERE invoiceID = ?";
+				invoiceDB.openConnection();
+				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, contents.getInvoiceID());
+				if (invoiceDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
+				exwin.show();
+			} finally {
+				invoiceDB.closeConnection();
+			}
+		}
 		return false;
 	}
 

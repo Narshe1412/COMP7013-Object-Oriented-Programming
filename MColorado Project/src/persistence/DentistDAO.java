@@ -137,7 +137,7 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 	public boolean remove(Dentist contents) {
 		if (userDB.exists()) {
 			try {
-				String sql = "DELETE FROM dentist WHERE dentist.userNo = ?";
+				String sql = "UPDATE dentist SET deleted = 1 WHERE dentist.userNo = ?";
 				userDB.openConnection();
 				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql);
 				pstmt.setInt(1, contents.getUserNo());

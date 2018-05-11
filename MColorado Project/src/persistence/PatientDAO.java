@@ -2,6 +2,7 @@ package persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.sql.rowset.CachedRowSet;
@@ -21,7 +22,29 @@ public class PatientDAO implements IDBOperationRepository<Patient> {
 
 	@Override
 	public int add(Patient contents) {
-		// TODO Auto-generated method stub
+		if (patientDB.exists()) {
+			try {
+				String sql = "INSERT INTO patient (patientNo, name, address, phone) " + "VALUES (NULL, ?, ?, ?);";
+				patientDB.openConnection();
+				PreparedStatement pstmt = patientDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, contents.getName());
+				pstmt.setString(2, contents.getAddress());
+				pstmt.setString(3, contents.getPhone());
+
+				int patientID = patientDB.executeUpdate(pstmt);
+				if (patientID > 0) {
+					contents.setPatientNo(patientID);
+					return patientID;
+				} else {
+					throw new SQLException("Unable to create user.");
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
+				exwin.show();
+			} finally {
+				patientDB.closeConnection();
+			}
+		}
 		return -1;
 	}
 
@@ -88,13 +111,47 @@ public class PatientDAO implements IDBOperationRepository<Patient> {
 
 	@Override
 	public boolean update(Patient contents) {
-		// TODO Auto-generated method stub
+		if (patientDB.exists()) {
+			try {
+				String sql = "UPDATE patient SET name = ? ," + " address = ? ," + " phone = ?"
+						+ " WHERE patient.patientNo = ?";
+				patientDB.openConnection();
+				PreparedStatement pstmt = patientDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, contents.getName());
+				pstmt.setString(2, contents.getAddress());
+				pstmt.setString(3, contents.getPhone());
+				pstmt.setInt(4, contents.getPatientNo());
+				if (patientDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Patient database", "");
+				exwin.show();
+			} finally {
+				patientDB.closeConnection();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean remove(Patient contents) {
-		// TODO Auto-generated method stub
+		if (patientDB.exists()) {
+			try {
+				String sql = "DELETE FROM dentist WHERE dentist.userNo = ?";
+				patientDB.openConnection();
+				PreparedStatement pstmt = patientDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, contents.getPatientNo());
+				if (patientDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Patient database", "");
+				exwin.show();
+			} finally {
+				patientDB.closeConnection();
+			}
+		}
 		return false;
 	}
 

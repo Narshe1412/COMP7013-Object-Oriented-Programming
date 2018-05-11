@@ -120,8 +120,9 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 				pstmt.setString(4, contents.getAddress());
 				pstmt.setString(5, contents.getPhone());
 				pstmt.setInt(6, contents.getUserNo());
-				userDB.executeUpdate(pstmt);
-
+				if (userDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
 			} catch (SQLException e) {
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
 				exwin.show();

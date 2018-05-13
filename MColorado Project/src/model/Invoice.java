@@ -25,6 +25,7 @@ public class Invoice implements Serializable{
 	private boolean isPaid;
 	private final List<Procedure> in_procList = new ArrayList<Procedure>();
 	private final List<Payment> in_paymentList = new ArrayList<Payment>();
+	private Patient billedTo;
 	
 	/**
 	 * Default Constructor
@@ -241,5 +242,15 @@ public class Invoice implements Serializable{
 		boolean result =  getIn_paymentList().remove(pay);
 		calculateInvoiceAmt();
 		return result;
+	}
+
+	//TODO
+	public Patient getBilledTo() {
+		return billedTo;
+	}
+
+	//TODO
+	public void setBilledTo(Patient billedTo) {
+		this.billedTo = billedTo;
 	}
 }

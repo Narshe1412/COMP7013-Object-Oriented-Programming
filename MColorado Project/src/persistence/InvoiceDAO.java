@@ -2,6 +2,7 @@ package persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.sql.rowset.CachedRowSet;
@@ -19,7 +20,29 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 
 	@Override
 	public int add(Invoice contents) {
-		// TODO Auto-generated method stub
+		if (invoiceDB.exists()) {
+			try {
+				String sql = "INSERT INTO invoice (invoiceID, invoiceDate, patientNo, deleted) "
+						+ "VALUES (NULL, ?, ?, 0);";
+				invoiceDB.openConnection();
+				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, contents.getStringDate());
+				pstmt.setInt(2, contents.getBilledTo().getPatientNo());
+
+				int invoiceID = invoiceDB.executeUpdate(pstmt);
+				if (invoiceID > 0) {
+					contents.setInvoiceID(invoiceID);
+					return invoiceID;
+				} else {
+					throw new SQLException("Unable to create user.");
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Invoice database", "");
+				exwin.show();
+			} finally {
+				invoiceDB.closeConnection();
+			}
+		}
 		return -1;
 	}
 
@@ -122,7 +145,23 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 
 	@Override
 	public boolean update(Invoice contents) {
-		// TODO Auto-generated method stub
+		if (invoiceDB.exists()) {
+			try {
+				String sql = "UPDATE invoice SET invoiceDate = ? WHERE invoiceID = ?";
+				invoiceDB.openConnection();
+				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql);
+				pstmt.setString(1, contents.getStringDate());
+				pstmt.setInt(2, contents.getInvoiceID());
+				if (invoiceDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");
+				exwin.show();
+			} finally {
+				invoiceDB.closeConnection();
+			}
+		}
 		return false;
 	}
 

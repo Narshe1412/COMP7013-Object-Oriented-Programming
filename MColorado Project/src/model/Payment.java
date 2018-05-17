@@ -26,6 +26,7 @@ public class Payment implements Serializable {
 	private int paymentID;
 	private double paymentAmt;
 	private Date paymentDate;
+	private Invoice containedIn;
 
 	/**
 	 * Constructor
@@ -176,5 +177,15 @@ public class Payment implements Serializable {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		return new SimpleStringProperty(df.format(getPaymentDate()));
 
+	}
+	
+	//TODO
+	public Invoice getContainedIn() {
+		return containedIn;
+	}
+
+	//TODO
+	public void setContainedIn(Invoice containedIn) {
+		this.containedIn = containedIn;
 	}
 }

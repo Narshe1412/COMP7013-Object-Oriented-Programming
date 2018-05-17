@@ -9,6 +9,7 @@ import javax.sql.rowset.CachedRowSet;
 
 import exception.ExceptionDialog;
 import model.Invoice;
+import model.Procedure;
 
 public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 	TableHandler invoiceDB;
@@ -186,4 +187,25 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 		return false;
 	}
 
+	public boolean addProcedureToInvoice(Procedure p, Invoice i) {
+		TableHandler invprocDB = new TableHandler("invoice procedure");
+		if (invprocDB.exists()) {
+			try {
+				invprocDB.openConnection();
+				String sql = "INSERT INTO invoiceprocedure (ipid, invoiceID, procedureID) VALUES (NULL, ?, ?)";
+				PreparedStatement pstmt = invprocDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, i.getInvoiceID());
+				pstmt.setInt(2, p.getProcID());
+				if (invprocDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Procedure database", "");
+				exwin.show();
+			} finally {
+				invprocDB.closeConnection();
+			}
+		}
+		return false;
+	}
 }

@@ -2,6 +2,7 @@ package persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.sql.rowset.CachedRowSet;
@@ -19,7 +20,28 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 
 	@Override
 	public int add(Procedure contents) {
-		// TODO Auto-generated method stub
+		if (procDB.exists()) {
+			try {
+				String sql = "INSERT INTO procs (procId, procName, procCost, deleted) " + "VALUES (NULL, ?, ?, 0);";
+				procDB.openConnection();
+				PreparedStatement pstmt = procDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, contents.getProcName().getValue());
+				pstmt.setDouble(2, contents.getProcCost().get());
+
+				int procId = procDB.executeUpdate(pstmt);
+				if (procId > 0) {
+					contents.setProcID(procId);
+					return procId;
+				} else {
+					throw new SQLException("Unable to create procedure.");
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Procedure database", "");
+				exwin.show();
+			} finally {
+				procDB.closeConnection();
+			}
+		}
 		return -1;
 	}
 
@@ -31,7 +53,7 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 				procDB.openConnection();
 				PreparedStatement pstmt = procDB.getCon().prepareStatement(sql);
 				pstmt.setInt(1, id);
-				
+
 				CachedRowSet crs = (CachedRowSet) procDB.executeStatement(pstmt);
 				while (crs.next()) {
 					int procId = crs.getInt("procId");
@@ -89,7 +111,7 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 				invprocDB.openConnection();
 				PreparedStatement pstmt = invprocDB.getCon().prepareStatement(sql);
 				pstmt.setInt(1, id);
-				
+
 				CachedRowSet crs = (CachedRowSet) invprocDB.executeStatement(pstmt);
 				while (crs.next()) {
 					int ipid = crs.getInt("ipid");
@@ -120,13 +142,49 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 
 	@Override
 	public boolean update(Procedure contents) {
-		// TODO Auto-generated method stub
+		if (procDB.exists()) {
+			try {
+
+				String sql = "UPDATE procs SET procName = ?, procCost = ? WHERE procs.procId = ?";
+				procDB.openConnection();
+				PreparedStatement pstmt = procDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, contents.getProcName().getValue());
+				pstmt.setDouble(2, contents.getProcCost().get());
+				pstmt.setInt(3, contents.getProcID());
+
+				if (procDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Procedure database", "");
+				exwin.show();
+			} finally {
+				procDB.closeConnection();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean remove(Procedure contents) {
-		// TODO Auto-generated method stub
+		if (procDB.exists()) {
+			try {
+
+				String sql = "UPDATE procs SET deleted = 1 WHERE procs.procId` = 5;";
+				procDB.openConnection();
+				PreparedStatement pstmt = procDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setInt(1, contents.getProcID());
+
+				if (procDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Procedure database", "");
+				exwin.show();
+			} finally {
+				procDB.closeConnection();
+			}
+		}
 		return false;
 	}
 

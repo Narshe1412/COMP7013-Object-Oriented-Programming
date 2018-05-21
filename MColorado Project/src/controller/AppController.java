@@ -1,10 +1,13 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javafx.util.Callback;
 import model.*;
 import persistence.InvoiceDAO;
 import persistence.PatientDAO;
+import persistence.PaymentDAO;
 import persistence.ProcedureDAO;
 
 public class AppController {
@@ -39,7 +42,6 @@ public class AppController {
 		if (invoiceId > 0) {
 			p.addInvoice(i);
 		}
-
 	}
 
 	public Invoice getInvoiceById(int id) {
@@ -66,5 +68,33 @@ public class AppController {
 	public boolean deleteProcedure(Procedure p) {
 		return new ProcedureDAO().remove(p);
 
+	}
+
+	public void addPaymentToInvoice(Payment p, Invoice i) {
+		p.setContainedIn(i);
+		int paymentId = new PaymentDAO().add(p);
+		if (paymentId > 0) {
+			i.addPayment(p);
+			i.calculateInvoicePaid();
+		}
+
+	}
+
+	public boolean deletePayment(Payment p) {
+		return new PaymentDAO().remove(p);
+	}
+
+	public void deletePaymentFromInvoice(Payment p, Invoice i) {
+		if (deletePayment(p)) {
+			i.removePayment(p);
+		}
+	}
+
+	public ArrayList<Payment> getPaymentFromInvoice(Invoice inv) {
+		return (ArrayList<Payment>) new PaymentDAO().getAllFromInvoice(inv.getInvoiceID());
+	}
+
+	public ArrayList<Payment> getAllPayments() {
+		return (ArrayList<Payment>) new PaymentDAO().getAll();
 	}
 }

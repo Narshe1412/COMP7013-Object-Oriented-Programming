@@ -109,7 +109,7 @@ public class ReportAppWindow extends Stage {
 		paymentTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 20));
 
 		String paymentData = "";
-		List<Payment> paymentList = AppData.INSTANCE.getPaymentList().stream().collect(Collectors.toList());
+		List<Payment> paymentList = controller.getAllPayments();
 
 		if (paymentList.isEmpty()) {
 			// Fallback if no payments have been added on the system

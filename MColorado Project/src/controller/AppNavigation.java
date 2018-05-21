@@ -10,10 +10,6 @@ import persistence.DentistDAO;
 import persistence.FileHandler;
 import persistence.IDBManager;
 import persistence.IDBOperationRepository;
-import persistence.InvoiceDAO;
-import persistence.PatientDAO;
-import persistence.PaymentDAO;
-import persistence.ProcedureDAO;
 import ui.ReloadableNode;
 
 /**

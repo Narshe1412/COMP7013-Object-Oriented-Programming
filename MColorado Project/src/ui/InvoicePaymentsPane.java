@@ -3,6 +3,7 @@ package ui;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import controller.AppController;
 import controller.AppData;
 import controller.AppState;
 import javafx.application.Platform;
@@ -38,6 +39,7 @@ public class InvoicePaymentsPane extends Pane {
 	private ObservableList<Payment> paymentList;
 	private InvoiceTitlePane title;
 	private Invoice invoice;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -48,7 +50,8 @@ public class InvoicePaymentsPane extends Pane {
 	 * @param title
 	 *            The parent pane to provide updates and call refresh method
 	 */
-	public InvoicePaymentsPane(Invoice inv, InvoiceTitlePane title) {
+	public InvoicePaymentsPane(Invoice inv, InvoiceTitlePane title, AppController controller) {
+		this.controller = controller;
 		this.invoice = inv;
 		this.title = title;
 
@@ -56,7 +59,7 @@ public class InvoicePaymentsPane extends Pane {
 		root.setPadding(new Insets(10, 10, 10, 10));
 
 		table = new TableView<Payment>();
-		paymentList = FXCollections.observableArrayList(invoice.getIn_paymentList());
+		paymentList = FXCollections.observableArrayList(controller.getPaymentFromInvoice(inv));
 
 		TableColumn<Payment, Double> colAmount = new TableColumn<Payment, Double>("Amount");
 		colAmount.setCellValueFactory(data -> data.getValue().getPaymentAmt().asObject());
@@ -160,13 +163,9 @@ public class InvoicePaymentsPane extends Pane {
 	 *            A new payment to add to the system
 	 */
 	public void pay(Payment p) {
-		// TODO review binding
-		AppData.INSTANCE.getPaymentList().add(p);
+		controller.addPaymentToInvoice(p, invoice);
 		paymentList.add(p);
-		invoice.addPayment(p);
-		invoice.calculateInvoicePaid();
 		title.refresh();
-		AppState.INSTANCE.setModified(true);
 	}
 
 	/**
@@ -175,13 +174,9 @@ public class InvoicePaymentsPane extends Pane {
 	public void deletePayment() {
 		Payment p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
-			@SuppressWarnings("unused")
-			int row = paymentList.indexOf(p);
-			AppData.INSTANCE.getPaymentList().remove(p);
+			controller.deletePaymentFromInvoice(p, invoice);
 			paymentList.remove(p); // TODO review binding
-			invoice.removePayment(p);
 		}
 		title.refresh();
-		AppState.INSTANCE.setModified(true);
 	}
 }

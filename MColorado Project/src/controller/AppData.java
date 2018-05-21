@@ -56,27 +56,4 @@ public enum AppData {
 	public void setUserList(final List<Dentist> userList) {
 		this.userList = (DentistList) userList;
 	}
-
-	
-	private PaymentList paymentList;
-
-	/**
-	 * Obtains the list the payments stored in the system
-	 * 
-	 * @return a PaymentList object with all the payments stored in the system
-	 */
-	public PaymentList getPaymentList() {
-		return paymentList;
-	}
-
-	/**
-	 * Set up a list of payments that will store in the system
-	 * 
-	 * @param paymentList
-	 *            a list of Payment objects recorded in the system
-	 */
-	public void setPaymentList(List<Payment> paymentList) {
-		this.paymentList = (PaymentList) paymentList;
-	}
-
 }

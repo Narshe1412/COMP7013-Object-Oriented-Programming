@@ -57,28 +57,7 @@ public enum AppData {
 		this.userList = (DentistList) userList;
 	}
 
-	private PatientList patientList;
-
-	/**
-	 * Gets the complete list of patients as used by the system
-	 * 
-	 * @return A PatientList object containing all the patients
-	 */
-	public PatientList getPatientList() {
-		return patientList;
-	}
-
-	/**
-	 * Sets up the list of patients that will be used by the system
-	 * 
-	 * @param patientList
-	 *            An object containing the List of patients
-	 */
-	public void setPatientList(List<Patient> patientList) {
-		this.patientList = (PatientList) patientList;
-
-	};
-
+	
 	private InvoiceList invoiceList;
 
 	/**

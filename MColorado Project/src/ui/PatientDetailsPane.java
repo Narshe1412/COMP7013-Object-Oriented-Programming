@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppController;
 import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
@@ -46,7 +47,7 @@ public class PatientDetailsPane extends Pane {
 	 *            a reference to the parent window so this pane can call methods on
 	 *            the parent
 	 */
-	public PatientDetailsPane(HomeWindow parent) {
+	public PatientDetailsPane(HomeWindow parent, AppController controller) {
 		this.parent = parent;
 
 		GridPane root = new GridPane();
@@ -103,18 +104,20 @@ public class PatientDetailsPane extends Pane {
 		btnSave.setOnAction(event -> {
 			if (Validator.stringValidator(getTxtName(), 2, 100)) {
 				if (AppState.INSTANCE.getCurrentPatient() == null) {
-					Patient p = AppData.INSTANCE.getPatientList().addNew(getTxtName(), getTxtAddress(), getTxtPhone());
-					AppNavigation.updatePatient(p);
+					Patient p = new Patient(getTxtName(), getTxtAddress(), getTxtPhone());
+					int id = controller.addPatient(p);
+					if (id > 0) {
+						AppNavigation.updatePatient(p);
+					}
 				} else {
-					AppData.INSTANCE.getPatientList().updateById(getTxtId(), getTxtName(), getTxtAddress(),
-							getTxtPhone());
+					Patient p = new Patient(getTxtId(), getTxtName(), getTxtAddress(), getTxtPhone());
+					controller.updatePatient(p);
 				}
 				btnCancel.setVisible(false);
 				btnNew.setVisible(true);
 				disableAll();
 				refreshUI();
 				parent.refreshUI();
-				AppState.INSTANCE.setModified(true);
 			} else {
 				if (!Validator.stringValidator(getTxtName(), 2, 100)) {
 					Validator.setStringValidation(getTxtName(), 2, 100, txtName, "Name cannot be blank");

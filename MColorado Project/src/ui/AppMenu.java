@@ -3,6 +3,7 @@ package ui;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import controller.AppController;
 import controller.AppData;
 import controller.AppNavigation;
 import exception.ExceptionDialog;
@@ -27,6 +28,7 @@ public class AppMenu extends MenuBar {
 	private ProcedureManagementWindow procMng;
 	private UserManagementWindow userMng;
 	private PatientManagementWindow patMng;
+	private AppController controller;
 
 	/**
 	 * Creates a new menu. Parent class is passed as parameter so it can call parent
@@ -35,8 +37,9 @@ public class AppMenu extends MenuBar {
 	 * @param homeWindow
 	 *            the parent stage
 	 */
-	public AppMenu(HomeWindow homeWindow) {
+	public AppMenu(HomeWindow homeWindow, AppController controller) {
 		this.parent = homeWindow;
+		this.controller = controller;
 		prefWidthProperty().bind(parent.widthProperty());
 		getMenus().addAll(fileMenu(), patientMenu(), reportsMenu(), adminMenu());
 	}
@@ -115,21 +118,21 @@ public class AppMenu extends MenuBar {
 		MenuItem patientsReportMenu = new MenuItem("Patients Full Report");
 		/** Loads the window with the full patient report for the app */
 		patientsReportMenu.setOnAction(event -> {
-			ReportPatientWindow win = new ReportPatientWindow();
+			ReportPatientWindow win = new ReportPatientWindow(controller);
 			win.show();
 		});
 
 		MenuItem appReportMenu = new MenuItem("Full Application Report");
 		/** Loads the window with the full application report (data model) */
 		appReportMenu.setOnAction(event -> {
-			ReportAppWindow win = new ReportAppWindow();
+			ReportAppWindow win = new ReportAppWindow(controller);
 			win.show();
 		});
 		
 		MenuItem debtReportMenu = new MenuItem("Unpaid Invoices Report");
 		/** Loads the window with the unpaid invoices report */
 		debtReportMenu.setOnAction(event -> {
-			ReportDebtWindow win = new ReportDebtWindow();
+			ReportDebtWindow win = new ReportDebtWindow(controller);
 			win.show();
 		});
 		
@@ -209,7 +212,7 @@ public class AppMenu extends MenuBar {
 	 */
 	private void loadPatientWindow() {
 		if (patMng == null) {
-			patMng = new PatientManagementWindow(this);
+			patMng = new PatientManagementWindow(this, controller);
 			patMng.show();
 		} else {
 			patMng.show();

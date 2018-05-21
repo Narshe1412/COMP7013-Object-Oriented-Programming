@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import controller.AppController;
 import controller.AppData;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -29,10 +30,13 @@ import model.Procedure;
  */
 public class ReportAppWindow extends Stage {
 
+	private AppController controller;
+
 	/**
 	 * Constructor
 	 */
-	public ReportAppWindow() {
+	public ReportAppWindow(AppController controller) {
+		this.controller= controller;
 		BorderPane root = new BorderPane();
 
 		TextFlow patientReport = getPatientReport();
@@ -62,7 +66,7 @@ public class ReportAppWindow extends Stage {
 		String patientData = "";
 
 		// Creates a copy of the patients that will be reordered by name
-		List<Patient> patientList = AppData.INSTANCE.getPatientList().stream().collect(Collectors.toList());
+		List<Patient> patientList = controller.getAllPatients();
 		patientList.sort((Patient a, Patient b) -> a.getName().compareToIgnoreCase(b.getName()));
 		
 		if (patientList.isEmpty()) {

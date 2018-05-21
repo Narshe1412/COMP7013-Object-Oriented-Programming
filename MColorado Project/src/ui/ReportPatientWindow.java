@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import controller.AppController;
 import controller.AppData;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -30,10 +31,14 @@ import model.Procedure;
  */
 public class ReportPatientWindow extends Stage {
 
+	private AppController controller;
+
 	/**
 	 * Constructor
+	 * @param controller 
 	 */
-	public ReportPatientWindow() {
+	public ReportPatientWindow(AppController controller) {
+		this.controller = controller;
 		BorderPane root = new BorderPane();
 
 		TextFlow patientReport = getPatientReport();
@@ -62,14 +67,12 @@ public class ReportPatientWindow extends Stage {
 		patientTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 20));
 		patientTitle.setUnderline(true);
 		result.getChildren().add(patientTitle);
-
-		if (AppData.INSTANCE.getPatientList().isEmpty()) {
+		List<Patient> patientList = controller.getAllPatients();
+		if (patientList.isEmpty()) {
 			// Fallback if no patients were registered on the system
 			Text empty = new Text("No patients have been registered in the system.\n");
 			result.getChildren().add(empty);
 		} else {
-			// Creates a copy of the patientList and orders them by name
-			List<Patient> patientList = AppData.INSTANCE.getPatientList().stream().collect(Collectors.toList());
 			patientList.sort((Patient a, Patient b) -> a.getName().compareToIgnoreCase(b.getName()));
 
 			Text patientDataTxt;

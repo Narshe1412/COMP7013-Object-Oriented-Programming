@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppController;
 import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
@@ -74,7 +75,7 @@ public class InitialLoadWindow extends Stage {
 			loginWindow.show();
 		} else {
 			AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getSavedUser());
-			AppNavigation.setMainWindow(new HomeWindow());
+			AppNavigation.setMainWindow(new HomeWindow(new AppController()));
 			AppNavigation.showWindow();
 		}
 	}

@@ -12,7 +12,6 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public class Patient extends Person {
-	// private static int id = 0;
 	private int patientNo;
 	private final List<Invoice> p_invoiceList;
 
@@ -46,6 +45,25 @@ public class Patient extends Person {
 	}
 
 	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 *            an integer representing the id of the Patient
+	 * @param name
+	 *            a string representing the name of the Patient
+	 * @param address
+	 *            a string representing the address of the Patient
+	 * @param phone
+	 *            a string representing the phone of the patient
+	 */
+
+	public Patient(int id, String name, String address, String phone) {
+		super(name, address, phone);
+		setPatientNo(id);
+		p_invoiceList = new ArrayList<Invoice>();
+	}
+
+	/**
 	 * Obtains the ID of the patient registered in the system
 	 * 
 	 * @return a numeric value that represents the ID the patient has on the system
@@ -63,8 +81,6 @@ public class Patient extends Person {
 	 */
 	public void setPatientNo(int id) {
 		patientNo = id;
-		// this.patientNo = id;
-		// id++;
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import controller.AppController;
 import controller.AppData;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -31,10 +32,14 @@ import model.Payment;
  */
 public class ReportDebtWindow extends Stage {
 
+	private AppController controller;
+
 	/**
 	 * Constructor
+	 * @param controller 
 	 */
-	public ReportDebtWindow() {
+	public ReportDebtWindow(AppController controller) {
+		this.controller = controller;
 		BorderPane root = new BorderPane();
 
 		TextFlow patientReport = getInvoicesReport();
@@ -63,7 +68,7 @@ public class ReportDebtWindow extends Stage {
 
 		String patientData = "";
 		// Creates a copy of the patients to be reordered by amount pending
-		List<Patient> patientList = AppData.INSTANCE.getPatientList().stream().collect(Collectors.toList());
+		List<Patient> patientList = controller.getAllPatients();
 		patientList.sort((Patient a, Patient b) -> (int) (b.getRemainingInvoiceValue() - a.getRemainingInvoiceValue()));
 
 		if (patientList.isEmpty()) {

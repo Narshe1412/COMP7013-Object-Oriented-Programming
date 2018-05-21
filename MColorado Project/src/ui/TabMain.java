@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppController;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 
@@ -16,6 +17,7 @@ class TabMain extends Tab implements ReloadableNode {
 	private HomeWindow parent;
 	private PatientDetailsPane details;
 	private InvoiceControlsPane invoices;
+	private AppController controller;
 
 	/**
 	 * Creates the main tab for the system
@@ -23,12 +25,13 @@ class TabMain extends Tab implements ReloadableNode {
 	 * @param parent
 	 *            The caller parent, so the children can use its methods
 	 */
-	public TabMain(HomeWindow parent) {
+	public TabMain(HomeWindow parent, AppController controller) {
+		this.controller = controller;
 		this.parent = parent;
 		setText("Patient Details");
 		SplitPane root = new SplitPane();
 
-		details = new PatientDetailsPane(parent);
+		details = new PatientDetailsPane(parent, controller);
 		invoices = new InvoiceControlsPane(parent);
 
 		root.getItems().addAll(details, invoices);

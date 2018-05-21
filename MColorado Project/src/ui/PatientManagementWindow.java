@@ -2,7 +2,7 @@ package ui;
 
 import java.util.Optional;
 
-import controller.AppData;
+import controller.AppController;
 import controller.AppNavigation;
 import controller.AppState;
 import javafx.beans.property.SimpleStringProperty;
@@ -38,6 +38,7 @@ public class PatientManagementWindow extends Stage {
 	private ObservableList<Patient> patientList;
 	private TableView<Patient> table;
 	private AppMenu parent;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -46,13 +47,14 @@ public class PatientManagementWindow extends Stage {
 	 *            a reference to the parent window so this pane can call methods of
 	 *            the parent
 	 */
-	public PatientManagementWindow(AppMenu parent) {
+	public PatientManagementWindow(AppMenu parent, AppController controller) {
+		this.controller = controller;
 		this.parent = parent;
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10));
 
 		table = new TableView<Patient>();
-		patientList = FXCollections.observableArrayList(AppData.INSTANCE.getPatientList());
+		patientList = FXCollections.observableArrayList(controller.getAllPatients());
 		TableColumn<Patient, String> colName = new TableColumn<Patient, String>("Name");
 		colName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
 		TableColumn<Patient, String> colAddress = new TableColumn<Patient, String>("Address");
@@ -114,7 +116,8 @@ public class PatientManagementWindow extends Stage {
 	private void openPatient() {
 		Patient p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
-			AppNavigation.loadPatient(AppData.INSTANCE.getPatientList().getById(p.getPatientNo()));
+			Patient currentPatientDataFromDB = controller.getPatient(p.getPatientNo());
+			AppNavigation.loadPatient(currentPatientDataFromDB);
 		}
 		parent.unloadPatientWindow();
 	}
@@ -174,11 +177,10 @@ public class PatientManagementWindow extends Stage {
 	 * @return true if the patient was deleted
 	 */
 	private boolean deleteWorkflow(Patient p) {
-		AppData.INSTANCE.getPatientList().remove(p);
-		patientList.remove(p);
-		AppState.INSTANCE.setModified(true);
-		return true;
+		if (controller.deletePatient(p)) {
+			patientList.remove(p);
+			return true;
+		}
+		return false;		
 	}
 }
-
-//TODO Search/filter button

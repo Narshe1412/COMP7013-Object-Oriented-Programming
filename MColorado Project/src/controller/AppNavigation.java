@@ -174,16 +174,15 @@ public class AppNavigation {
 
 		/**
 		 * Load the list of Payments.
-		 */
+		 
 		AppData.INSTANCE.setPaymentList(new PaymentList());
 		for (Payment p : new PaymentDAO().getAll()) {
 			AppData.INSTANCE.getPaymentList().add(p);
 		}
-
+*/
 		/**
 		 * Load the list of invoices. Add the related payments and procedures for each
 		 * Invoice.
-		 */
 		AppData.INSTANCE.setInvoiceList(new InvoiceList());
 		for (Invoice i : new InvoiceDAO().getAll()) {
 			AppData.INSTANCE.getInvoiceList().add(i);
@@ -194,10 +193,10 @@ public class AppNavigation {
 				i.addProcedure(AppData.INSTANCE.getProcedureList().getById(p.getProcID()));
 			}
 		}
-
+*/
 		/**
 		 * Load up the list of patients. Add the related invoices for each patient.
-		 */
+		 
 		AppData.INSTANCE.setPatientList(new PatientList());
 		try {
 			for (Patient p : new PatientDAO().getAll()) {
@@ -210,7 +209,7 @@ public class AppNavigation {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+*/
 	}
 
 	/**

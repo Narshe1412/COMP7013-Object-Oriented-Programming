@@ -3,6 +3,7 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.AppController;
 import controller.AppNavigation;
 import controller.AppState;
 import javafx.scene.Scene;
@@ -28,9 +29,11 @@ public class HomeWindow extends Stage implements ReloadableNode {
 
 	private TabPane tabs;
 	private TabMain mainPatient;
+	private AppController controller;
 
-	public HomeWindow() {
-		mainPatient = new TabMain(this);
+	public HomeWindow(AppController controller) {
+		this.controller = controller;
+		mainPatient = new TabMain(this, controller);
 
 		BorderPane root = new BorderPane();
 
@@ -44,7 +47,7 @@ public class HomeWindow extends Stage implements ReloadableNode {
 		});
 		root.setCenter(tabs);
 
-		AppMenu menuBar = new AppMenu(this);
+		AppMenu menuBar = new AppMenu(this, controller);
 		menuBar.prefWidthProperty().bind(root.widthProperty());
 		root.setTop(menuBar);
 

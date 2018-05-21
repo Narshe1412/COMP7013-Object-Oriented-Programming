@@ -170,7 +170,7 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 		if (procDB.exists()) {
 			try {
 
-				String sql = "UPDATE procs SET deleted = 1 WHERE procs.procId` = 5;";
+				String sql = "UPDATE procs SET deleted = 1 WHERE procs.procId = ?";
 				procDB.openConnection();
 				PreparedStatement pstmt = procDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, contents.getProcID());

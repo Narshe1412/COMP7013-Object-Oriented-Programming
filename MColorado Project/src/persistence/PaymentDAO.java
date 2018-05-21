@@ -106,7 +106,7 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 		if (paymentDB.exists()) {
 
 			try {
-				String sql = "SELECT * FROM payment WHERE invoiceID = ?";
+				String sql = "SELECT * FROM payment WHERE invoiceID = ? AND deleted = 0";
 				paymentDB.openConnection();
 				PreparedStatement pstmt = paymentDB.getCon().prepareStatement(sql);
 				pstmt.setInt(1, id);

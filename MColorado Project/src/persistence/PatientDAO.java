@@ -97,9 +97,12 @@ public class PatientDAO implements IDBOperationRepository<Patient> {
 					String name = crs.getString("name");
 					String address = crs.getString("address");
 					String phone = crs.getString("phone");
+					boolean deleted = crs.getBoolean("deleted");
 					Patient p = new Patient(name, address, phone);
 					p.setPatientNo(patientNo);
-					returnedList.add(p);
+					if(!deleted) {
+						returnedList.add(p);	
+					}
 				}
 			} catch (SQLException e) {
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Patient database", "");

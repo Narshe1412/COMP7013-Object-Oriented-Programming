@@ -93,10 +93,13 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 					String name = crs.getString("name");
 					String address = crs.getString("address");
 					String phone = crs.getString("phone");
+					boolean deleted = crs.getBoolean("deleted");
 					Dentist d = new Dentist(name, address, phone, username);
 					d.setHashedPassword(password);
 					d.setUserNo(userNo);
-					returnedList.add(d);
+					if(!deleted) {
+						returnedList.add(d);	
+					}
 				}
 			} catch (SQLException e) {
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Dentist database", "");

@@ -109,7 +109,7 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 		ArrayList<Invoice> returnedList = new ArrayList<>();
 		if (invoiceDB.exists()) {
 			try {
-				String sql = "SELECT * FROM invoice WHERE patientNo = ?";
+				String sql = "SELECT * FROM invoice WHERE patientNo = ? AND deleted = 0";
 				invoiceDB.openConnection();
 				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql);
 				pstmt.setInt(1, id);
@@ -193,6 +193,28 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 			try {
 				invprocDB.openConnection();
 				String sql = "INSERT INTO invoiceprocedure (ipid, invoiceID, procedureID) VALUES (NULL, ?, ?)";
+				PreparedStatement pstmt = invprocDB.getCon().prepareStatement(sql);
+				pstmt.setInt(1, i.getInvoiceID());
+				pstmt.setInt(2, p.getProcID());
+				if (invprocDB.executeUpdate(pstmt) > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Procedure database", "");
+				exwin.show();
+			} finally {
+				invprocDB.closeConnection();
+			}
+		}
+		return false;
+	}
+	
+	public boolean deleteProcedureFromInvoice(Procedure p, Invoice i) {
+		TableHandler invprocDB = new TableHandler("invoice procedure");
+		if (invprocDB.exists()) {
+			try {
+				invprocDB.openConnection();
+				String sql = "DELETE FROM invoiceprocedure WHERE invoiceID = ? AND procedureID = ? LIMIT 1";
 				PreparedStatement pstmt = invprocDB.getCon().prepareStatement(sql);
 				pstmt.setInt(1, i.getInvoiceID());
 				pstmt.setInt(2, p.getProcID());

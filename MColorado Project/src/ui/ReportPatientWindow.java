@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import controller.AppController;
-import controller.AppData;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;

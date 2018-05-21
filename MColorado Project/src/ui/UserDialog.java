@@ -2,7 +2,7 @@ package ui;
 
 import java.util.Optional;
 
-import controller.AppData;
+import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
 import javafx.application.Platform;
@@ -91,7 +91,7 @@ public class UserDialog extends Dialog<Dentist> {
 				try {
 					// Checks if the username introduced does not match another user in the system
 					// or matches the current username
-					if (AppData.INSTANCE.getUserList().find(user.getText().trim()) == null
+					if (AppState.INSTANCE.getUserList().find(user.getText().trim()) == null
 							|| toEdit.getUsername() == user.getText().trim()) {
 						// Validates the required fields username, name and phone
 						if (Validator.stringValidator(userName.getText().trim(), 2, 250)
@@ -126,10 +126,10 @@ public class UserDialog extends Dialog<Dentist> {
 			if (toEdit == null) {
 				// Adds a new user to the system with the details that were introduced if no
 				// initial Dentist object was passed
-				toEdit = AppData.INSTANCE.getUserList().addNew(results);
+				toEdit = AppState.INSTANCE.getUserList().addNew(results);
 			} else {
 				// Edit the user details with the fields that were introduced on the system
-				if (AppData.INSTANCE.getUserList().find(user.getText().trim()) == null) {
+				if (AppState.INSTANCE.getUserList().find(user.getText().trim()) == null) {
 					toEdit.setName(userName.getText());
 					toEdit.setAddress(userAddress.getText());
 					toEdit.setPhone(userPhone.getText());

@@ -3,7 +3,6 @@ package ui;
 import java.util.Optional;
 
 import controller.AppController;
-import controller.AppData;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;

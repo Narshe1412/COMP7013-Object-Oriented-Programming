@@ -1,6 +1,5 @@
 package ui;
 
-import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
 import exception.ExceptionDialog;
@@ -47,7 +46,7 @@ public class UserManagementWindow extends Stage {
 
 		table = new TableView<Dentist>();
 
-		userList = FXCollections.observableArrayList(AppData.INSTANCE.getUserList());
+		userList = FXCollections.observableArrayList(AppState.INSTANCE.getUserList());
 		table.setItems(userList);
 
 		TableColumn<Dentist, String> colUser = new TableColumn<Dentist, String>("Username");
@@ -110,7 +109,7 @@ public class UserManagementWindow extends Stage {
 		Dentist d = table.getSelectionModel().getSelectedItem();
 		if (d != null) {
 			try {
-				AppData.INSTANCE.getUserList().find(d.getUsername()).setPassword("11111111");
+				AppState.INSTANCE.getUserList().find(d.getUsername()).setPassword("11111111");
 				AppNavigation.updateDBelement(new DentistDAO(), d);
 				// Warns the user the password has been reset and what's the temporary password
 				AlertDialog alert = new AlertDialog(AlertType.CONFIRMATION, "Password reset",
@@ -137,7 +136,7 @@ public class UserManagementWindow extends Stage {
 				alert.showAndWait();
 			} else {
 				if (AppNavigation.deleteDBelement(new DentistDAO(), d)) {
-					AppData.INSTANCE.getUserList().remove(d);
+					AppState.INSTANCE.getUserList().remove(d);
 					userList.remove(d);
 				}
 			}
@@ -152,7 +151,7 @@ public class UserManagementWindow extends Stage {
 		if (d != null) {
 			int row = userList.indexOf(d);
 
-			Dentist toEdit = AppData.INSTANCE.getUserList().find(d.getUsername());
+			Dentist toEdit = AppState.INSTANCE.getUserList().find(d.getUsername());
 			UserDialog dialog = new UserDialog(toEdit);
 			Dentist edited = dialog.getEdit();
 			if (AppNavigation.updateDBelement(new DentistDAO(), edited)) {

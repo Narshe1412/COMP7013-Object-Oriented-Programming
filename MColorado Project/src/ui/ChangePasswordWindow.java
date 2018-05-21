@@ -1,6 +1,5 @@
 package ui;
 
-import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
 import exception.ExceptionDialog;

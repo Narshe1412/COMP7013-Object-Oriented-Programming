@@ -1,8 +1,6 @@
 package ui;
 
 import controller.AppController;
-import controller.AppData;
-import controller.AppState;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

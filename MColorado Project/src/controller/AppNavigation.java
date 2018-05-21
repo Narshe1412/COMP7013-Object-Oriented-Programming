@@ -146,46 +146,19 @@ public class AppNavigation {
 		/**
 		 * Load up the list of dentists. Create default users if none exist
 		 */
-		AppData.INSTANCE.setUserList(new DentistList());
+		AppState.INSTANCE.setUserList(new DentistList());
 		for (Dentist d : new DentistDAO().getAll()) {
-			AppData.INSTANCE.getUserList().add(d);
+			AppState.INSTANCE.getUserList().add(d);
 		}
-		if (AppData.INSTANCE.getUserList().isEmpty()) {
+		if (AppState.INSTANCE.getUserList().isEmpty()) {
 			for (Dentist d : Defaults.createDentists()) {
 				addDBelement(new DentistDAO(), d);
-				AppData.INSTANCE.getUserList().add(d);
+				AppState.INSTANCE.getUserList().add(d);
 			}
 		}
 
 	}
 
-	/**
-	 * @deprecated SQL will make a persistent state Stores the user portion of the
-	 *             database. Called when users are updated, passwords are changed or
-	 *             reset
-	 */
-	public static void saveUsers() {
-		IDBManager userDB = new FileHandler("user.dat");
-		userDB.saveDB(AppData.INSTANCE.getUserList());
-	}
-
-	/**
-	 * @deprecated SQL will make a persistent state Saves the current database state
-	 *             in serialization files
-	 */
-	public static void saveState() {
-		saveUsers();
-		/*
-		 * IDBManager procDB = new FileHandler("procedures.dat");
-		 * procDB.saveDB(AppData.INSTANCE.getProcedureList()); IDBManager paymentDB =
-		 * new FileHandler("payments.dat");
-		 * paymentDB.saveDB(AppData.INSTANCE.getPaymentList()); IDBManager invoiceDB =
-		 * new FileHandler("invoice.dat");
-		 * invoiceDB.saveDB(AppData.INSTANCE.getInvoiceList()); IDBManager patientDB =
-		 * new FileHandler("patient.dat");
-		 * patientDB.saveDB(AppData.INSTANCE.getPatientList());
-		 * AppState.INSTANCE.setModified(false);
-		 */ }
 
 	/**
 	 * Saves the Config object with the system configuration that will always be

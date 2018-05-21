@@ -1,14 +1,10 @@
 package ui;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import controller.AppController;
-import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
 import exception.ExceptionDialog;
-import exception.PassException;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -52,35 +48,6 @@ public class AppMenu extends MenuBar {
 	 */
 	private Menu fileMenu() {
 		Menu self = new Menu("File");
-		/**
-		 * @deprecated
-		 */
-		MenuItem loadMenu = new MenuItem("Load DB");
-		/**
-		 * Loads the stored database
-		 */
-		loadMenu.setOnAction(event -> {
-			try {
-				AppNavigation.loadState();
-			} catch (PassException e) {
-				ExceptionDialog exWin = new ExceptionDialog("Critical Error",
-						"There was a problem creating the user database", e);
-				exWin.show();
-			} catch (SQLException e) {
-				ExceptionDialog exWin = new ExceptionDialog("Database Error",
-						"There was a problem connecting to the user database", e);
-				exWin.show();
-			}
-		});
-
-		/**
-		 * @deprecated
-		 * Saves all the changes in the app
-		 */
-		MenuItem saveMenu = new MenuItem("Save DB");
-		saveMenu.setOnAction(event -> {
-			AppNavigation.saveState();
-		});
 
 		/**
 		 * Quits the application

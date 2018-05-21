@@ -1,7 +1,6 @@
 package ui;
 
 import controller.AppController;
-import controller.AppData;
 import controller.AppNavigation;
 import controller.AppState;
 import javafx.animation.KeyFrame;

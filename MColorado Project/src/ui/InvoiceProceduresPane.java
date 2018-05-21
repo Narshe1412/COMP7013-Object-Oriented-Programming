@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import controller.AppController;
-import controller.AppData;
-import controller.AppState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

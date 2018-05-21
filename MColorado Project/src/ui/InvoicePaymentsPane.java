@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import controller.AppController;
-import controller.AppData;
-import controller.AppState;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

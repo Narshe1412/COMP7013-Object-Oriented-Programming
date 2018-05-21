@@ -13,28 +13,6 @@ import model.*;
 public enum AppData {
 	INSTANCE;
 
-	private Dentist savedUser;
-
-	/**
-	 * Stores the information regarding the current saved user to bypass Login
-	 * screen
-	 * 
-	 * @return a Dentist object with all the details for the current user
-	 */
-	public Dentist getSavedUser() {
-		return savedUser;
-	}
-
-	/**
-	 * Sets the current user as saved user, to bypass the login screen in future
-	 * uses of the application
-	 * 
-	 * @param user
-	 *            a Dentist object with all the user details
-	 */
-	public void setSavedUser(final Dentist user) {
-		this.savedUser = user;
-	}
 
 	private DentistList userList;
 

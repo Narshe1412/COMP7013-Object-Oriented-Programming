@@ -97,7 +97,7 @@ public class ChangePasswordWindow extends Stage {
 					if (Validator.stringValidator(newPass, 8, 16) && Validator.stringValidator(repeatPass, 8, 16)) {
 						if (newPass.equals(repeatPass)) {
 							user.setPassword(newPass);
-							AppData.INSTANCE.setSavedUser(null); // Password cleared
+							AppState.INSTANCE.setSavedUser(null); // Password cleared
 							AppNavigation.updateDBelement(new DentistDAO(), user);
 							close();
 						} else {

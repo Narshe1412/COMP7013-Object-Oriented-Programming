@@ -70,11 +70,11 @@ public class InitialLoadWindow extends Stage {
 	 * Loads the database and config objects
 	 */
 	private void loadMain() {
-		if (AppData.INSTANCE.getSavedUser() == null) {
+		if (AppState.INSTANCE.getSavedUser() == null) {
 			LoginWindow loginWindow = new LoginWindow();
 			loginWindow.show();
 		} else {
-			AppState.INSTANCE.setCurrentUser(AppData.INSTANCE.getSavedUser());
+			AppState.INSTANCE.setCurrentUser(AppState.INSTANCE.getSavedUser());
 			AppNavigation.setMainWindow(new HomeWindow(new AppController()));
 			AppNavigation.showWindow();
 		}

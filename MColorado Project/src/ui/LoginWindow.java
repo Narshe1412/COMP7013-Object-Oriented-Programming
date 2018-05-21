@@ -114,7 +114,7 @@ public class LoginWindow extends Stage {
 						// If the user is found, but password does not match
 						if (user.verifyPassword(txtPassword.getText().trim())) {
 							if (cbRememberMe.isSelected()) {
-								AppData.INSTANCE.setSavedUser(user);
+								AppState.INSTANCE.setSavedUser(user);
 							}
 							AppState.INSTANCE.setCurrentUser(user);
 							// If user is eligible for password reset

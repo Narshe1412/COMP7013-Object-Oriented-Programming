@@ -255,11 +255,11 @@ class Config implements Serializable {
 	Dentist defaultUser;
 
 	public Config() {
-		defaultUser = AppData.INSTANCE.getSavedUser();
+		defaultUser = AppState.INSTANCE.getSavedUser();
 	}
 
 	public void loadConfig() {
-		AppData.INSTANCE.setSavedUser(defaultUser);
+		AppState.INSTANCE.setSavedUser(defaultUser);
 	}
 
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import controller.AppController;
 import controller.AppData;
 import controller.AppNavigation;
+import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
 import javafx.scene.control.Menu;
@@ -236,7 +237,7 @@ public class AppMenu extends MenuBar {
 	 */
 	private void logoutUser() {
 		try {
-			AppData.INSTANCE.setSavedUser(null);
+			AppState.INSTANCE.setSavedUser(null);
 			AppNavigation.saveConfig();
 			new InitialLoadWindow();
 			parent.close();

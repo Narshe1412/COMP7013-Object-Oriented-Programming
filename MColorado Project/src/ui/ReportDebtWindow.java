@@ -3,10 +3,7 @@ package ui;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import controller.AppController;
-import controller.AppData;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -79,7 +76,7 @@ public class ReportDebtWindow extends Stage {
 				// Checks if the remaining payments are greater than 0
 				if (p.getRemainingInvoiceValue() > 0) {
 					// Get the list of invoices
-					for (Invoice i : p.getP_invoiceList()) {
+					for (Invoice i : controller.getInvoicesFromPatient(p)) {
 						// Discard those which are paid
 						if (!i.isPaid()) {
 							boolean recentPayment = false;

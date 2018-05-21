@@ -2,6 +2,7 @@ package ui;
 
 import java.util.Optional;
 
+import controller.AppController;
 import controller.AppData;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ public class ProcedureDialog extends Dialog<Procedure> {
 	TextField procName;
 	TextField procCost;
 	Procedure toEdit;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -36,9 +38,10 @@ public class ProcedureDialog extends Dialog<Procedure> {
 	 *            a Procedure object passed by parameter that will be edited. If
 	 *            null, creates a new Procedure object
 	 */
-	public ProcedureDialog(Procedure toEdit) {
+	public ProcedureDialog(Procedure toEdit, AppController controller) {
 		super();
 		this.toEdit = toEdit;
+		this.controller = controller;
 
 		setTitle("Procedure Details");
 		setHeaderText("Please enter the procedure details:");
@@ -95,7 +98,10 @@ public class ProcedureDialog extends Dialog<Procedure> {
 			String desc = results.getProcName().get();
 			if (toEdit == null) {
 				// If we're creating a new procedure, call addnew
-				toEdit = AppData.INSTANCE.getProcedureList().addNew(desc, amount);
+				if (controller.addProcedure(results) > 0) {
+					toEdit = results;	
+				}
+				 
 			} else {
 				// If we're editing a procedure, change its details
 				toEdit.setProcCost(amount);

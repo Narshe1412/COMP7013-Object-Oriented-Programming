@@ -58,49 +58,6 @@ public enum AppData {
 	}
 
 	
-	private InvoiceList invoiceList;
-
-	/**
-	 * Obtains the list of Invoices of the system
-	 * 
-	 * @return an InvoiceList object recorded in the system
-	 */
-	public InvoiceList getInvoiceList() {
-		return invoiceList;
-	}
-
-	/**
-	 * Set up a list of invoices in the system, passed by parameter
-	 * 
-	 * @param invoiceList
-	 *            a list of invoices recorded in the system
-	 */
-	public void setInvoiceList(List<Invoice> invoiceList) {
-		this.invoiceList = (InvoiceList) invoiceList;
-	}
-
-	private ProcedureList procList;
-
-	/**
-	 * Obtains the list of procedures stored in the system
-	 * 
-	 * @return a ProcedureList object containing the list of Procedures stored in
-	 *         the system
-	 */
-	public ProcedureList getProcedureList() {
-		return procList;
-	}
-
-	/**
-	 * Set up a list of Procedures in the system
-	 * 
-	 * @param procedureList
-	 *            the list of procedures that will be stored in the system
-	 */
-	public void setProcedureList(List<Procedure> procedureList) {
-		this.procList = (ProcedureList) procedureList;
-	}
-
 	private PaymentList paymentList;
 
 	/**

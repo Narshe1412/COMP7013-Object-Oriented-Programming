@@ -97,12 +97,13 @@ public class ReportPatientWindow extends Stage {
 				String procData = "";
 				String paymentData = "";
 
+				List<Invoice> invoiceList = controller.getInvoicesFromPatient(p);
 				/** Invoices section */
-				if (p.getP_invoiceList().isEmpty()) {
+				if (invoiceList.isEmpty()) {
 					// Fallback if this patient has no invoices
 					result.getChildren().add(new Text("This patient doesn't have any invoices yet.\n"));
 				} else {
-					for (Invoice i : p.getP_invoiceList()) {
+					for (Invoice i : invoiceList) {
 						invoiceTitle = new Text("Invoice no. " + i.getInvoiceID() + "\n");
 						invoiceTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 14));
 

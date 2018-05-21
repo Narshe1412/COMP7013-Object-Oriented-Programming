@@ -32,7 +32,7 @@ class TabMain extends Tab implements ReloadableNode {
 		SplitPane root = new SplitPane();
 
 		details = new PatientDetailsPane(parent, controller);
-		invoices = new InvoiceControlsPane(parent);
+		invoices = new InvoiceControlsPane(parent, controller);
 
 		root.getItems().addAll(details, invoices);
 		setContent(root);

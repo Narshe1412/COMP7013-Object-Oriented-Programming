@@ -87,7 +87,7 @@ public class ReportAppWindow extends Stage {
 		String procData = "";
 		
 		// Creates a copy of the list of procedures to be sorted by name
-		List<Procedure> procedureList = AppData.INSTANCE.getProcedureList().stream().collect(Collectors.toList());
+		List<Procedure> procedureList = controller.getAllProcedures();
 		procedureList
 				.sort((Procedure a, Procedure b) -> a.getProcName().get().compareToIgnoreCase(b.getProcName().get()));
 

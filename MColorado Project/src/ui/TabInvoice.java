@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppController;
 import controller.AppData;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
@@ -15,6 +16,7 @@ public class TabInvoice extends Tab implements ReloadableNode {
 
 	private InvoiceTitlePane titlePane;
 	private Invoice activeInvoice;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -23,8 +25,8 @@ public class TabInvoice extends Tab implements ReloadableNode {
 	 *            gets the invoiceID from the Data Model and display the details on
 	 *            the tab
 	 */
-	public TabInvoice(int invoiceNo) {
-		createContent(AppData.INSTANCE.getInvoiceList().get(invoiceNo));
+	public TabInvoice(int invoiceNo, AppController controller) {
+		createContent(controller.getInvoiceById(invoiceNo));
 	}
 
 	/**
@@ -54,7 +56,7 @@ public class TabInvoice extends Tab implements ReloadableNode {
 		// Tab contents
 		VBox root = new VBox();
 		titlePane = new InvoiceTitlePane(i);
-		root.getChildren().addAll(titlePane, new InvoiceProceduresPane(i, titlePane),
+		root.getChildren().addAll(titlePane, new InvoiceProceduresPane(i, titlePane, controller),
 				new InvoicePaymentsPane(i, titlePane));
 		setContent(root);
 	}

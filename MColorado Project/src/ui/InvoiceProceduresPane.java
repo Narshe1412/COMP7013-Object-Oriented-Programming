@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import controller.AppController;
 import controller.AppData;
 import controller.AppState;
 import javafx.collections.FXCollections;
@@ -37,6 +38,7 @@ public class InvoiceProceduresPane extends Pane {
 	private ObservableList<Procedure> procList;
 	private Invoice invoice;
 	private InvoiceTitlePane title;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -47,7 +49,8 @@ public class InvoiceProceduresPane extends Pane {
 	 *            the parent passed by parameter so it can be called the methods to
 	 *            refresh the pane
 	 */
-	public InvoiceProceduresPane(Invoice inv, InvoiceTitlePane title) {
+	public InvoiceProceduresPane(Invoice inv, InvoiceTitlePane title, AppController controller) {
+		this.controller = controller;
 		this.title = title;
 		this.invoice = inv;
 		HBox root = new HBox(10);
@@ -99,11 +102,7 @@ public class InvoiceProceduresPane extends Pane {
 	public void addProcedure(Procedure p) {
 		procList.add(p); // TODO review binding
 		invoice.addProcedure(p);
-		System.out.println(procList);
-		System.out.println(invoice.getIn_procList());
 		title.refresh();
-		AppState.INSTANCE.setModified(true);
-
 	}
 
 	/**
@@ -116,12 +115,8 @@ public class InvoiceProceduresPane extends Pane {
 			int row = procList.indexOf(p);
 			procList.remove(p); // TODO review binding
 			invoice.removeProcedure(p);
-			System.out.println(procList);
-			System.out.println(invoice.getIn_procList());
 		}
 		title.refresh();
-		AppState.INSTANCE.setModified(true);
-
 	}
 
 	/**
@@ -129,7 +124,7 @@ public class InvoiceProceduresPane extends Pane {
 	 */
 	public void onClickBtnAddProcedure() {
 		List<String> choices = new ArrayList<>();
-		for (Procedure proc : AppData.INSTANCE.getProcedureList()) {
+		for (Procedure proc : controller.getAllProcedures()) {
 			// Removes the disabled procedures from the list
 			if (!proc.isDisabled()) {
 				choices.add(proc.getProcName().get());
@@ -147,7 +142,7 @@ public class InvoiceProceduresPane extends Pane {
 			// Traditional way to get the response value.
 			Optional<String> result = dialog.showAndWait();
 			result.ifPresent(proc -> {
-				addProcedure(AppData.INSTANCE.getProcedureList().find(proc));
+				addProcedure(controller.getProcedureByName(proc));
 			});
 
 		} else {

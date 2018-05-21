@@ -191,7 +191,7 @@ public class AppMenu extends MenuBar {
 	 */
 	private void loadProcedureManagement() {
 		if (procMng == null) {
-			procMng = new ProcedureManagementWindow(this);
+			procMng = new ProcedureManagementWindow(this, controller);
 			procMng.show();
 		} else {
 			procMng.show();

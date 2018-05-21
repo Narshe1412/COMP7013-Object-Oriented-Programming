@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppController;
 import controller.AppData;
 import controller.AppState;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -28,6 +29,7 @@ public class ProcedureManagementWindow extends Stage {
 	private ObservableList<Procedure> procList;
 	private TableView<Procedure> table;
 	private AppMenu parent;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -36,14 +38,15 @@ public class ProcedureManagementWindow extends Stage {
 	 *            The AppMenu parent object for reference to call methods of the
 	 *            parent
 	 */
-	public ProcedureManagementWindow(AppMenu parent) {
+	public ProcedureManagementWindow(AppMenu parent, AppController controller) {
+		this.controller = controller;
 		this.parent = parent;
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10));
 
 		table = new TableView<Procedure>();
 
-		procList = FXCollections.observableArrayList(AppData.INSTANCE.getProcedureList());
+		procList = FXCollections.observableArrayList(controller.getAllProcedures());
 		// Remove disabled procedures from the final list
 		for (Procedure proc : procList) {
 			if (proc.isDisabled()) {
@@ -108,9 +111,8 @@ public class ProcedureManagementWindow extends Stage {
 	private void deleteProcedure() {
 		Procedure p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
-			AppData.INSTANCE.getProcedureList().get(p.getProcID()).setDisabled(true);
+			controller.deleteProcedure(p);
 			procList.remove(p);
-			AppState.INSTANCE.setModified(true);
 		}
 
 	}
@@ -124,22 +126,20 @@ public class ProcedureManagementWindow extends Stage {
 		if (p != null) {
 			int row = procList.indexOf(p);
 			int id = p.getProcID();
-			Procedure toEdit = AppData.INSTANCE.getProcedureList().get(id);
-			ProcedureDialog dialog = new ProcedureDialog(toEdit);
+			Procedure toEdit = p;
+			ProcedureDialog dialog = new ProcedureDialog(toEdit, controller);
 			procList.set(row, dialog.getEdit());
 		}
-		AppState.INSTANCE.setModified(true);
 	}
 
 	/**
 	 * Add a new Procedure with the information provided by a ProcedureDialog
 	 */
 	private void addProcedure() {
-		ProcedureDialog dialog = new ProcedureDialog(null);
+		ProcedureDialog dialog = new ProcedureDialog(null, controller);
 		Procedure newProc = dialog.getEdit();
 		if (newProc != null) {
 			procList.add(newProc);
-			AppState.INSTANCE.setModified(true);
 		}
 	}
 }

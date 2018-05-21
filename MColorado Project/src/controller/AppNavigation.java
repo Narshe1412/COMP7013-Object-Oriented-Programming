@@ -155,61 +155,12 @@ public class AppNavigation {
 			AppData.INSTANCE.getUserList().add(d);
 		}
 		if (AppData.INSTANCE.getUserList().isEmpty()) {
-			for(Dentist d : Defaults.createDentists()) {
+			for (Dentist d : Defaults.createDentists()) {
 				addDBelement(new DentistDAO(), d);
 				AppData.INSTANCE.getUserList().add(d);
 			}
 		}
 
-		/**
-		 * Load the list of Procedures. Create Defaults if none exists
-		 */
-		AppData.INSTANCE.setProcedureList(new ProcedureList());
-		for (Procedure p : new ProcedureDAO().getAll()) {
-			AppData.INSTANCE.getProcedureList().add(p);
-		}
-		if (AppData.INSTANCE.getProcedureList().isEmpty()) {
-			AppData.INSTANCE.setProcedureList(Defaults.createProcedures());
-		}
-
-		/**
-		 * Load the list of Payments.
-		 
-		AppData.INSTANCE.setPaymentList(new PaymentList());
-		for (Payment p : new PaymentDAO().getAll()) {
-			AppData.INSTANCE.getPaymentList().add(p);
-		}
-*/
-		/**
-		 * Load the list of invoices. Add the related payments and procedures for each
-		 * Invoice.
-		AppData.INSTANCE.setInvoiceList(new InvoiceList());
-		for (Invoice i : new InvoiceDAO().getAll()) {
-			AppData.INSTANCE.getInvoiceList().add(i);
-			for (Payment p : new PaymentDAO().getAllFromInvoice(i.getInvoiceID())) {
-				i.addPayment(AppData.INSTANCE.getPaymentList().getById(p.getPaymentID()));
-			}
-			for (Procedure p : new ProcedureDAO().getAllFromInvoice(i.getInvoiceID())) {
-				i.addProcedure(AppData.INSTANCE.getProcedureList().getById(p.getProcID()));
-			}
-		}
-*/
-		/**
-		 * Load up the list of patients. Add the related invoices for each patient.
-		 
-		AppData.INSTANCE.setPatientList(new PatientList());
-		try {
-			for (Patient p : new PatientDAO().getAll()) {
-				AppData.INSTANCE.getPatientList().add(p);
-				for (Invoice i : new InvoiceDAO().getAllFromPatient(p.getPatientNo())) {
-					p.addInvoice(AppData.INSTANCE.getInvoiceList().getById(i.getInvoiceID()));
-				}
-			}
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-*/
 	}
 
 	/**
@@ -273,7 +224,7 @@ public class AppNavigation {
 	public static <T> boolean updateDBelement(IDBOperationRepository<T> dao, final T element) {
 		return dao.update(element);
 	}
-	
+
 	/**
 	 * 
 	 * @param dao

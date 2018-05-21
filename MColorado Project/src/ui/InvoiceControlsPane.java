@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import controller.AppController;
 import controller.AppData;
 import controller.AppState;
 import javafx.geometry.Insets;
@@ -41,6 +42,8 @@ public class InvoiceControlsPane extends Pane {
 	private Text txtAmountTotal;
 	private Button btnPay;
 
+	private AppController controller;
+
 	/**
 	 * Constructor
 	 * 
@@ -48,7 +51,8 @@ public class InvoiceControlsPane extends Pane {
 	 *            the reference to the parent object so this pane can call parent
 	 *            methods
 	 */
-	public InvoiceControlsPane(HomeWindow parent) {
+	public InvoiceControlsPane(HomeWindow parent, AppController controller) {
+		this.controller = controller;
 		this.parent = parent;
 
 		BorderPane root = new BorderPane();
@@ -107,17 +111,16 @@ public class InvoiceControlsPane extends Pane {
 		/** Creates a new invoice and adds a tab corresponding to the new invoice */
 		btnNew = new Button("New Invoice");
 		btnNew.setOnAction(event -> {
-			Invoice i = AppData.INSTANCE.getInvoiceList().addNew();
-			AppState.INSTANCE.getCurrentPatient().addInvoice(i);
-			parent.addNewTab(new TabInvoice(i));
-			AppState.INSTANCE.setModified(true);
+			Invoice invoice = new Invoice();
+			controller.addInvoiceToPatient(invoice, AppState.INSTANCE.getCurrentPatient());
+			parent.addNewTab(new TabInvoice(invoice));
 
 		});
 		/** Opens the list of invoices and creates a new tab for the selected invoice */
 		btnOpen = new Button("Open Invoice");
 		btnOpen.setOnAction(event -> {
 			List<String> choices = new ArrayList<>();
-			for (Invoice inv : AppState.INSTANCE.getCurrentPatient().getP_invoiceList()) {
+			for (Invoice inv : controller.getInvoicesFromPatient(AppState.INSTANCE.getCurrentPatient())) {
 				String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate()
 						+ (inv.isPaid() ? "   --PAID--" : "") + "   Total: " + inv.getInvoiceAmt() + " $";
 				choices.add(invoiceDetails);
@@ -170,7 +173,7 @@ public class InvoiceControlsPane extends Pane {
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(invoiceSelected -> {
 			int id = Integer.parseInt(invoiceSelected.substring(0, invoiceSelected.indexOf("#")));
-			Invoice i = AppData.INSTANCE.getInvoiceList().getById(id);
+			Invoice i = controller.getInvoiceById(id); 
 			if (!parent.getActiveInvoices().contains(i)) {
 				parent.addNewTab(new TabInvoice(i));
 			} else {

@@ -101,8 +101,10 @@ public class UserDialog extends Dialog<Dentist> {
 								&& Validator.stringValidator(user.getText().trim(), 2, 20)) {
 							if (userPhone.getText().trim().equals("")
 									|| Validator.unsignedIntValidator(userPhone.getText())) {
-								return new Dentist(userName.getText(), userAddress.getText(), userPhone.getText(),
-										user.getText().trim(), "11111111");
+								Dentist newUser = new Dentist(userName.getText(), userAddress.getText(), userPhone.getText(),
+										user.getText().trim());
+								newUser.setPassword("11111111");
+								return newUser;
 							} else {
 								AlertDialog alert = new AlertDialog(AlertType.WARNING, "Phone Error",
 										"Phone not numeric", "Phone needs to be a numeric value");

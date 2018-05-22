@@ -79,7 +79,7 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 		}
 		return null;
 	}
-	
+
 	public Dentist getByUsername(String dentistUsername) {
 		if (userDB.exists()) {
 			try {
@@ -126,8 +126,8 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 					Dentist d = new Dentist(name, address, phone, username);
 					d.setHashedPassword(password);
 					d.setUserNo(userNo);
-					if(!deleted) {
-						returnedList.add(d);	
+					if (!deleted) {
+						returnedList.add(d);
 					}
 				}
 			} catch (SQLException e) {
@@ -145,7 +145,7 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 				String sql = "UPDATE dentist SET " + "username = ?, " + "password = ?, " + "name = ?, "
 						+ "address = ?, " + "phone = ? " + "WHERE dentist.userNo = ?;";
 				userDB.openConnection();
-				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql);
+				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, contents.getUsername());
 				pstmt.setString(2, contents.getHashedPassword());
 				pstmt.setString(3, contents.getName());
@@ -171,7 +171,7 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 			try {
 				String sql = "UPDATE dentist SET deleted = 1 WHERE dentist.userNo = ?";
 				userDB.openConnection();
-				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql);
+				PreparedStatement pstmt = userDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, contents.getUserNo());
 				if (userDB.executeUpdate(pstmt) > 0) {
 					return true;

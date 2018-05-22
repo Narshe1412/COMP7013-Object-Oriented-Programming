@@ -168,10 +168,7 @@ public class UserManagementWindow extends Stage {
 		UserDialog dialog = new UserDialog(null, controller);
 		Dentist dentist = dialog.getEdit();
 		if (dentist != null) {
-			if (controller.addDentist(dentist) > 0) {
-				userList.add(dentist);
-			}
+			userList.add(dentist);
 		}
 	}
-
 }

@@ -85,6 +85,7 @@ public class InvoicePaymentsPane extends Pane {
 			} else {
 				// Call the dialog to add new payments
 				double remaining = invoice.calculateInvoiceAmt();
+				controller.updateInvoice(invoice);
 				showPaymentDialog(remaining);
 			}
 		});
@@ -163,6 +164,7 @@ public class InvoicePaymentsPane extends Pane {
 	public void pay(Payment p) {
 		controller.addPaymentToInvoice(p, invoice);
 		paymentList.add(p);
+		invoice.addPayment(p);
 		title.refresh();
 	}
 
@@ -172,8 +174,9 @@ public class InvoicePaymentsPane extends Pane {
 	public void deletePayment() {
 		Payment p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
+			paymentList.remove(p);
+			invoice.removePayment(p);
 			controller.deletePaymentFromInvoice(p, invoice);
-			paymentList.remove(p); // TODO review binding
 		}
 		title.refresh();
 	}

@@ -56,7 +56,7 @@ public class TabInvoice extends Tab implements ReloadableNode {
 
 		// Tab contents
 		VBox root = new VBox();
-		titlePane = new InvoiceTitlePane(i);
+		titlePane = new InvoiceTitlePane(i, controller);
 		root.getChildren().addAll(titlePane, new InvoiceProceduresPane(i, titlePane, controller),
 				new InvoicePaymentsPane(i, titlePane, controller));
 		setContent(root);

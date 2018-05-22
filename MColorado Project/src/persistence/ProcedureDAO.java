@@ -122,7 +122,7 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 					int procId = crs.getInt("procId");
 					String procName = crs.getString("procName");
 					double procCost = crs.getDouble("procCost");
-					boolean disabled = crs.getBoolean("disabled");
+					boolean disabled = crs.getBoolean("deleted");
 					Procedure p = new Procedure(procName, procCost);
 					p.setProcID(procId);
 					p.setDisabled(disabled);
@@ -131,6 +131,7 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 					}
 				}
 			} catch (SQLException e) {
+				e.printStackTrace();
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Procedure database", "");
 				exwin.show();
 			} catch (NullPointerException e) {

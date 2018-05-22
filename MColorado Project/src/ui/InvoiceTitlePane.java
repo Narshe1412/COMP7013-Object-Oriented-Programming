@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -27,6 +28,7 @@ public class InvoiceTitlePane extends StackPane {
 	private Label lblRemainInvoice;
 	private TextField txtRemainInvoice;
 	private Invoice invoice;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -34,7 +36,8 @@ public class InvoiceTitlePane extends StackPane {
 	 * @param inv
 	 *            the invoice that will be displayed by the pane
 	 */
-	public InvoiceTitlePane(Invoice inv) {
+	public InvoiceTitlePane(Invoice inv, AppController controller) {
+		this.controller = controller;
 		this.invoice = inv;
 
 		GridPane root = new GridPane();
@@ -88,5 +91,6 @@ public class InvoiceTitlePane extends StackPane {
 		txtTotalInvoice.setText(invoice.getInvoiceAmt() + "");
 		txtPaidInvoice.setText(invoice.calculateInvoicePaid() + "");
 		txtRemainInvoice.setText(invoice.calculateInvoiceAmt() + "");
+		controller.updateInvoice(invoice);
 	}
 }

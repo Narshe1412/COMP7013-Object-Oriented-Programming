@@ -118,9 +118,13 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 				while (crs.next()) {
 					int invoiceID = crs.getInt("invoiceID");
 					String invoiceDate = crs.getString("invoiceDate");
+					boolean isPaid = crs.getBoolean("isPaid");
+					double invoiceAmt = crs.getDouble("invoiceAmt");
 					int patientNo = crs.getInt("patientNo");
 					Invoice i = new Invoice(invoiceDate);
 					i.setInvoiceID(invoiceID);
+					i.setPaid(isPaid);
+					i.setInvoiceAmt(invoiceAmt);
 					if (patientNo == id) {
 						returnedList.add(i);
 					}
@@ -148,11 +152,13 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 	public boolean update(Invoice contents) {
 		if (invoiceDB.exists()) {
 			try {
-				String sql = "UPDATE invoice SET invoiceDate = ? WHERE invoiceID = ?";
+				String sql = "UPDATE invoice SET invoiceDate = ?, isPaid = ?, invoiceAmt = ? WHERE invoiceID = ?";
 				invoiceDB.openConnection();
 				PreparedStatement pstmt = invoiceDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, contents.getStringDate());
-				pstmt.setInt(2, contents.getInvoiceID());
+				pstmt.setBoolean(2, contents.isPaid());
+				pstmt.setDouble(3, contents.getInvoiceAmt());
+				pstmt.setInt(4, contents.getInvoiceID());
 				if (invoiceDB.executeUpdate(pstmt) > 0) {
 					return true;
 				}
@@ -188,7 +194,7 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 	}
 
 	public boolean addProcedureToInvoice(Procedure p, Invoice i) {
-		TableHandler invprocDB = new TableHandler("invoice procedure");
+		TableHandler invprocDB = new TableHandler("invoiceprocedure");
 		if (invprocDB.exists()) {
 			try {
 				invprocDB.openConnection();

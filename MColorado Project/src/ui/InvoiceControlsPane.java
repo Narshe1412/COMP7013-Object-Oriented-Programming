@@ -86,7 +86,7 @@ public class InvoiceControlsPane extends Pane {
 		/** Gets the total amount that remains to be paid */
 		btnPay.setOnAction(event -> {
 			List<String> choices = new ArrayList<>();
-			for (Invoice inv : AppState.INSTANCE.getCurrentPatient().getP_invoiceList()) {
+			for (Invoice inv : controller.getInvoicesFromPatient(AppState.INSTANCE.getCurrentPatient())) {
 				if (!inv.isPaid()) {
 					String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate() + "   Total pending: "
 							+ inv.getInvoiceAmt() + "";

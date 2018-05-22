@@ -82,7 +82,7 @@ public class ReportDebtWindow extends Stage {
 							boolean recentPayment = false;
 							// From the unpaid invoices, check those who have a recent payment, and discard
 							// those
-							for (Payment pay : i.getIn_paymentList()) {
+							for (Payment pay : controller.getPaymentsFromInvoice(i)) {
 								Calendar cal = Calendar.getInstance(); // Get current date/month i.e 27 Feb, 2012
 								cal.add(Calendar.MONTH, -6); // Set date to 6 months ago
 								if (pay.getPaymentDate().after(cal.getTime())) {

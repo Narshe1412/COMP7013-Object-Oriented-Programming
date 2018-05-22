@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.List;
 import java.util.Optional;
 
 import controller.AppController;
@@ -130,11 +131,12 @@ public class PatientManagementWindow extends Stage {
 		boolean deleteHappen = false;
 		if (p != null) {
 			// Deletes the Patient if no invoices are associated to it
-			if (p.getP_invoiceList().isEmpty()) {
+			List<Invoice> invoiceList = controller.getInvoicesFromPatient(p);
+			if (invoiceList.isEmpty()) {
 				deleteHappen = deleteWorkflow(p);
 			} else {
 				boolean isPaid = true;
-				for (Invoice i : p.getP_invoiceList()) {
+				for (Invoice i : invoiceList) {
 					if (!i.isPaid() && isPaid) {
 						isPaid = false;
 					}

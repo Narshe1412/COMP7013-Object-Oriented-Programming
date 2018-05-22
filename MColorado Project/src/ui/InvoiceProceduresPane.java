@@ -55,7 +55,7 @@ public class InvoiceProceduresPane extends Pane {
 		root.setPadding(new Insets(10, 10, 10, 10));
 
 		table = new TableView<Procedure>();
-		procList = FXCollections.observableArrayList(inv.getIn_procList());
+		procList = FXCollections.observableArrayList(controller.getProceduresByInvoice(inv));
 		table.setItems(procList);
 
 		TableColumn<Procedure, Double> colAmount = new TableColumn<Procedure, Double>("Amount");
@@ -98,8 +98,8 @@ public class InvoiceProceduresPane extends Pane {
 	 *            a Procedure object that will be added to the system
 	 */
 	public void addProcedure(Procedure p) {
-		procList.add(p); // TODO review binding
-		invoice.addProcedure(p);
+		procList.add(p); 
+		controller.addProcedureToInvoice(p, invoice);
 		title.refresh();
 	}
 
@@ -109,10 +109,8 @@ public class InvoiceProceduresPane extends Pane {
 	public void deleteProcedure() {
 		Procedure p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
-			@SuppressWarnings("unused")
-			int row = procList.indexOf(p);
-			procList.remove(p); // TODO review binding
-			invoice.removeProcedure(p);
+			procList.remove(p); 
+			controller.deleteProcedureFromInvoice(p, invoice);
 		}
 		title.refresh();
 	}

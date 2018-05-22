@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
+
+import javafx.util.Callback;
 import model.*;
 import persistence.DentistDAO;
 import persistence.InvoiceDAO;
@@ -10,6 +12,7 @@ import persistence.ProcedureDAO;
 
 public class AppController {
 
+	// Dentist
 	public int addDentist(Dentist d) {
 		return new DentistDAO().add(d);
 	}
@@ -25,11 +28,12 @@ public class AppController {
 	public boolean deleteDentist(Dentist d) {
 		return new DentistDAO().remove(d);
 	}
-	
+
 	public Dentist getDentistByUsername(String username) {
 		return new DentistDAO().getByUsername(username);
 	}
 
+	// Patient
 	public int addPatient(Patient p) {
 		return new PatientDAO().add(p);
 	}
@@ -95,7 +99,18 @@ public class AppController {
 			i.addPayment(p);
 			i.calculateInvoicePaid();
 		}
-
+	}
+	
+	public void addProcedureToInvoice(Procedure p, Invoice i) {
+		if(new InvoiceDAO().addProcedureToInvoice(p, i)) {
+			i.addProcedure(p);
+		}	
+	}
+	public void deleteProcedureFromInvoice(Procedure p, Invoice i) {
+		if (new InvoiceDAO().deleteProcedureFromInvoice(p, i)) {
+			i.removeProcedure(p);
+		}
+		
 	}
 
 	public boolean deletePayment(Payment p) {
@@ -108,12 +123,20 @@ public class AppController {
 		}
 	}
 
-	public ArrayList<Payment> getPaymentFromInvoice(Invoice inv) {
+	public ArrayList<Payment> getPaymentsFromInvoice(Invoice inv) {
 		return (ArrayList<Payment>) new PaymentDAO().getAllFromInvoice(inv.getInvoiceID());
 	}
 
 	public ArrayList<Payment> getAllPayments() {
 		return (ArrayList<Payment>) new PaymentDAO().getAll();
 	}
+
+	public ArrayList<Procedure> getProceduresByInvoice(Invoice inv) {
+		return (ArrayList<Procedure>) new ProcedureDAO().getAllFromInvoice(inv.getInvoiceID());
+	}
+
+
+
+
 
 }

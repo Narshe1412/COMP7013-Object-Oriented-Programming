@@ -29,12 +29,10 @@ public class HomeWindow extends Stage implements ReloadableNode {
 
 	private TabPane tabs;
 	private TabMain mainPatient;
-	private AppController controller;
 	private AppNavigation navigator;
 
 	public HomeWindow(AppController controller, AppNavigation navigator) {
 		this.navigator = navigator;
-		this.controller = controller;
 		mainPatient = new TabMain(this, controller);
 
 		BorderPane root = new BorderPane();

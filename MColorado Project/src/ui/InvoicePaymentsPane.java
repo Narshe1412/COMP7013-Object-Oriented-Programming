@@ -57,7 +57,7 @@ public class InvoicePaymentsPane extends Pane {
 		root.setPadding(new Insets(10, 10, 10, 10));
 
 		table = new TableView<Payment>();
-		paymentList = FXCollections.observableArrayList(controller.getPaymentFromInvoice(inv));
+		paymentList = FXCollections.observableArrayList(controller.getPaymentsFromInvoice(inv));
 
 		TableColumn<Payment, Double> colAmount = new TableColumn<Payment, Double>("Amount");
 		colAmount.setCellValueFactory(data -> data.getValue().getPaymentAmt().asObject());

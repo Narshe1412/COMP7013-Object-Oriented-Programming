@@ -107,11 +107,12 @@ public class ReportPatientWindow extends Stage {
 						invoiceTitle.setFont(Font.font("Calibri", FontWeight.BLACK, 14));
 
 						/** List of Procedures */
-						if (i.getIn_procList().isEmpty()) {
+						List<Procedure> procedureList = controller.getProceduresByInvoice(i);
+						if (procedureList.isEmpty()) {
 							procData += "No procedures added to this bill. \n";
 						} else {
 							// Copies the list of procedures and orders them by name
-							List<Procedure> procedureList = i.getIn_procList().stream().collect(Collectors.toList());
+							
 							procedureList.sort((Procedure a, Procedure b) -> a.getProcName().get()
 									.compareToIgnoreCase(b.getProcName().get()));
 							for (Procedure proc : procedureList) {
@@ -120,11 +121,12 @@ public class ReportPatientWindow extends Stage {
 						}
 
 						/** List of Payments */
-						if (i.getIn_paymentList().isEmpty()) {
+						List<Payment> paymentList = controller.getPaymentsFromInvoice(i);
+						if (paymentList.isEmpty()) {
 							// Fallback if no payments are in the system
 							paymentData += "There are no payments against this invoice.\n";
 						} else {
-							List<Payment> paymentList = i.getIn_paymentList().stream().collect(Collectors.toList());
+							
 							for (Payment payment : paymentList) {
 								paymentData += payment.toString() + "\n";
 							}

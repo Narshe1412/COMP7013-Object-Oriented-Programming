@@ -57,7 +57,6 @@ public class Invoice implements Serializable{
 	 * Sets initial values for an Invoice
 	 */
 	private void objectSetup() {
-		//setInvoiceID();
 		setPaid(false);
 		invoiceAmt = 0;
 	}
@@ -109,11 +108,6 @@ public class Invoice implements Serializable{
 	public int getInvoiceID() {
 		return invoiceID;
 	}
-
-	/*public void setInvoiceID() {
-		this.invoiceID = id;
-		id++;
-	}*/
 	
 	/**
 	 * Sets up the ID for the invoice
@@ -188,7 +182,7 @@ public class Invoice implements Serializable{
 	 * Gets a collection of Procedure items related to this invoice
 	 * @return a collection of Procedure objects associated with this Invoice
 	 */
-	public Collection<Procedure> getIn_procList() {
+	private Collection<Procedure> getIn_procList() {
 		return in_procList;
 	}
 
@@ -196,7 +190,7 @@ public class Invoice implements Serializable{
 	 * Gets a collection of Payments done against this Invoice
 	 * @return a Collection of Payment objects associated with this invoice
 	 */
-	public Collection<Payment> getIn_paymentList() {
+	private Collection<Payment> getIn_paymentList() {
 		return in_paymentList;
 	}
 	

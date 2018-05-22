@@ -22,11 +22,12 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 	public int add(Procedure contents) {
 		if (procDB.exists()) {
 			try {
-				String sql = "INSERT INTO procs (procId, procName, procCost, deleted) " + "VALUES (NULL, ?, ?, 0);";
+				String sql = "INSERT INTO procs (procId, procName, procCost, deleted) " + "VALUES (NULL, ?, ?, ?);";
 				procDB.openConnection();
 				PreparedStatement pstmt = procDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, contents.getProcName().getValue());
 				pstmt.setDouble(2, contents.getProcCost().get());
+				pstmt.setBoolean(3, contents.isDisabled());
 
 				int procId = procDB.executeUpdate(pstmt);
 				if (procId > 0) {
@@ -59,7 +60,7 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 					int procId = crs.getInt("procId");
 					String procName = crs.getString("procName");
 					double procCost = crs.getDouble("procCost");
-					boolean disabled = crs.getBoolean("disabled");
+					boolean disabled = crs.getBoolean("deleted");
 					Procedure p = new Procedure(procName, procCost);
 					p.setProcID(procId);
 					p.setDisabled(disabled);
@@ -87,15 +88,16 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 					int procId = crs.getInt("procId");
 					String procName = crs.getString("procName");
 					double procCost = crs.getDouble("procCost");
-					boolean disabled = crs.getBoolean("disabled");
+					boolean disabled = crs.getBoolean("deleted");
 					Procedure p = new Procedure(procName, procCost);
 					p.setProcID(procId);
 					p.setDisabled(disabled);
 					returnedList.add(p);
 				}
 			} catch (SQLException e) {
-				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Procedure database", "");
-				exwin.show();
+				//ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to find Procedure database", "");
+				//exwin.show();
+				e.printStackTrace();
 			}
 		}
 		return returnedList;

@@ -33,6 +33,7 @@ public class HomeWindow extends Stage implements ReloadableNode {
 
 	public HomeWindow(AppController controller, AppNavigation navigator) {
 		this.navigator = navigator;
+		AppNavigation.setMainWindow(this);
 		mainPatient = new TabMain(this, controller);
 
 		BorderPane root = new BorderPane();

@@ -109,7 +109,11 @@ public class PatientDetailsPane extends Pane {
 						AppNavigation.updatePatient(p);
 					}
 				} else {
-					Patient p = new Patient(getTxtId(), getTxtName(), getTxtAddress(), getTxtPhone());
+					Patient p = AppState.INSTANCE.getCurrentPatient();
+					p.setName(getTxtName());
+					p.setAddress(getTxtAddress());
+					p.setPhone(getTxtPhone());
+					p.setPatientNo(getTxtId());
 					controller.updatePatient(p);
 				}
 				btnCancel.setVisible(false);

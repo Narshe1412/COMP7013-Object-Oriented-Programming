@@ -25,6 +25,7 @@ public class TabInvoice extends Tab implements ReloadableNode {
 	 *            the tab
 	 */
 	public TabInvoice(int invoiceNo, AppController controller) {
+		this.controller = controller;
 		createContent(controller.getInvoiceById(invoiceNo));
 	}
 
@@ -35,7 +36,8 @@ public class TabInvoice extends Tab implements ReloadableNode {
 	 *            gets an invoice passed by parameter and display the details on the
 	 *            tab
 	 */
-	public TabInvoice(Invoice i) {
+	public TabInvoice(Invoice i, AppController controller) {
+		this.controller = controller;
 		createContent(i);
 	}
 

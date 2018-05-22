@@ -247,4 +247,8 @@ public class Invoice implements Serializable{
 	public void setBilledTo(Patient billedTo) {
 		this.billedTo = billedTo;
 	}
+	
+	public String toString() {
+		return "Invoice #" + this.getInvoiceID() + ": " + this.getStringDate() + " Amount: $" + this.getInvoiceAmt();
+	}
 }

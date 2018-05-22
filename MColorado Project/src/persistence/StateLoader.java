@@ -8,6 +8,7 @@ import controller.AppState;
 import exception.PassException;
 import model.Defaults;
 import model.Dentist;
+import model.Procedure;
 
 public class StateLoader {
 	
@@ -32,6 +33,12 @@ public class StateLoader {
 		if (controller.getAllDentist().isEmpty()) {
 			for (Dentist d : Defaults.createDentists()) {
 				controller.addDentist(d);
+			}
+		}
+		
+		if (controller.getAllProcedures().isEmpty()) {
+			for (Procedure p: Defaults.createProcedures()) {
+				controller.addProcedure(p);
 			}
 		}
 	}

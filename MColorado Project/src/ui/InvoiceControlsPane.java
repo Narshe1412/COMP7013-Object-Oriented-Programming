@@ -85,22 +85,9 @@ public class InvoiceControlsPane extends Pane {
 
 		/** Gets the total amount that remains to be paid */
 		btnPay.setOnAction(event -> {
-			List<String> choices = new ArrayList<>();
-			for (Invoice inv : controller.getInvoicesFromPatient(AppState.INSTANCE.getCurrentPatient())) {
-				if (!inv.isPaid()) {
-					String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate() + "   Total pending: "
-							+ inv.getInvoiceAmt() + "";
-					choices.add(invoiceDetails);
-				}
+			if (AppState.INSTANCE.getCurrentPatient() != null) {
+				btnPayOnClick();
 			}
-			if (choices.isEmpty()) {
-				AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Information", null,
-						"This patient does not owe us any money");
-				alert.showAndWait();
-			} else {
-				loadInvoiceDialog(choices);
-			}
-
 		});
 
 		HBox btnGroup = new HBox(20);
@@ -110,21 +97,16 @@ public class InvoiceControlsPane extends Pane {
 		/** Creates a new invoice and adds a tab corresponding to the new invoice */
 		btnNew = new Button("New Invoice");
 		btnNew.setOnAction(event -> {
-			Invoice invoice = new Invoice();
-			controller.addInvoiceToPatient(invoice, AppState.INSTANCE.getCurrentPatient());
-			parent.addNewTab(new TabInvoice(invoice));
-
+			if (AppState.INSTANCE.getCurrentPatient() != null) {
+				btnNewOnClick();
+			}
 		});
 		/** Opens the list of invoices and creates a new tab for the selected invoice */
 		btnOpen = new Button("Open Invoice");
 		btnOpen.setOnAction(event -> {
-			List<String> choices = new ArrayList<>();
-			for (Invoice inv : controller.getInvoicesFromPatient(AppState.INSTANCE.getCurrentPatient())) {
-				String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate()
-						+ (inv.isPaid() ? "   --PAID--" : "") + "   Total: " + inv.getInvoiceAmt() + " $";
-				choices.add(invoiceDetails);
+			if (AppState.INSTANCE.getCurrentPatient() != null) {
+				btnOpenOnClick();
 			}
-			loadInvoiceDialog(choices);
 		});
 		btnGroup.getChildren().add(btnNew);
 		btnGroup.getChildren().add(btnOpen);
@@ -137,6 +119,50 @@ public class InvoiceControlsPane extends Pane {
 		getChildren().add(root);
 
 		refresh();
+	}
+
+	/**
+	 * @param controller
+	 */
+	private void btnOpenOnClick() {
+		List<String> choices = new ArrayList<>();
+		for (Invoice inv : controller.getInvoicesFromPatient(AppState.INSTANCE.getCurrentPatient())) {
+			String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate()
+					+ (inv.isPaid() ? "   --PAID--" : "") + "   Total: " + inv.getInvoiceAmt() + " $";
+			choices.add(invoiceDetails);
+		}
+		loadInvoiceDialog(choices);
+	}
+
+	/**
+	 * @param parent
+	 * @param controller
+	 */
+	private void btnNewOnClick() {
+		Invoice invoice = new Invoice();
+		controller.addInvoiceToPatient(invoice, AppState.INSTANCE.getCurrentPatient());
+		parent.addNewTab(new TabInvoice(invoice, controller));
+	}
+
+	/**
+	 * @param controller
+	 */
+	private void btnPayOnClick() {
+		List<String> choices = new ArrayList<>();
+		for (Invoice inv : controller.getInvoicesFromPatient(AppState.INSTANCE.getCurrentPatient())) {
+			if (!inv.isPaid()) {
+				String invoiceDetails = inv.getInvoiceID() + "#   " + inv.getStringDate() + "   Total pending: "
+						+ inv.getInvoiceAmt() + "";
+				choices.add(invoiceDetails);
+			}
+		}
+		if (choices.isEmpty()) {
+			AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Information", null,
+					"This patient does not owe us any money");
+			alert.showAndWait();
+		} else {
+			loadInvoiceDialog(choices);
+		}
 	}
 
 	/**
@@ -172,9 +198,9 @@ public class InvoiceControlsPane extends Pane {
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(invoiceSelected -> {
 			int id = Integer.parseInt(invoiceSelected.substring(0, invoiceSelected.indexOf("#")));
-			Invoice i = controller.getInvoiceById(id); 
+			Invoice i = controller.getInvoiceById(id);
 			if (!parent.getActiveInvoices().contains(i)) {
-				parent.addNewTab(new TabInvoice(i));
+				parent.addNewTab(new TabInvoice(i, controller));
 			} else {
 				parent.setActiveInvoiceTab(i);
 			}

@@ -61,6 +61,7 @@ public class AppController {
 		i.setBilledTo(p);
 		int invoiceId = new InvoiceDAO().add(i);
 		if (invoiceId > 0) {
+			i.setInvoiceID(invoiceId);
 			p.addInvoice(i);
 		}
 	}

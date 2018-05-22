@@ -2,6 +2,7 @@ package ui;
 
 import java.util.Optional;
 
+import controller.AppController;
 import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
@@ -31,6 +32,7 @@ public class UserDialog extends Dialog<Dentist> {
 	TextField userPhone;
 	TextField user;
 	Dentist toEdit;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -39,9 +41,10 @@ public class UserDialog extends Dialog<Dentist> {
 	 *            Dentist object that will be modified during this dialog. If null,
 	 *            will be used to create a new user Dentis on the system
 	 */
-	public UserDialog(Dentist toEdit) {
+	public UserDialog(Dentist toEdit, AppController controller) {
 		super();
 		this.toEdit = toEdit;
+		this.controller = controller;
 
 		setTitle("User Details");
 		setHeaderText("Please enter the user details:");
@@ -91,7 +94,7 @@ public class UserDialog extends Dialog<Dentist> {
 				try {
 					// Checks if the username introduced does not match another user in the system
 					// or matches the current username
-					if (AppState.INSTANCE.getUserList().find(user.getText().trim()) == null
+					if (controller.getDentistByUsername(user.getText().trim()) == null
 							|| toEdit.getUsername() == user.getText().trim()) {
 						// Validates the required fields username, name and phone
 						if (Validator.stringValidator(userName.getText().trim(), 2, 250)
@@ -126,10 +129,13 @@ public class UserDialog extends Dialog<Dentist> {
 			if (toEdit == null) {
 				// Adds a new user to the system with the details that were introduced if no
 				// initial Dentist object was passed
-				toEdit = AppState.INSTANCE.getUserList().addNew(results);
+				if (controller.addDentist(results) > 0) {
+					toEdit = results;
+				}
+
 			} else {
 				// Edit the user details with the fields that were introduced on the system
-				if (AppState.INSTANCE.getUserList().find(user.getText().trim()) == null) {
+				if (controller.getDentistByUsername(user.getText().trim()) == null) {
 					toEdit.setName(userName.getText());
 					toEdit.setAddress(userAddress.getText());
 					toEdit.setPhone(userPhone.getText());

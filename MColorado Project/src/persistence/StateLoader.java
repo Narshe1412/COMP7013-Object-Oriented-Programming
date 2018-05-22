@@ -27,15 +27,12 @@ public class StateLoader {
 	public void loadState() throws PassException, SQLException {
 
 		/**
-		 * Load up the list of dentists. Create default users if none exist
+		 * Create default users if none exist
 		 */
-		AppState.INSTANCE.setUserList(controller.getAllDentist());
-
-		if (AppState.INSTANCE.getUserList().isEmpty()) {
+		if (controller.getAllDentist().isEmpty()) {
 			for (Dentist d : Defaults.createDentists()) {
 				controller.addDentist(d);
 			}
-			AppState.INSTANCE.setUserList(controller.getAllDentist());
 		}
 	}
 	

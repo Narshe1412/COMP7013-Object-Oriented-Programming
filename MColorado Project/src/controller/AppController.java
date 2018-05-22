@@ -25,6 +25,10 @@ public class AppController {
 	public boolean deleteDentist(Dentist d) {
 		return new DentistDAO().remove(d);
 	}
+	
+	public Dentist getDentistByUsername(String username) {
+		return new DentistDAO().getByUsername(username);
+	}
 
 	public int addPatient(Patient p) {
 		return new PatientDAO().add(p);

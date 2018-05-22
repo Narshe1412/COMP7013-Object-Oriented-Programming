@@ -111,7 +111,7 @@ public class LoginWindow extends Stage {
 				// If they're not empty, attempt to find the user in the list of users from the
 				// system
 				try {
-					Dentist user = AppState.INSTANCE.getUserList().find(txtUsername.getText().trim());
+					Dentist user = controller.getDentistByUsername(txtUsername.getText().trim());
 					// If the user is not found
 					if (user != null) {
 						// If the user is found, but password does not match

@@ -49,7 +49,7 @@ public class UserManagementWindow extends Stage {
 
 		table = new TableView<Dentist>();
 
-		userList = FXCollections.observableArrayList(AppState.INSTANCE.getUserList());
+		userList = FXCollections.observableArrayList(controller.getAllDentist());
 		table.setItems(userList);
 
 		TableColumn<Dentist, String> colUser = new TableColumn<Dentist, String>("Username");
@@ -112,7 +112,7 @@ public class UserManagementWindow extends Stage {
 		Dentist d = table.getSelectionModel().getSelectedItem();
 		if (d != null) {
 			try {
-				AppState.INSTANCE.getUserList().find(d.getUsername()).setPassword("11111111");
+				d.setPassword("11111111");
 				controller.updateDentist(d);
 				// Warns the user the password has been reset and what's the temporary password
 				AlertDialog alert = new AlertDialog(AlertType.CONFIRMATION, "Password reset",
@@ -139,7 +139,6 @@ public class UserManagementWindow extends Stage {
 				alert.showAndWait();
 			} else {
 				if (controller.deleteDentist(d)) {
-					AppState.INSTANCE.getUserList().remove(d);
 					userList.remove(d);
 				}
 			}
@@ -150,12 +149,11 @@ public class UserManagementWindow extends Stage {
 	 * Edits the selected user by calling a instance of the UserDialog object
 	 */
 	private void editUser() {
-		Dentist d = table.getSelectionModel().getSelectedItem();
-		if (d != null) {
-			int row = userList.indexOf(d);
+		Dentist toEdit = table.getSelectionModel().getSelectedItem();
+		if (toEdit != null) {
+			int row = userList.indexOf(toEdit);
 
-			Dentist toEdit = AppState.INSTANCE.getUserList().find(d.getUsername());
-			UserDialog dialog = new UserDialog(toEdit);
+			UserDialog dialog = new UserDialog(toEdit, controller);
 			Dentist edited = dialog.getEdit();
 			if (controller.updateDentist(edited)) {
 				userList.set(row, edited);
@@ -167,7 +165,7 @@ public class UserManagementWindow extends Stage {
 	 * Adds a new user to the system by calling an instance of the UserDialog object
 	 */
 	private void addUser() {
-		UserDialog dialog = new UserDialog(null);
+		UserDialog dialog = new UserDialog(null, controller);
 		Dentist dentist = dialog.getEdit();
 		if (dentist != null) {
 			if (controller.addDentist(dentist) > 0) {

@@ -1,9 +1,6 @@
 package controller;
 
-import java.util.List;
-
 import model.Dentist;
-import model.DentistList;
 import model.Patient;
 
 /**
@@ -14,37 +11,12 @@ import model.Patient;
  */
 public enum AppState {
 	INSTANCE;
-	/**
-	 * @deprecated SQL will make a persistent state
-	 */
-	private boolean modified;
 
 	private Dentist currentUser;
 	private Patient currentPatient;
 	private Patient previousPatient;
 
 	private Dentist savedUser;
-
-	private DentistList userList;
-
-	/**
-	 * Gets the list of the complete list of users for the system
-	 * 
-	 * @return a list of type DentistList with all the users for the system
-	 */
-	public DentistList getUserList() {
-		return userList;
-	};
-
-	/**
-	 * Sets a list passed by parameter as the list of users for this system
-	 * 
-	 * @param userList
-	 *            an object containing the list of users for the system
-	 */
-	public void setUserList(final List<Dentist> userList) {
-		this.userList = (DentistList) userList;
-	}
 
 	/**
 	 * Stores the information regarding the current saved user to bypass Login

@@ -139,7 +139,6 @@ public class Invoice implements Serializable {
 	 * @return a double value with the calculation of all the invoice value
 	 */
 	public double getInvoiceAmt() {
-		calculateInvoiceAmt();
 		return invoiceAmt;
 	}
 
@@ -209,7 +208,7 @@ public class Invoice implements Serializable {
 	 * 
 	 * @return a collection of Procedure objects associated with this Invoice
 	 */
-	private Collection<Procedure> getIn_procList() {
+	public Collection<Procedure> getIn_procList() {
 		return in_procList;
 	}
 
@@ -218,7 +217,7 @@ public class Invoice implements Serializable {
 	 * 
 	 * @return a Collection of Payment objects associated with this invoice
 	 */
-	private Collection<Payment> getIn_paymentList() {
+	public Collection<Payment> getIn_paymentList() {
 		return in_paymentList;
 	}
 

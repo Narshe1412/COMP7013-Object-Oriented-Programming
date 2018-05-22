@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Invoice;
+import model.Payment;
 
 /**
  * Creates a pane to control the invoice details for the patient
@@ -131,7 +132,15 @@ public class InvoiceControlsPane extends Pane {
 					+ (inv.isPaid() ? "   --PAID--" : "") + "   Total: " + inv.getInvoiceAmt() + " $";
 			choices.add(invoiceDetails);
 		}
-		loadInvoiceDialog(choices);
+		if (choices.isEmpty()) {
+			AlertDialog alert = new AlertDialog(AlertType.INFORMATION, "Information", null,
+					"This patient does not have any invoices");
+			alert.showAndWait();
+
+		} else {
+			loadInvoiceDialog(choices);
+		}
+
 	}
 
 	/**
@@ -173,8 +182,16 @@ public class InvoiceControlsPane extends Pane {
 			txtAmountTotal.setText("0.0");
 			txtAmountDue.setText("0.0");
 		} else {
-			txtAmountTotal.setText(AppState.INSTANCE.getCurrentPatient().getTotalInvoiceValue() + "");
-			txtAmountDue.setText(AppState.INSTANCE.getCurrentPatient().getRemainingInvoiceValue() + "");
+			double total = 0;
+			double paid = 0;
+			for (Invoice i : controller.getInvoicesFromPatient(AppState.INSTANCE.getCurrentPatient())) {
+				total += i.getInvoiceAmt();
+				for (Payment p : controller.getPaymentsFromInvoice(i)) {
+					paid += p.getPaymentAmt().get();
+				}
+			}
+			txtAmountTotal.setText(total + "");
+			txtAmountDue.setText((total - paid) + "");
 		}
 	}
 

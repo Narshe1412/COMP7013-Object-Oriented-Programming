@@ -216,7 +216,7 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 	}
 	
 	public boolean deleteProcedureFromInvoice(Procedure p, Invoice i) {
-		TableHandler invprocDB = new TableHandler("invoice procedure");
+		TableHandler invprocDB = new TableHandler("invoiceprocedure");
 		if (invprocDB.exists()) {
 			try {
 				invprocDB.openConnection();
@@ -224,10 +224,12 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 				PreparedStatement pstmt = invprocDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, i.getInvoiceID());
 				pstmt.setInt(2, p.getProcID());
-				if (invprocDB.executeUpdate(pstmt) > 0) {
+				int result = invprocDB.executeUpdate(pstmt);
+				if (result > 0) {
 					return true;
 				}
 			} catch (SQLException e) {
+				e.printStackTrace();
 				ExceptionDialog exwin = new ExceptionDialog("Critical error", "Unable to load Procedure database", "");
 				exwin.show();
 			} finally {

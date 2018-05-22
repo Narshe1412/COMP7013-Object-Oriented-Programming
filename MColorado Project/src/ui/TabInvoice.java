@@ -4,6 +4,8 @@ import controller.AppController;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import model.Invoice;
+import model.Payment;
+import model.Procedure;
 
 /**
  * Creates a tab with the contents of the invoice passed by parameter
@@ -50,6 +52,12 @@ public class TabInvoice extends Tab implements ReloadableNode {
 	 */
 	private void createContent(Invoice i) {
 		this.activeInvoice = i;
+		for (Procedure p : controller.getProceduresByInvoice(i)) {
+			i.addProcedure(p);
+		}
+		for (Payment p : controller.getPaymentsFromInvoice(i)) {
+			i.addPayment(p);
+		}
 
 		// Tab title
 		setText("Invoice #" + i.getInvoiceID() + " - " + i.getStringDate());

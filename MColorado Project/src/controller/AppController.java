@@ -128,7 +128,13 @@ public class AppController {
 
 	public void deletePaymentFromInvoice(Payment p, Invoice i) {
 		if (deletePayment(p)) {
-			i.removePayment(p);
+			Payment toDelete = null;
+			for (Payment payment : i.getIn_paymentList()) {
+				if (payment.getPaymentID() == p.getPaymentID()) {
+					toDelete = payment;
+				}
+			}
+			i.removePayment(toDelete);
 		}
 	}
 

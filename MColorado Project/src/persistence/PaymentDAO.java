@@ -88,7 +88,7 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 					int paymentID = crs.getInt("paymentID");
 					double paymentAmt = crs.getDouble("paymentAmt");
 					String paymentDate = crs.getString("paymentDate");
-					int invoiceID = crs.getInt("invoiceID");
+					//int invoiceID = crs.getInt("invoiceID");
 					Payment p = new Payment(paymentAmt, paymentDate);
 					p.setPaymentID(paymentID);
 					returnedList.add(p);

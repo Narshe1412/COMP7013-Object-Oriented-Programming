@@ -60,7 +60,7 @@ public class InvoiceDAO implements IDBOperationRepository<Invoice> {
 				while (crs.next()) {
 					int invoiceID = crs.getInt("invoiceID");
 					String invoiceDate = crs.getString("invoiceDate");
-					int patientNo = crs.getInt("patientNo");
+					//int patientNo = crs.getInt("patientNo");
 					Invoice i = new Invoice(invoiceDate);
 					i.setInvoiceID(invoiceID);
 					return i;

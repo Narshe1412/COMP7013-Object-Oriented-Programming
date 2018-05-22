@@ -2,7 +2,6 @@ package controller;
 
 import java.util.ArrayList;
 
-import javafx.util.Callback;
 import model.*;
 import persistence.DentistDAO;
 import persistence.InvoiceDAO;
@@ -134,9 +133,5 @@ public class AppController {
 	public ArrayList<Procedure> getProceduresByInvoice(Invoice inv) {
 		return (ArrayList<Procedure>) new ProcedureDAO().getAllFromInvoice(inv.getInvoiceID());
 	}
-
-
-
-
 
 }

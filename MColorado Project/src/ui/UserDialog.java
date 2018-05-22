@@ -3,7 +3,6 @@ package ui;
 import java.util.Optional;
 
 import controller.AppController;
-import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
 import javafx.application.Platform;

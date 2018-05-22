@@ -2,8 +2,6 @@ package ui;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import controller.AppController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

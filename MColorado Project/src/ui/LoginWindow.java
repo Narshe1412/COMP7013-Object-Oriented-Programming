@@ -31,14 +31,10 @@ import model.Dentist;
  */
 public class LoginWindow extends Stage {
 
-	private AppController controller;
-
 	/**
 	 * Creates a Login Window for the system
 	 */
 	public LoginWindow(AppController controller) {
-		this.controller = controller;
-		
 		/**
 		 * Sets up the root pane for the UI
 		 */

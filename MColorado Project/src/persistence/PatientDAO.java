@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.sql.rowset.CachedRowSet;
 
 import exception.ExceptionDialog;
-import model.Invoice;
 import model.Patient;
 
 public class PatientDAO implements IDBOperationRepository<Patient> {

@@ -114,9 +114,9 @@ public class ProcedureDAO implements IDBOperationRepository<Procedure> {
 
 				CachedRowSet crs = (CachedRowSet) invprocDB.executeStatement(pstmt);
 				while (crs.next()) {
-					int ipid = crs.getInt("ipid");
+					//int ipid = crs.getInt("ipid");
 					int invoiceID = crs.getInt("invoiceID");
-					int procedureID = crs.getInt("procedureID");
+					//int procedureID = crs.getInt("procedureID");
 					int procId = crs.getInt("procId");
 					String procName = crs.getString("procName");
 					double procCost = crs.getDouble("procCost");

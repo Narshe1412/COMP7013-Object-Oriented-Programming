@@ -71,7 +71,7 @@ public class Validator {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		return true;
+		return (Double.parseDouble(test) >= 0);
 	}
 
 	/**

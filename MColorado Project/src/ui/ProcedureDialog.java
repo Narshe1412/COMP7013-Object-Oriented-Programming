@@ -103,8 +103,11 @@ public class ProcedureDialog extends Dialog<Procedure> {
 				 
 			} else {
 				// If we're editing a procedure, change its details
-				toEdit.setProcCost(amount);
-				toEdit.setProcName(desc);
+				results.setProcID(toEdit.getProcID());
+				if (controller.updateProcedure(results)) {
+					toEdit.setProcCost(amount);
+					toEdit.setProcName(desc);
+				}
 			}
 		});
 		return toEdit;

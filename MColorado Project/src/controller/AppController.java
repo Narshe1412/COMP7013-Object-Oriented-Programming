@@ -91,6 +91,11 @@ public class AppController {
 		return new ProcedureDAO().remove(p);
 
 	}
+	
+	public boolean updateProcedure(Procedure p) {
+		deleteProcedure(p);
+		return (addProcedure(p) > 0);
+	}
 
 	public void addPaymentToInvoice(Payment p, Invoice i) {
 		p.setContainedIn(i);
@@ -110,7 +115,6 @@ public class AppController {
 		if (new InvoiceDAO().deleteProcedureFromInvoice(p, i)) {
 			i.removeProcedure(p);
 		}
-		
 	}
 
 	public boolean deletePayment(Payment p) {
@@ -134,5 +138,7 @@ public class AppController {
 	public ArrayList<Procedure> getProceduresByInvoice(Invoice inv) {
 		return (ArrayList<Procedure>) new ProcedureDAO().getAllFromInvoice(inv.getInvoiceID());
 	}
+
+
 
 }

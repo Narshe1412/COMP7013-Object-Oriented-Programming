@@ -46,11 +46,12 @@ public class ProcedureManagementWindow extends Stage {
 
 		procList = FXCollections.observableArrayList(controller.getAllProcedures());
 		// Remove disabled procedures from the final list
-		for (Procedure proc : procList) {
-			if (proc.isDisabled()) {
-				procList.remove(proc);
-			}
-		}
+//		for (Procedure proc : procList) {
+//			if (proc.isDisabled()) {
+//				procList.remove(proc);
+//			}
+//		}
+		procList.removeIf(proc -> proc.isDisabled());
 		table.setItems(procList);
 
 		TableColumn<Procedure, Integer> colID = new TableColumn<Procedure, Integer>("Id");

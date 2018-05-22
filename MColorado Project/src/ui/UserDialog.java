@@ -137,7 +137,7 @@ public class UserDialog extends Dialog<Dentist> {
 
 			} else {
 				// Edit the user details with the fields that were introduced on the system
-				if (controller.getDentistByUsername(user.getText().trim()) == null) {
+				if (toEdit.getName().equalsIgnoreCase(userName.getText().trim()) || controller.getDentistByUsername(user.getText().trim()) == null) {
 					toEdit.setName(userName.getText());
 					toEdit.setAddress(userAddress.getText());
 					toEdit.setPhone(userPhone.getText());

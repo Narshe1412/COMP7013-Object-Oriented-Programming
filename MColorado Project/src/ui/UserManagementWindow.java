@@ -1,7 +1,6 @@
 package ui;
 
 import controller.AppController;
-import controller.AppNavigation;
 import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
@@ -20,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Dentist;
-import persistence.DentistDAO;
 
 /**
  * Creates a window to manage the users of the system

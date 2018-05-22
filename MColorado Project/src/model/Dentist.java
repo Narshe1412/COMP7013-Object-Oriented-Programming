@@ -65,7 +65,7 @@ public class Dentist extends Person {
 			final String password) throws PassException {
 		super(name, address, phone);
 		setUsername(username);
-		setPassword(password);
+		setHashedPassword(password);
 	}
 
 	/**

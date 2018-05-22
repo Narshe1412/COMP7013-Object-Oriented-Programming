@@ -66,7 +66,7 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 					String name = crs.getString("name");
 					String address = crs.getString("address");
 					String phone = crs.getString("phone");
-					Dentist d = new Dentist(username, password, name, address, phone);
+					Dentist d = new Dentist(name, address, phone, username, password);
 					d.setUserNo(userNo);
 					return d;
 				}
@@ -95,7 +95,7 @@ public class DentistDAO implements IDBOperationRepository<Dentist> {
 					String name = crs.getString("name");
 					String address = crs.getString("address");
 					String phone = crs.getString("phone");
-					Dentist d = new Dentist(username, password, name, address, phone);
+					Dentist d = new Dentist(name, address, phone, username, password);
 					d.setUserNo(userNo);
 					return d;
 				}

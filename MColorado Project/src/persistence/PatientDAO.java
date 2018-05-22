@@ -143,7 +143,7 @@ public class PatientDAO implements IDBOperationRepository<Patient> {
 			try {
 				String sql = "UPDATE patient SET deleted = 1 WHERE patientNo = ?";
 				patientDB.openConnection();
-				PreparedStatement pstmt = patientDB.getCon().prepareStatement(sql);
+				PreparedStatement pstmt = patientDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, contents.getPatientNo());
 				if (patientDB.executeUpdate(pstmt) > 0) {
 					return true;

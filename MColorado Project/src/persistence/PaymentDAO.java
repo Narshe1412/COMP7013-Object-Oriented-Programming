@@ -169,7 +169,7 @@ public class PaymentDAO implements IDBOperationRepository<Payment> {
 			try {
 				String sql = "UPDATE payment SET deleted = 1 WHERE payment.paymentID = ?";
 				paymentDB.openConnection();
-				PreparedStatement pstmt = paymentDB.getCon().prepareStatement(sql);
+				PreparedStatement pstmt = paymentDB.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, contents.getPaymentID());
 				if (paymentDB.executeUpdate(pstmt) > 0) {
 					return true;

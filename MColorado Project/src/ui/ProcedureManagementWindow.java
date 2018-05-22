@@ -123,7 +123,6 @@ public class ProcedureManagementWindow extends Stage {
 		Procedure p = table.getSelectionModel().getSelectedItem();
 		if (p != null) {
 			int row = procList.indexOf(p);
-			int id = p.getProcID();
 			Procedure toEdit = p;
 			ProcedureDialog dialog = new ProcedureDialog(toEdit, controller);
 			procList.set(row, dialog.getEdit());

@@ -17,8 +17,6 @@ class TabMain extends Tab implements ReloadableNode {
 	private HomeWindow parent;
 	private PatientDetailsPane details;
 	private InvoiceControlsPane invoices;
-	private AppController controller;
-
 	/**
 	 * Creates the main tab for the system
 	 * 
@@ -26,7 +24,6 @@ class TabMain extends Tab implements ReloadableNode {
 	 *            The caller parent, so the children can use its methods
 	 */
 	public TabMain(HomeWindow parent, AppController controller) {
-		this.controller = controller;
 		this.parent = parent;
 		setText("Patient Details");
 		SplitPane root = new SplitPane();

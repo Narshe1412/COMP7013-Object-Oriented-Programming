@@ -96,7 +96,7 @@ public class ProcedureDialog extends Dialog<Procedure> {
 			double amount = results.getProcCost().get();
 			String desc = results.getProcName().get();
 			if (toEdit == null) {
-				// If we're creating a new procedure, call addnew
+				// If we're creating a new procedure, call add
 				if (controller.addProcedure(results) > 0) {
 					toEdit = results;	
 				}

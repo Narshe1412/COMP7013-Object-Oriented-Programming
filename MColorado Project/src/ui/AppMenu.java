@@ -9,6 +9,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import persistence.StateLoader;
 
 /**
  * Menu bar for the application UI
@@ -26,6 +27,7 @@ public class AppMenu extends MenuBar {
 	private UserManagementWindow userMng;
 	private PatientManagementWindow patMng;
 	private AppController controller;
+	private AppNavigation navigator;
 
 	/**
 	 * Creates a new menu. Parent class is passed as parameter so it can call parent
@@ -34,9 +36,10 @@ public class AppMenu extends MenuBar {
 	 * @param homeWindow
 	 *            the parent stage
 	 */
-	public AppMenu(HomeWindow homeWindow, AppController controller) {
+	public AppMenu(HomeWindow homeWindow, AppController controller, AppNavigation navigator) {
 		this.parent = homeWindow;
 		this.controller = controller;
+		this.navigator = navigator;
 		prefWidthProperty().bind(parent.widthProperty());
 		getMenus().addAll(fileMenu(), patientMenu(), reportsMenu(), adminMenu());
 	}
@@ -53,9 +56,9 @@ public class AppMenu extends MenuBar {
 		 * Quits the application
 		 */
 		MenuItem quitMenu = new MenuItem("Exit");
-		quitMenu.setOnAction(actionEvent -> AppNavigation.exitApp());
+		quitMenu.setOnAction(actionEvent -> navigator.exitApp());
 
-		self.getItems().addAll(/*loadMenu, saveMenu, new SeparatorMenuItem(),*/ quitMenu);
+		self.getItems().addAll(/* loadMenu, saveMenu, new SeparatorMenuItem(), */ quitMenu);
 		return self;
 	}
 
@@ -96,14 +99,14 @@ public class AppMenu extends MenuBar {
 			ReportAppWindow win = new ReportAppWindow(controller);
 			win.show();
 		});
-		
+
 		MenuItem debtReportMenu = new MenuItem("Unpaid Invoices Report");
 		/** Loads the window with the unpaid invoices report */
 		debtReportMenu.setOnAction(event -> {
 			ReportDebtWindow win = new ReportDebtWindow(controller);
 			win.show();
 		});
-		
+
 		self.getItems().addAll(patientsReportMenu, appReportMenu, debtReportMenu);
 		return self;
 	}
@@ -115,16 +118,16 @@ public class AppMenu extends MenuBar {
 	 */
 	private Menu adminMenu() {
 		Menu self = new Menu("Admin");
-		
+
 		MenuItem editProcedureMenu = new MenuItem("Manage Procedures...");
 		editProcedureMenu.setOnAction(event -> loadProcedureManagement());
-		
+
 		MenuItem editStaffMenu = new MenuItem("Manage Users...");
 		editStaffMenu.setOnAction(event -> loadUserManagement());
-		
+
 		MenuItem changePasswordMenu = new MenuItem("Change Password...");
 		changePasswordMenu.setOnAction(event -> changePassword());
-		
+
 		MenuItem logoutMenu = new MenuItem("Change User...");
 		logoutMenu.setOnAction(event -> logoutUser());
 
@@ -134,11 +137,12 @@ public class AppMenu extends MenuBar {
 	}
 
 	/**
-	 * Loads the User Management window. If it's already open, set focus to that window
+	 * Loads the User Management window. If it's already open, set focus to that
+	 * window
 	 */
 	private void loadUserManagement() {
 		if (userMng == null) {
-			userMng = new UserManagementWindow(this);
+			userMng = new UserManagementWindow(this, controller);
 			userMng.show();
 		} else {
 			userMng.show();
@@ -155,7 +159,8 @@ public class AppMenu extends MenuBar {
 	}
 
 	/**
-	 * Loads the Procedure Management window. If it's already open, set focus to that window
+	 * Loads the Procedure Management window. If it's already open, set focus to
+	 * that window
 	 */
 	private void loadProcedureManagement() {
 		if (procMng == null) {
@@ -197,16 +202,21 @@ public class AppMenu extends MenuBar {
 	}
 
 	/**
-	 * Logs out current user from the system. Empties the currentUser setting from config and saves the config file.
-	 * Closes and reopen the application to allow a new login
-	 * @exception IOException if the config file cannot be saved
-	 * @exception Exception if something went wrong closing the file or accessing the Application State
+	 * Logs out current user from the system. Empties the currentUser setting from
+	 * config and saves the config file. Closes and reopen the application to allow
+	 * a new login
+	 * 
+	 * @exception IOException
+	 *                if the config file cannot be saved
+	 * @exception Exception
+	 *                if something went wrong closing the file or accessing the
+	 *                Application State
 	 */
 	private void logoutUser() {
 		try {
 			AppState.INSTANCE.setSavedUser(null);
-			AppNavigation.saveConfig();
-			new InitialLoadWindow();
+			new StateLoader(controller).saveConfig();
+			new InitialLoadWindow(controller);
 			parent.close();
 		} catch (IOException e) {
 			ExceptionDialog exwin = new ExceptionDialog("I/O Error",
@@ -224,7 +234,7 @@ public class AppMenu extends MenuBar {
 	 * Loads the change password window to allow current user to use a new password
 	 */
 	private void changePassword() {
-		ChangePasswordWindow window = new ChangePasswordWindow();
+		ChangePasswordWindow window = new ChangePasswordWindow(controller);
 		window.show();
 	}
 }

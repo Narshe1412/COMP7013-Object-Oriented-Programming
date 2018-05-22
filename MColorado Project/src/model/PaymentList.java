@@ -8,7 +8,7 @@ import java.util.Date;
  * Creates a list of Payment objects for ths system
  * 
  * @author Manuel Colorado
- *
+ * @deprecated
  */
 public class PaymentList extends ArrayList<Payment> implements Serializable {
 

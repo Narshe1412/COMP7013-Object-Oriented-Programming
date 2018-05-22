@@ -31,10 +31,14 @@ import model.Dentist;
  */
 public class LoginWindow extends Stage {
 
+	private AppController controller;
+
 	/**
 	 * Creates a Login Window for the system
 	 */
-	public LoginWindow() {
+	public LoginWindow(AppController controller) {
+		this.controller = controller;
+		
 		/**
 		 * Sets up the root pane for the UI
 		 */
@@ -118,7 +122,7 @@ public class LoginWindow extends Stage {
 							AppState.INSTANCE.setCurrentUser(user);
 							// If user is eligible for password reset
 							if (user.verifyPassword("11111111")) {
-								ChangePasswordWindow window = new ChangePasswordWindow();
+								ChangePasswordWindow window = new ChangePasswordWindow(controller);
 								window.showAndWait();
 								if (user.verifyPassword("11111111")) {
 									AlertDialog alert = new AlertDialog(AlertType.ERROR, "Critical Error",
@@ -128,8 +132,8 @@ public class LoginWindow extends Stage {
 									Platform.exit();
 								}
 							}
-							AppNavigation.setMainWindow(new HomeWindow(new AppController()));
-							AppNavigation.showWindow();
+							HomeWindow main = new HomeWindow(controller, new AppNavigation(controller));
+							main.show();
 							close();
 						} else {
 							errorMessage.setText("Wrong username or password.");

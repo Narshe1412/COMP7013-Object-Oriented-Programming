@@ -1,6 +1,6 @@
 package ui;
 
-import controller.AppNavigation;
+import controller.AppController;
 import controller.AppState;
 import exception.ExceptionDialog;
 import exception.PassException;
@@ -17,7 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.Dentist;
-import persistence.DentistDAO;
 
 /**
  * Creates a new window that allows the user to change the password
@@ -30,11 +29,13 @@ public class ChangePasswordWindow extends Stage {
 	PasswordField txtOldPassword;
 	PasswordField txtNewPassword;
 	PasswordField txtRepeatPassword;
+	private AppController controller;
 
 	/**
 	 * Constructor
 	 */
-	public ChangePasswordWindow() {
+	public ChangePasswordWindow(AppController controller) {
+		this.controller = controller;
 
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10));
@@ -97,7 +98,7 @@ public class ChangePasswordWindow extends Stage {
 						if (newPass.equals(repeatPass)) {
 							user.setPassword(newPass);
 							AppState.INSTANCE.setSavedUser(null); // Password cleared
-							AppNavigation.updateDBelement(new DentistDAO(), user);
+							controller.updateDentist(user);
 							close();
 						} else {
 							AlertDialog passMismatch = new AlertDialog(AlertType.ERROR, "Wrong Details",

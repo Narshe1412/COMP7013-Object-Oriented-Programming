@@ -1,5 +1,6 @@
 package application;
 
+import controller.AppController;
 import exception.UncaughtExcepHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -16,7 +17,7 @@ public class Main extends Application {
 		// Set up the default exception handler for unhandled exceptions
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExcepHandler());
 		@SuppressWarnings("unused")
-		InitialLoadWindow loader = new InitialLoadWindow();
+		InitialLoadWindow loader = new InitialLoadWindow(new AppController());
 	}
 
 	public static void main(String[] args) {

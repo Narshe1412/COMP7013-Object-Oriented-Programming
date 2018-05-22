@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Handles the serializable list of users in the system
  * @author Manuel Colorado
-
+ * @deprecated
  */
 public class DentistList extends ArrayList<Dentist> implements Serializable{
 

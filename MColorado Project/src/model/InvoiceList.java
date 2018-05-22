@@ -8,7 +8,7 @@ import java.util.Date;
  * Created an ordered list of Invoice objects
  * 
  * @author Manuel Colorado
- *
+ * @deprecated
  */
 public class InvoiceList extends ArrayList<Invoice> implements Serializable {
 

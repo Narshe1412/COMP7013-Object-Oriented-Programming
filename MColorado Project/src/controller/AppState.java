@@ -68,28 +68,6 @@ public enum AppState {
 	}
 
 	/**
-	 * Checks if any of the models have been modified and the app requires saving
-	 * 
-	 * @deprecated SQL will make a persistent state
-	 * @return true if modified, false if not
-	 */
-	public boolean isModified() {
-		return modified;
-	};
-
-	/**
-	 * Sets the modified state on the application
-	 * 
-	 * @deprecated SQL will make a persistent state
-	 * @param state
-	 *            true to indicate some value has been modified and the model needs
-	 *            to be saved
-	 */
-	public void setModified(final boolean state) {
-		modified = state;
-	};
-
-	/**
 	 * Establishes the current user of the application
 	 * 
 	 * @return a Dentist object with the current user details of the system

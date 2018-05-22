@@ -1,5 +1,6 @@
 package ui;
 
+import controller.AppController;
 import controller.AppNavigation;
 import controller.AppState;
 import exception.ExceptionDialog;
@@ -32,6 +33,7 @@ public class UserManagementWindow extends Stage {
 	private ObservableList<Dentist> userList;
 	private TableView<Dentist> table;
 	private AppMenu parent;
+	private AppController controller;
 
 	/**
 	 * Creates the window to manage the users of the system
@@ -39,7 +41,8 @@ public class UserManagementWindow extends Stage {
 	 * @param parent
 	 *            Parent window passed as parameter to call methods on the parent
 	 */
-	public UserManagementWindow(AppMenu parent) {
+	public UserManagementWindow(AppMenu parent, AppController controller) {
+		this.controller = controller;
 		this.parent = parent;
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10));
@@ -110,7 +113,7 @@ public class UserManagementWindow extends Stage {
 		if (d != null) {
 			try {
 				AppState.INSTANCE.getUserList().find(d.getUsername()).setPassword("11111111");
-				AppNavigation.updateDBelement(new DentistDAO(), d);
+				controller.updateDentist(d);
 				// Warns the user the password has been reset and what's the temporary password
 				AlertDialog alert = new AlertDialog(AlertType.CONFIRMATION, "Password reset",
 						"The password has been reset for user " + d.getUsername(),
@@ -135,7 +138,7 @@ public class UserManagementWindow extends Stage {
 						"Cannot delete current user.");
 				alert.showAndWait();
 			} else {
-				if (AppNavigation.deleteDBelement(new DentistDAO(), d)) {
+				if (controller.deleteDentist(d)) {
 					AppState.INSTANCE.getUserList().remove(d);
 					userList.remove(d);
 				}
@@ -154,7 +157,7 @@ public class UserManagementWindow extends Stage {
 			Dentist toEdit = AppState.INSTANCE.getUserList().find(d.getUsername());
 			UserDialog dialog = new UserDialog(toEdit);
 			Dentist edited = dialog.getEdit();
-			if (AppNavigation.updateDBelement(new DentistDAO(), edited)) {
+			if (controller.updateDentist(edited)) {
 				userList.set(row, edited);
 			}
 		}
@@ -167,7 +170,7 @@ public class UserManagementWindow extends Stage {
 		UserDialog dialog = new UserDialog(null);
 		Dentist dentist = dialog.getEdit();
 		if (dentist != null) {
-			if (AppNavigation.addDBelement(new DentistDAO(), dentist) > 0) {
+			if (controller.addDentist(dentist) > 0) {
 				userList.add(dentist);
 			}
 		}

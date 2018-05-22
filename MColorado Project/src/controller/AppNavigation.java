@@ -1,15 +1,9 @@
 package controller;
 
-import java.io.Serializable;
-import java.sql.SQLException;
-import exception.PassException;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import model.*;
-import persistence.DentistDAO;
-import persistence.FileHandler;
-import persistence.IDBManager;
-import persistence.IDBOperationRepository;
+import persistence.StateLoader;
 import ui.ReloadableNode;
 
 /**
@@ -25,6 +19,7 @@ public class AppNavigation {
 	}
 
 	private static ReloadableNode app;
+	private AppController controller;
 
 	/**
 	 * Constructor
@@ -32,8 +27,8 @@ public class AppNavigation {
 	 * @param window
 	 *            a reference to the main window
 	 */
-	public AppNavigation(ReloadableNode window) {
-		setMainWindow(window);
+	public AppNavigation(AppController controller) {
+		this.controller = controller;
 	}
 
 	/**
@@ -120,119 +115,11 @@ public class AppNavigation {
 	 * A global method that determines if the app has been changed or not, and ask
 	 * the user if the saves must be stored or discard before exiting
 	 */
-	public static void exitApp() {
-		saveConfig();
+	public void exitApp() {
+		new StateLoader(controller).saveConfig();
 		Platform.exit();
-
-		/**
-		 * @deprecated
-		 * 
-		 * 			if (AppState.INSTANCE.isModified()) { new CloseAlertDialog(); }
-		 *             else { Platform.exit(); }
-		 */
-	}
-
-	/**
-	 * Loads the database in the app system
-	 * 
-	 * @throws PassException
-	 *             handles exceptions when loading users as the passwords have been
-	 *             hashed and stored encrypted
-	 * @throws SQLException
-	 *             handles exception connecting to the database
-	 */
-	public static void loadState() throws PassException, SQLException {
-
-		/**
-		 * Load up the list of dentists. Create default users if none exist
-		 */
-		AppState.INSTANCE.setUserList(new DentistList());
-		for (Dentist d : new DentistDAO().getAll()) {
-			AppState.INSTANCE.getUserList().add(d);
-		}
-		if (AppState.INSTANCE.getUserList().isEmpty()) {
-			for (Dentist d : Defaults.createDentists()) {
-				addDBelement(new DentistDAO(), d);
-				AppState.INSTANCE.getUserList().add(d);
-			}
-		}
-
 	}
 
 
-	/**
-	 * Saves the Config object with the system configuration that will always be
-	 * stored in a local file
-	 */
-	public static void saveConfig() {
-		Config toSave = new Config();
-		IDBManager configDB = new FileHandler("config.dat");
-		configDB.saveDB(toSave);
-	}
-
-	/**
-	 * Loads the Config object containing the initial configuration of the system
-	 * from a local file
-	 */
-	public static void loadConfig() {
-		IDBManager configDB = new FileHandler("config.dat");
-		if (configDB.exists()) {
-			Config toLoad = (Config) configDB.loadDB();
-			toLoad.loadConfig();
-		} else {
-			new Config().loadConfig();
-		}
-	}
-
-	/**
-	 * 
-	 * @param dao
-	 * @param element
-	 * @return
-	 */
-	public static <T> boolean updateDBelement(IDBOperationRepository<T> dao, final T element) {
-		return dao.update(element);
-	}
-
-	/**
-	 * 
-	 * @param dao
-	 * @param element
-	 * @return
-	 */
-
-	public static <T> boolean deleteDBelement(IDBOperationRepository<T> dao, final T element) {
-		return dao.remove(element);
-	}
-
-	/**
-	 * 
-	 * @param dao
-	 * @param element
-	 * @return
-	 */
-	public static <T> int addDBelement(IDBOperationRepository<T> dao, final T element) {
-		return dao.add(element);
-	}
-
-}
-
-/**
- * Stores the initial configuration for the app
- * 
- * @author Manuel Colorado
- *
- */
-class Config implements Serializable {
-	private static final long serialVersionUID = 1L;
-	Dentist defaultUser;
-
-	public Config() {
-		defaultUser = AppState.INSTANCE.getSavedUser();
-	}
-
-	public void loadConfig() {
-		AppState.INSTANCE.setSavedUser(defaultUser);
-	}
 
 }

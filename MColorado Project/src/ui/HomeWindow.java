@@ -30,8 +30,10 @@ public class HomeWindow extends Stage implements ReloadableNode {
 	private TabPane tabs;
 	private TabMain mainPatient;
 	private AppController controller;
+	private AppNavigation navigator;
 
-	public HomeWindow(AppController controller) {
+	public HomeWindow(AppController controller, AppNavigation navigator) {
+		this.navigator = navigator;
 		this.controller = controller;
 		mainPatient = new TabMain(this, controller);
 
@@ -47,7 +49,7 @@ public class HomeWindow extends Stage implements ReloadableNode {
 		});
 		root.setCenter(tabs);
 
-		AppMenu menuBar = new AppMenu(this, controller);
+		AppMenu menuBar = new AppMenu(this, controller, navigator);
 		menuBar.prefWidthProperty().bind(root.widthProperty());
 		root.setTop(menuBar);
 
@@ -76,7 +78,7 @@ public class HomeWindow extends Stage implements ReloadableNode {
 		// Cancels the regular onCloseRequest event
 		event.consume();
 		// Uses custom close event
-		AppNavigation.exitApp();
+		navigator.exitApp();
 	}
 
 	/**

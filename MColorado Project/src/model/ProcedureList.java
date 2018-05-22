@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Creates a list of Procedures in the system
  * 
  * @author Manuel Colorado
- *
+ *@deprecated
  */
 public class ProcedureList extends ArrayList<Procedure> implements Serializable {
 

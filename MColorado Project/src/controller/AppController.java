@@ -1,16 +1,30 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import javafx.util.Callback;
 import model.*;
+import persistence.DentistDAO;
 import persistence.InvoiceDAO;
 import persistence.PatientDAO;
 import persistence.PaymentDAO;
 import persistence.ProcedureDAO;
 
 public class AppController {
+
+	public int addDentist(Dentist d) {
+		return new DentistDAO().add(d);
+	}
+
+	public boolean updateDentist(Dentist d) {
+		return new DentistDAO().update(d);
+	}
+
+	public ArrayList<Dentist> getAllDentist() {
+		return (ArrayList<Dentist>) new DentistDAO().getAll();
+	}
+
+	public boolean deleteDentist(Dentist d) {
+		return new DentistDAO().remove(d);
+	}
 
 	public int addPatient(Patient p) {
 		return new PatientDAO().add(p);
@@ -97,4 +111,5 @@ public class AppController {
 	public ArrayList<Payment> getAllPayments() {
 		return (ArrayList<Payment>) new PaymentDAO().getAll();
 	}
+
 }

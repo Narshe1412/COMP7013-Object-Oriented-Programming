@@ -7,6 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.util.Duration;
+import persistence.StateLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,16 +23,20 @@ import javafx.stage.Stage;
  */
 public class InitialLoadWindow extends Stage {
 
+	private AppController controller;
+
 	/**
 	 * Constructor
+	 * @param controller 
 	 * 
 	 * @throws Exception
 	 *             Handles an exception that can be thrown if the database load
 	 *             fails
 	 * 
 	 */
-	public InitialLoadWindow() throws Exception {
+	public InitialLoadWindow(AppController controller) throws Exception {
 		super();
+		this.controller = controller;
 
 		BorderPane root = new BorderPane();
 		ImageView textLogo = new ImageView("/assets/textlogo.png");
@@ -54,8 +59,8 @@ public class InitialLoadWindow extends Stage {
 		setResizable(false);
 		setScene(scene);
 		show();
-		AppNavigation.loadConfig();
-		AppNavigation.loadState();
+		new StateLoader(controller).loadConfig();
+		new StateLoader(controller).loadState();
 
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2500), delay -> {
 			loadMain();
@@ -70,14 +75,12 @@ public class InitialLoadWindow extends Stage {
 	 */
 	private void loadMain() {
 		if (AppState.INSTANCE.getSavedUser() == null) {
-			LoginWindow loginWindow = new LoginWindow();
+			LoginWindow loginWindow = new LoginWindow(controller);
 			loginWindow.show();
 		} else {
 			AppState.INSTANCE.setCurrentUser(AppState.INSTANCE.getSavedUser());
-			AppNavigation.setMainWindow(new HomeWindow(new AppController()));
-			AppNavigation.showWindow();
+			HomeWindow main = new HomeWindow(controller, new AppNavigation(controller));
+			main.show();
 		}
 	}
 }
-
-// TODO Add Progress bar animation

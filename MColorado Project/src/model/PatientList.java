@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Handles the serializable list of customers in the system
  * 
  * @author Manuel Colorado
- *
+ * @deprecated
  */
 public class PatientList extends ArrayList<Patient> implements Serializable {
 
